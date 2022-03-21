@@ -24,23 +24,29 @@
         <Setter Property="BorderBrush"
                 Value="Black">
         </Setter>
-        <Setter Property="MinWidth"
-                Value="143">
-        </Setter>
     </Style>
 
-    <Style TargetType="{x:Type StackPanel}">
+    <Style x:Key="defaultListDockPanelStyle" TargetType="{x:Type DockPanel}">
         <Setter Property="Margin"
-                Value="0 5 0 5">
+                Value="0 6 0 6">
+        </Setter>
+        <Setter Property="HorizontalAlignment"
+                Value="Left">
         </Setter>
     </Style>
 
     <Style x:Key="defaultListImageSize" TargetType="{x:Type Image}">
-        <Setter Property="MaxWidth"
+        <Setter Property="Width"
                 Value="66">
         </Setter>
-        <Setter Property="MinHeight"
-                Value="49">
+        <Setter Property="Height"
+                Value="50">
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type TextBlock}">
+        <Setter Property="TextWrapping"
+                Value="Wrap">
         </Setter>
     </Style>
 </ResourceDictionary>
