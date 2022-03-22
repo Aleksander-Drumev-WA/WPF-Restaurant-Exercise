@@ -1,0 +1,52 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style x:Key="defaultBtnStyle" TargetType="{x:Type Button}">
+        <Setter Property="Background"
+                Value="#C4C4C4"/>
+        <Setter Property="BorderThickness"
+                Value="0"/>
+        <Setter Property="FontSize"
+                Value="22"/>
+    </Style>
+
+    <Style x:Key="defaultListItemStyle" TargetType="{x:Type ListViewItem}">
+        <Setter Property="FontSize"
+                Value="22"/>
+        <Setter Property="Margin"
+                Value="42 7">
+        </Setter>
+    </Style>
+
+    <Style x:Key="defaultBorderStyle" TargetType="{x:Type Border}">
+        <Setter Property="BorderThickness"
+                Value="1">
+        </Setter>
+        <Setter Property="BorderBrush"
+                Value="Black">
+        </Setter>
+    </Style>
+
+    <Style x:Key="defaultListDockPanelStyle" TargetType="{x:Type DockPanel}">
+        <Setter Property="Margin"
+                Value="0 6 0 6">
+        </Setter>
+        <Setter Property="HorizontalAlignment"
+                Value="Left">
+        </Setter>
+    </Style>
+
+    <Style x:Key="defaultListImageSize" TargetType="{x:Type Image}">
+        <Setter Property="Width"
+                Value="66">
+        </Setter>
+        <Setter Property="Height"
+                Value="50">
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type TextBlock}">
+        <Setter Property="TextWrapping"
+                Value="Wrap">
+        </Setter>
+    </Style>
+</ResourceDictionary>
