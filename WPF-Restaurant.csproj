@@ -9,21 +9,33 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Images\beef.jpg" />
     <None Remove="Resources\Images\beer.jpg" />
+    <None Remove="Resources\Images\burger.jpg" />
+    <None Remove="Resources\Images\ice-cream.jpg" />
+    <None Remove="Resources\Images\pasta.jpg" />
     <None Remove="Resources\Images\pizza.jpg" />
+    <None Remove="Resources\Images\potatoes.jpg" />
+    <None Remove="Resources\Images\rice.jpg" />
     <None Remove="Resources\Images\salad.jpg" />
+    <None Remove="Resources\Images\triple-chocolate-cake.jpg" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="ViewModels\" />
-    <Folder Include="Views\" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\Images\beef.jpg" />
     <Resource Include="Resources\Images\beer.jpg" />
+    <Resource Include="Resources\Images\burger.jpg" />
+    <Resource Include="Resources\Images\ice-cream.jpg" />
+    <Resource Include="Resources\Images\pasta.jpg" />
     <Resource Include="Resources\Images\pizza.jpg" />
+    <Resource Include="Resources\Images\potatoes.jpg" />
+    <Resource Include="Resources\Images\rice.jpg" />
     <Resource Include="Resources\Images\salad.jpg" />
+    <Resource Include="Resources\Images\triple-chocolate-cake.jpg" />
   </ItemGroup>
 
 </Project>
