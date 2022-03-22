@@ -12,7 +12,7 @@
                 MaxHeight="540"
                 MinWidth="600"
                 Background="#C4C4C4"
-                Margin="0 15 0 10">
+                Margin="0 15 12 10">
             <StackPanel MinHeight="540">
                 <TextBlock Text="Order 0005/Chocolate Cake"
                            FontSize="22"

@@ -146,8 +146,8 @@
                 </ListView>
             </Border>
 
-            <local:ChefLookingAtOrderView/>
-            <!--<local:ChefLookingAtRecipeView/>-->
+            <!--<local:ChefLookingAtOrderView/>-->
+            <local:ChefLookingAtRecipeView/>
         </DockPanel>
     </Border>
 </UserControl>
