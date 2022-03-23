@@ -7,6 +7,6 @@
         xmlns:views="clr-namespace:WPF_Restaurant.Views"
         mc:Ignorable="d"
         Title="Restaurant" Height="810" Width="930">
-    <views:MainChefView/>
+    <views:MenuAndBasketView DataContext="{Binding CurrentViewModel}"/>
 
 </Window>

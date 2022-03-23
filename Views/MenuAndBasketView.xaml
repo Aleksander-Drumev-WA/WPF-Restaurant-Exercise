@@ -34,270 +34,43 @@
                     MinWidth="280"
                     Style="{StaticResource defaultBorderStyle}"
                     Margin="8 15 12 15">
-                <ListView>
-                    <StackPanel>
-                        <!--Single List Item (static for now)-->
-                        <!--Content of the item-->
-                        <DockPanel Style="{StaticResource defaultListDockPanelStyle}">
-                            <StackPanel Orientation="Horizontal"
+                <ItemsControl ItemsSource="{Binding DishesInMenu}">
+
+                    <ItemsControl.Template>
+                        <ControlTemplate TargetType="ItemsControl">
+
+                            <ItemsPresenter/>
+                        </ControlTemplate>
+                    </ItemsControl.Template>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                                <DockPanel Style="{StaticResource defaultListDockPanelStyle}">
+                                    <StackPanel Orientation="Horizontal"
                                             Background="#C4C4C4"
                                             Margin="0 0 0 5"
                                             DockPanel.Dock="Left">
-                                <Image Source="/Resources/Images/pizza.jpg"
+                                        <Image Source="{Binding ImagePath}"
                                            Style="{StaticResource defaultListImageSize}"/>
-                                <Border Style="{StaticResource defaultBorderStyle}"
+                                        <Border Style="{StaticResource defaultBorderStyle}"
                                         BorderThickness="0 1 1 1">
-                                    <ListViewItem Content="Pizza"
+                                            <ListViewItem Content="{Binding Name}"
                                               Style="{StaticResource defaultListItemStyle}"/>
-                                </Border>
+                                        </Border>
 
-                            </StackPanel>
+                                    </StackPanel>
 
-                            <Button Content=">"
+                                    <Button Content=">"
                                     Style="{StaticResource defaultBtnStyle}"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     DockPanel.Dock="Right"
                                     Margin="5 0 0 0"
                                     Padding="5 0 5 0"/>
-                        </DockPanel>
-
-
-                        <!--Content of the item-->
-                        <DockPanel Style="{StaticResource defaultListDockPanelStyle}">
-                            <StackPanel Orientation="Horizontal"
-                                            Background="#C4C4C4"
-                                            Margin="0 0 0 5"
-                                            DockPanel.Dock="Left">
-                                <Image Source="/Resources/Images/salad.jpg"
-                                   Style="{StaticResource defaultListImageSize}"/>
-                                <Border Style="{StaticResource defaultBorderStyle}"
-                                        BorderThickness="0 1 1 1">
-                                    <ListViewItem Content="Salad"
-                                              Style="{StaticResource defaultListItemStyle}"/>
-                                </Border>
-
-                            </StackPanel>
-
-                            <Button Content=">"
-                                    Style="{StaticResource defaultBtnStyle}"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    DockPanel.Dock="Right"
-                                    Margin="5 0 0 0"
-                                    Padding="5 0 5 0"/>
-                        </DockPanel>
-
-
-                        <!--Content of the item-->
-                        <DockPanel Style="{StaticResource defaultListDockPanelStyle}">
-                            <StackPanel Orientation="Horizontal"
-                                            Background="#C4C4C4"
-                                            Margin="0 0 0 5"
-                                            DockPanel.Dock="Left">
-                                <Image Source="/Resources/Images/beer.jpg"
-                                   Style="{StaticResource defaultListImageSize}"/>
-                                <Border Style="{StaticResource defaultBorderStyle}"
-                                        BorderThickness="0 1 1 1">
-                                    <ListViewItem Content="Beer"
-                                              Style="{StaticResource defaultListItemStyle}"/>
-                                </Border>
-
-                            </StackPanel>
-
-                            <Button Content=">"
-                                    Style="{StaticResource defaultBtnStyle}"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    DockPanel.Dock="Right"
-                                    Margin="5 0 0 0"
-                                    Padding="5 0 5 0"/>
-                        </DockPanel>
-
-
-                        <!--Content of the item-->
-                        <DockPanel Style="{StaticResource defaultListDockPanelStyle}">
-                            <StackPanel Orientation="Horizontal"
-                                            Background="#C4C4C4"
-                                            Margin="0 0 0 5"
-                                            DockPanel.Dock="Left">
-                                <Image Source="/Resources/Images/pasta.jpg"
-                                   Style="{StaticResource defaultListImageSize}"/>
-                                <Border Style="{StaticResource defaultBorderStyle}"
-                                        BorderThickness="0 1 1 1">
-                                    <ListViewItem Content="Pasta"
-                                              Style="{StaticResource defaultListItemStyle}"/>
-                                </Border>
-
-                            </StackPanel>
-
-                            <Button Content=">"
-                                    Style="{StaticResource defaultBtnStyle}"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    DockPanel.Dock="Right"
-                                    Margin="5 0 0 0"
-                                    Padding="5 0 5 0"/>
-                        </DockPanel>
-
-
-                        <!--Content of the item-->
-                        <DockPanel Style="{StaticResource defaultListDockPanelStyle}">
-                            <StackPanel Orientation="Horizontal"
-                                            Background="#C4C4C4"
-                                            Margin="0 0 0 5"
-                                            DockPanel.Dock="Left">
-                                <Image Source="/Resources/Images/beef.jpg"
-                                   Style="{StaticResource defaultListImageSize}"/>
-                                <Border Style="{StaticResource defaultBorderStyle}"
-                                        BorderThickness="0 1 1 1">
-                                    <ListViewItem Content="Beef"
-                                              Style="{StaticResource defaultListItemStyle}"/>
-                                </Border>
-
-                            </StackPanel>
-
-                            <Button Content=">"
-                                    Style="{StaticResource defaultBtnStyle}"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    DockPanel.Dock="Right"
-                                    Margin="5 0 0 0"
-                                    Padding="5 0 5 0"/>
-                        </DockPanel>
-
-
-                        <!--Content of the item-->
-                        <DockPanel Style="{StaticResource defaultListDockPanelStyle}">
-                            <StackPanel Orientation="Horizontal"
-                                            Background="#C4C4C4"
-                                            Margin="0 0 0 5"
-                                            DockPanel.Dock="Left">
-                                <Image Source="/Resources/Images/ice-cream.jpg"
-                                   Style="{StaticResource defaultListImageSize}"/>
-                                <Border Style="{StaticResource defaultBorderStyle}"
-                                        BorderThickness="0 1 1 1">
-                                    <ListViewItem Content="Ice Cream"
-                                              Style="{StaticResource defaultListItemStyle}"/>
-                                </Border>
-
-                            </StackPanel>
-
-                            <Button Content=">"
-                                    Style="{StaticResource defaultBtnStyle}"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    DockPanel.Dock="Right"
-                                    Margin="5 0 0 0"
-                                    Padding="5 0 5 0"/>
-                        </DockPanel>
-
-
-                        <!--Content of the item-->
-                        <DockPanel Style="{StaticResource defaultListDockPanelStyle}">
-                            <StackPanel Orientation="Horizontal"
-                                            Background="#C4C4C4"
-                                            Margin="0 0 0 5"
-                                            DockPanel.Dock="Left">
-                                <Image Source="/Resources/Images/potatoes.jpg"
-                                   Style="{StaticResource defaultListImageSize}"/>
-                                <Border Style="{StaticResource defaultBorderStyle}"
-                                        BorderThickness="0 1 1 1">
-                                    <ListViewItem Content="Garlic Potatoes"
-                                              Style="{StaticResource defaultListItemStyle}"/>
-                                </Border>
-
-                            </StackPanel>
-
-                            <Button Content=">"
-                                    Style="{StaticResource defaultBtnStyle}"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    DockPanel.Dock="Right"
-                                    Margin="5 0 0 0"
-                                    Padding="5 0 5 0"/>
-                        </DockPanel>
-
-
-                        <!--Content of the item-->
-                        <DockPanel Style="{StaticResource defaultListDockPanelStyle}">
-                            <StackPanel Orientation="Horizontal"
-                                            Background="#C4C4C4"
-                                            Margin="0 0 0 5"
-                                            DockPanel.Dock="Left">
-                                <Image Source="/Resources/Images/rice.jpg"
-                                   Style="{StaticResource defaultListImageSize}"/>
-                                <Border Style="{StaticResource defaultBorderStyle}"
-                                        BorderThickness="0 1 1 1">
-                                    <ListViewItem Content="Rice"
-                                              Style="{StaticResource defaultListItemStyle}"/>
-                                </Border>
-
-                            </StackPanel>
-
-                            <Button Content=">"
-                                    Style="{StaticResource defaultBtnStyle}"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    DockPanel.Dock="Right"
-                                    Margin="5 0 0 0"
-                                    Padding="5 0 5 0"/>
-                        </DockPanel>
-
-
-                        <!--Content of the item-->
-                        <DockPanel Style="{StaticResource defaultListDockPanelStyle}">
-                            <StackPanel Orientation="Horizontal"
-                                            Background="#C4C4C4"
-                                            Margin="0 0 0 5"
-                                            DockPanel.Dock="Left">
-                                <Image Source="/Resources/Images/burger.jpg"
-                                   Style="{StaticResource defaultListImageSize}"/>
-                                <Border Style="{StaticResource defaultBorderStyle}"
-                                        BorderThickness="0 1 1 1">
-                                    <ListViewItem Content="Burger"
-                                              Style="{StaticResource defaultListItemStyle}"/>
-                                </Border>
-
-                            </StackPanel>
-
-                            <Button Content=">"
-                                    Style="{StaticResource defaultBtnStyle}"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    DockPanel.Dock="Right"
-                                    Margin="5 0 0 0"
-                                    Padding="5 0 5 0"/>
-                        </DockPanel>
-
-
-                        <!--Content of the item-->
-                        <DockPanel Style="{StaticResource defaultListDockPanelStyle}">
-                            <StackPanel Orientation="Horizontal"
-                                            Background="#C4C4C4"
-                                            Margin="0 0 0 5"
-                                            DockPanel.Dock="Left">
-                                <Image Source="/Resources/Images/triple-chocolate-cake.jpg"
-                                   Style="{StaticResource defaultListImageSize}"/>
-                                <Border Style="{StaticResource defaultBorderStyle}"
-                                        BorderThickness="0 1 1 1">
-                                    <ListViewItem Content="Chocolate Cake"
-                                              Style="{StaticResource defaultListItemStyle}"/>
-                                </Border>
-
-                            </StackPanel>
-
-                            <Button Content=">"
-                                    Style="{StaticResource defaultBtnStyle}"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    DockPanel.Dock="Right"
-                                    Margin="5 0 0 0"
-                                    Padding="5 0 5 0"/>
-                        </DockPanel>
-
-                    </StackPanel>
-                </ListView>
+                                </DockPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Border>
 
 
@@ -348,17 +121,29 @@
                                            Grid.RowSpan="2"/>
 
                                     <StackPanel Grid.Column="1" Grid.Row="1"
-                                            Orientation="Horizontal" 
-                                            Grid.ColumnSpan="2" Margin="162,47,0,0" Grid.RowSpan="2">
+                                                Orientation="Horizontal" 
+                                                Grid.ColumnSpan="2"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Bottom"
+                                                Grid.RowSpan="2"
+                                                Margin="0 0 10 0">
                                         <TextBlock Text="Quantity: "
                                                FontSize="16"/>
                                         <Button Content="-"
-                                            Padding="5 1"/>
+                                                Width="20"
+                                                Height="20"
+                                                Padding="0 -4 0 0"
+                                                FontSize="16"
+                                                Style="{StaticResource defaultBtnStyle}"/>
                                         <TextBlock Text="1"
                                                FontSize="16"
-                                               Margin="5 0 5 0"/>
+                                               Margin="5 5 5 0"/>
                                         <Button Content="+"
-                                            Padding="5 1"/>
+                                                Width="20"
+                                                Height="20"
+                                                Padding="0 -4 0 0"
+                                                FontSize="16"
+                                                Style="{StaticResource defaultBtnStyle}"/>
                                     </StackPanel>
 
                                     <Button Grid.Column="2" Grid.Row="0"
@@ -413,17 +198,29 @@
                                            Grid.RowSpan="2"/>
 
                                     <StackPanel Grid.Column="1" Grid.Row="1"
-                                            Orientation="Horizontal" 
-                                            Grid.ColumnSpan="2" Margin="162,47,0,0" Grid.RowSpan="2">
+                                                Orientation="Horizontal" 
+                                                Grid.ColumnSpan="2"
+                                                Grid.RowSpan="2"
+                                                VerticalAlignment="Bottom"
+                                                HorizontalAlignment="Right"
+                                                Margin="0 0 10 0">
                                         <TextBlock Text="Quantity: "
                                                FontSize="16"/>
                                         <Button Content="-"
-                                            Padding="5 1"/>
+                                                Width="20"
+                                                Height="20"
+                                                Padding="0 -4 0 0"
+                                                FontSize="16"
+                                                Style="{StaticResource defaultBtnStyle}"/>
                                         <TextBlock Text="1"
                                                FontSize="16"
                                                Margin="5 0 5 0"/>
                                         <Button Content="+"
-                                            Padding="5 1"/>
+                                                Width="20"
+                                                Height="20"
+                                                Padding="0 -4 0 0"
+                                                FontSize="16"
+                                                Style="{StaticResource defaultBtnStyle}"/>
                                     </StackPanel>
 
                                     <Button Grid.Column="2" Grid.Row="0"

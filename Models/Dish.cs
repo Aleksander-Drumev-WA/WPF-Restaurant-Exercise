@@ -16,7 +16,7 @@ namespace WPF_Restaurant.Models
 
         public string Ingredients { get; }
 
-        public int Quantity { get; set; }
+        public int Quantity { get; }
 
         public Dish(string name, string imagePath, string recipe, int quantity, params string[] ingredients)
         {
