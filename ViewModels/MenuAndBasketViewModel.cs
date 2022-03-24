@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using WPF_Restaurant.Commands;
 using WPF_Restaurant.Models;
 
 namespace WPF_Restaurant.ViewModels
@@ -14,9 +15,10 @@ namespace WPF_Restaurant.ViewModels
         private readonly ObservableCollection<DishViewModel> _dishesInMenu;
 
         public IEnumerable<DishViewModel> DishesInMenu => _dishesInMenu;
+
         public ICommand ChooseDishCommand { get; }
 
-        public MenuAndBasketViewModel()
+        public MenuAndBasketViewModel(Restaurant restaurant)
         {
             _dishesInMenu = new ObservableCollection<DishViewModel>();
             _dishesInMenu.Add(new DishViewModel(new Dish("Pizza", @"E:\WPF-Restaurant\Resources\Images\pizza.jpg", "Whatever recipe", 3, "Some ing.", "Some ing. 2")));
@@ -29,6 +31,8 @@ namespace WPF_Restaurant.ViewModels
             _dishesInMenu.Add(new DishViewModel(new Dish("Rice", @"E:\WPF-Restaurant\Resources\Images\rice.jpg", "Whatever recipe", 3, "Some ing.", "Some ing. 2")));
             _dishesInMenu.Add(new DishViewModel(new Dish("Salad", @"E:\WPF-Restaurant\Resources\Images\salad.jpg", "Whatever recipe", 3, "Some ing.", "Some ing. 2")));
             _dishesInMenu.Add(new DishViewModel(new Dish("Chocolate Cake", @"E:\WPF-Restaurant\Resources\Images\triple-chocolate-cake.jpg", "Whatever recipe", 3, "Some ing.", "Some ing. 2")));
+
+            ChooseDishCommand = new ChooseDishCommand();
         }
     }
 }

@@ -12,10 +12,14 @@ namespace WPF_Restaurant.Models
 
         public List<Dish> Dishes => _dishes;
 
-        public Order(IEnumerable<Dish> dishes)
+        public Order()
         {
             _dishes = new List<Dish>();
-            _dishes.AddRange(dishes);
+        }
+
+        public void AddDish(Dish dish)
+        {
+            _dishes.Add(dish);
         }
     }
 }

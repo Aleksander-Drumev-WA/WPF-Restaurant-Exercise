@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WPF_Restaurant.Models;
 
 namespace WPF_Restaurant.ViewModels
 {
@@ -10,9 +11,9 @@ namespace WPF_Restaurant.ViewModels
     {
         public BaseViewModel CurrentViewModel { get; }
 
-        public MainViewModel()
+        public MainViewModel(Restaurant restaurant)
         {
-            CurrentViewModel = new MenuAndBasketViewModel();
+            CurrentViewModel = new MenuAndBasketViewModel(restaurant);
         }
     }
 }

@@ -15,11 +15,18 @@ namespace WPF_Restaurant
     /// </summary>
     public partial class App : Application
     {
+        private readonly Restaurant _restaurant;
+
+        public App()
+        {
+            _restaurant = new Restaurant("Panorama");
+        }
+
         protected override void OnStartup(StartupEventArgs e)
         {
             MainWindow = new MainWindow()
             {
-                DataContext = new MainViewModel()
+                DataContext = new MainViewModel(_restaurant)
             };
             MainWindow.Show();
 

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using WPF_Restaurant.Commands;
 using WPF_Restaurant.Models;
 
 namespace WPF_Restaurant.ViewModels
