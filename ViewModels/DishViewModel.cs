@@ -23,7 +23,15 @@ namespace WPF_Restaurant.ViewModels
 
         public string Ingredients => _dish.Ingredients;
 
-        public int Quantity => _dish.Quantity;
+        public int Quantity 
+        {
+            get => _dish.Quantity;
+            set
+            {
+                _dish.Quantity = value;
+                OnPropertyChanged(nameof(Quantity));
+            }
+        }
 
         public DishViewModel(Dish dish)
         {

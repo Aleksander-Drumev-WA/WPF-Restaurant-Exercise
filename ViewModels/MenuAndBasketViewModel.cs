@@ -23,6 +23,11 @@ namespace WPF_Restaurant.ViewModels
 
         public ICommand ChooseDishCommand { get; }
 
+        public ICommand IncreaseQuantityCommand { get; }
+
+        public ICommand DecreaseQuantityCommand { get; }
+
+
         public MenuAndBasketViewModel(Restaurant restaurant)
         {
             _dishesInMenu = new ObservableCollection<DishViewModel>();
@@ -38,6 +43,8 @@ namespace WPF_Restaurant.ViewModels
             _dishesInMenu.Add(new DishViewModel(new Dish("Salad", @"E:\WPF-Restaurant\Resources\Images\salad.jpg", "Whatever recipe", 1, "Tomatoes", "Cucumbers", "Onion", "Corn")));
             _dishesInMenu.Add(new DishViewModel(new Dish("Chocolate Cake", @"E:\WPF-Restaurant\Resources\Images\triple-chocolate-cake.jpg", "Whatever recipe", 1, "Chocolate", "Sugar", "Milk", "")));
             ChooseDishCommand = new ChooseDishCommand(_chosenDishes);
+            IncreaseQuantityCommand = new IncreaseQuantityCommand(_chosenDishes);
+            DecreaseQuantityCommand = new DecreaseQuantityCommand(_chosenDishes);
         }
     }
 }
