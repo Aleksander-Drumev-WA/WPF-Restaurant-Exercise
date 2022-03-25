@@ -34,7 +34,7 @@
                     MinWidth="280"
                     Style="{StaticResource defaultBorderStyle}"
                     Margin="8 15 12 15">
-                <ItemsControl ItemsSource="{Binding DishesInMenu}">
+                <ItemsControl x:Name="MenuList" ItemsSource="{Binding DishesInMenu}">
 
                     <ItemsControl.Template>
                         <ControlTemplate TargetType="ItemsControl">
@@ -45,20 +45,20 @@
 
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                                <DockPanel Style="{StaticResource defaultListDockPanelStyle}">
-                                    <StackPanel Orientation="Horizontal"
+                            <DockPanel Style="{StaticResource defaultListDockPanelStyle}">
+                                <StackPanel Orientation="Horizontal"
                                                 Background="#C4C4C4"
                                                 Margin="0 0 0 5"
                                                 DockPanel.Dock="Left">
-                                        <Image Source="{Binding ImagePath}"
+                                    <Image Source="{Binding ImagePath}"
                                                Style="{StaticResource defaultListImageSize}"/>
-                                        <Border Style="{StaticResource defaultBorderStyle}"
+                                    <Border Style="{StaticResource defaultBorderStyle}"
                                                 BorderThickness="0 1 1 1">
-                                            <ListViewItem Content="{Binding Name}"
+                                        <ListViewItem Content="{Binding Name}"
                                                           Style="{StaticResource defaultListItemStyle}"/>
-                                        </Border>
+                                    </Border>
 
-                                    </StackPanel>
+                                </StackPanel>
 
                                 <Button Content=">"
                                         Style="{StaticResource defaultBtnStyle}"
@@ -67,7 +67,8 @@
                                         DockPanel.Dock="Right"
                                         Margin="5 0 0 0"
                                         Padding="5 0 5 0"
-                                        Command="{Binding ChooseDishCommand}"/>
+                                        Command="{Binding DataContext.ChooseDishCommand, ElementName=MenuList}"
+                                        CommandParameter="{Binding Dish}"/>
                             </DockPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -82,168 +83,105 @@
                            FontSize="18"
                            Margin="0 0 0 10"/>
 
-                <ScrollViewer>
-                    <Grid>
-                        <StackPanel>
-                            <Border Style="{StaticResource defaultBorderStyle}"
-                                    HorizontalAlignment="Stretch"
-                                    Margin="0 0 0 10">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition Width="auto" MinWidth="212"/>
-                                        <ColumnDefinition Width="auto" MinWidth="75"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
-                                    </Grid.RowDefinitions>
+                <Grid>
+                    <ItemsControl ItemsSource="{Binding ChosenDishes}">
 
-                                    <Image Source="/Resources/Images/pizza.jpg"
-                                       Width="220"
-                                       Margin="5,10,0,10"
-                                       HorizontalAlignment="Left"
-                                       Grid.Row="0" Grid.Column="0"
-                                       Grid.RowSpan="3"/>
+                        <ItemsControl.Template>
+                            <ControlTemplate TargetType="ItemsControl">
 
-                                    <TextBlock Grid.Column="1" Grid.Row="0"
-                                           Text="Pizza"
-                                           VerticalAlignment="Top"
-                                           FontSize="28"
-                                           Margin="20,25,20,0"/>
+                                <ScrollViewer MaxHeight="550">
+                                    <ItemsPresenter />
+                                </ScrollViewer>
+                            </ControlTemplate>
+                        </ItemsControl.Template>
 
-                                    <TextBlock Grid.Column="1"
-                                           Text="Pepperoni, Mushroom, Extra cheese, Sausage, Onion, Green pepper, Fresh garlic."
-                                           TextWrapping="Wrap"
-                                           MaxWidth="150"
-                                           Margin="18,93,0,0"
-                                           VerticalAlignment="Top"
-                                           HorizontalAlignment="Left"
-                                           Grid.RowSpan="2"/>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
 
-                                    <StackPanel Grid.Column="1" Grid.Row="1"
-                                                Orientation="Horizontal" 
-                                                Grid.ColumnSpan="2"
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Bottom"
-                                                Grid.RowSpan="2"
-                                                Margin="0 0 10 0">
-                                        <TextBlock Text="Quantity: "
-                                               FontSize="16"/>
-                                        <Button Content="-"
-                                                Width="20"
-                                                Height="20"
-                                                Padding="0 -4 0 0"
-                                                FontSize="16"
-                                                Style="{StaticResource defaultBtnStyle}"/>
-                                        <TextBlock Text="1"
-                                               FontSize="16"
-                                               Margin="5 5 5 0"/>
-                                        <Button Content="+"
-                                                Width="20"
-                                                Height="20"
-                                                Padding="0 -4 0 0"
-                                                FontSize="16"
-                                                Style="{StaticResource defaultBtnStyle}"/>
-                                    </StackPanel>
+                                <StackPanel>
+                                    <Border Style="{StaticResource defaultBorderStyle}"
+                                            HorizontalAlignment="Stretch"
+                                            Margin="0 0 0 10">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="auto" MinWidth="212"/>
+                                                <ColumnDefinition Width="auto" MinWidth="75"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                            </Grid.RowDefinitions>
 
-                                    <Button Grid.Column="2" Grid.Row="0"
-                                        Content="x"
-                                        Style="{StaticResource defaultBtnStyle}"
-                                        VerticalAlignment="Top"
-                                        HorizontalAlignment="Right"
-                                        Padding="10 1"
-                                        Margin="3">
-                                        <Button.Resources>
-                                            <Style TargetType="Border">
-                                                <Setter Property="CornerRadius" Value="20"/>
-                                            </Style>
-                                        </Button.Resources>
-                                    </Button>
-                                </Grid>
-                            </Border>
-                            <Border Style="{StaticResource defaultBorderStyle}"
-                                HorizontalAlignment="Stretch">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition Width="auto" MinWidth="212"/>
-                                        <ColumnDefinition Width="auto" MinWidth="75"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
-                                    </Grid.RowDefinitions>
+                                            <Image Source="{Binding ImagePath}"
+                                                   Width="220"
+                                                   Margin="5,10,0,10"
+                                                   HorizontalAlignment="Left"
+                                                   Grid.Row="0" Grid.Column="0"
+                                                   Grid.RowSpan="3"/>
 
-                                    <Image Source="/Resources/Images/triple-chocolate-cake.jpg"
-                                           Width="220"
-                                           Margin="5,10,0,10"
-                                           HorizontalAlignment="Left"
-                                           Grid.Row="0" Grid.Column="0"
-                                           Grid.RowSpan="3"
-                                           MaxHeight="165"/>
+                                            <TextBlock Grid.Column="1" Grid.Row="0"
+                                                       Text="{Binding Name}"
+                                                       VerticalAlignment="Top"
+                                                       FontSize="28"
+                                                       Margin="20,25,20,0"/>
 
-                                    <TextBlock Grid.Column="1" Grid.Row="0"
-                                           Text="Chocolate Cake"
-                                           VerticalAlignment="Top"
-                                           FontSize="28"
-                                           Margin="20,25,20,0"/>
+                                            <TextBlock Grid.Column="1"
+                                                       Text="{Binding Ingredients}"
+                                                       TextWrapping="Wrap"
+                                                       MaxWidth="150"
+                                                       Margin="18,93,0,0"
+                                                       VerticalAlignment="Top"
+                                                       HorizontalAlignment="Left"
+                                                       Grid.RowSpan="2"/>
 
-                                    <TextBlock Grid.Column="1"
-                                           Text="Chocolate, Sugar, Milk, Whatever"
-                                           MaxWidth="150"
-                                           Margin="18,93,0,0"
-                                           VerticalAlignment="Top"
-                                           HorizontalAlignment="Left"
-                                           Grid.RowSpan="2"/>
+                                            <StackPanel Grid.Column="1" Grid.Row="1"
+                                                        Orientation="Horizontal" 
+                                                        Grid.ColumnSpan="2"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Bottom"
+                                                        Grid.RowSpan="2"
+                                                        Margin="0 0 10 0">
+                                                <TextBlock Text="Quantity: "
+                                                               FontSize="16"/>
+                                                <Button Content="-"
+                                                        Width="20"
+                                                        Height="20"
+                                                        Padding="0 -4 0 0"
+                                                        FontSize="16"
+                                                        Style="{StaticResource defaultBtnStyle}"/>
+                                                <TextBlock Text="{Binding Quantity}"
+                                                           FontSize="16"
+                                                           Margin="5 5 5 0"/>
+                                                <Button Content="+"
+                                                        Width="20"
+                                                        Height="20"
+                                                        Padding="0 -4 0 0"
+                                                        FontSize="16"
+                                                        Style="{StaticResource defaultBtnStyle}"/>
+                                            </StackPanel>
 
-                                    <StackPanel Grid.Column="1" Grid.Row="1"
-                                                Orientation="Horizontal" 
-                                                Grid.ColumnSpan="2"
-                                                Grid.RowSpan="2"
-                                                VerticalAlignment="Bottom"
-                                                HorizontalAlignment="Right"
-                                                Margin="0 0 10 0">
-                                        <TextBlock Text="Quantity: "
-                                               FontSize="16"/>
-                                        <Button Content="-"
-                                                Width="20"
-                                                Height="20"
-                                                Padding="0 -4 0 0"
-                                                FontSize="16"
-                                                Style="{StaticResource defaultBtnStyle}"/>
-                                        <TextBlock Text="1"
-                                               FontSize="16"
-                                               Margin="5 0 5 0"/>
-                                        <Button Content="+"
-                                                Width="20"
-                                                Height="20"
-                                                Padding="0 -4 0 0"
-                                                FontSize="16"
-                                                Style="{StaticResource defaultBtnStyle}"/>
-                                    </StackPanel>
-
-                                    <Button Grid.Column="2" Grid.Row="0"
-                                        Content="x"
-                                        Style="{StaticResource defaultBtnStyle}"
-                                        VerticalAlignment="Top"
-                                        HorizontalAlignment="Right"
-                                        Padding="10 1"
-                                        Margin="3">
-                                        <Button.Resources>
-                                            <Style TargetType="Border">
-                                                <Setter Property="CornerRadius" Value="20"/>
-                                            </Style>
-                                        </Button.Resources>
-                                    </Button>
-                                </Grid>
-                            </Border>
-                        </StackPanel>
-
-                    </Grid>
-                </ScrollViewer>
+                                            <Button Grid.Column="2" Grid.Row="0"
+                                                        Content="x"
+                                                        Style="{StaticResource defaultBtnStyle}"
+                                                        VerticalAlignment="Top"
+                                                        HorizontalAlignment="Right"
+                                                        Padding="10 1"
+                                                        Margin="3">
+                                                <Button.Resources>
+                                                    <Style TargetType="Border">
+                                                        <Setter Property="CornerRadius" Value="20"/>
+                                                    </Style>
+                                                </Button.Resources>
+                                            </Button>
+                                        </Grid>
+                                    </Border>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
 
                 <Button Style="{StaticResource defaultBtnStyle}"
                         Content="Create Order"

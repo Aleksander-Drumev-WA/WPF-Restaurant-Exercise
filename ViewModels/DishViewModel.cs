@@ -13,6 +13,8 @@ namespace WPF_Restaurant.ViewModels
     {
         private readonly Dish _dish;
 
+        public Dish Dish => _dish;
+
         public string Name => _dish.Name;
 
         public string ImagePath => _dish.ImagePath;
