@@ -3,18 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WPF_Restaurant.Services.Data.Providers;
 
 namespace WPF_Restaurant.Models
 {
     public class Restaurant
     {
         private readonly Kitchen _kitchen;
+        private readonly DatabaseDishProvider _dishProvider;
 
         public string Name { get; }
 
-        public Restaurant(string name)
+        public DatabaseDishProvider DishProvider => _dishProvider;
+
+        public Restaurant(string name, DatabaseDishProvider dishProvider)
         {
             Name = name;
+            _dishProvider = dishProvider;
             _kitchen = new Kitchen();
         }
 

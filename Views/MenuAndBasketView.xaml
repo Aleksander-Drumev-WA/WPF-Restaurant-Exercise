@@ -167,12 +167,14 @@
                                             </StackPanel>
 
                                             <Button Grid.Column="2" Grid.Row="0"
-                                                        Content="x"
-                                                        Style="{StaticResource defaultBtnStyle}"
-                                                        VerticalAlignment="Top"
-                                                        HorizontalAlignment="Right"
-                                                        Padding="10 1"
-                                                        Margin="3">
+                                                    Content="x"
+                                                    Style="{StaticResource defaultBtnStyle}"
+                                                    VerticalAlignment="Top"
+                                                    HorizontalAlignment="Right"
+                                                    Padding="10 1"
+                                                    Margin="3"
+                                                    Command="{Binding DataContext.RemoveDishCommand, ElementName=ChosenList}"
+                                                    CommandParameter="{Binding Dish}">
                                                 <Button.Resources>
                                                     <Style TargetType="Border">
                                                         <Setter Property="CornerRadius" Value="20"/>

@@ -13,7 +13,7 @@ namespace WPF_Restaurant.ViewModels
 
         public MainViewModel(Restaurant restaurant)
         {
-            CurrentViewModel = new MenuAndBasketViewModel(restaurant);
+            CurrentViewModel = MenuAndBasketViewModel.LoadViewModel(restaurant);
         }
     }
 }

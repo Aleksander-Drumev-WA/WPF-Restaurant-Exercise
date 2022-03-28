@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using WPF_Restaurant.Models;
 using WPF_Restaurant.Services.Data;
+using WPF_Restaurant.Services.Data.Providers;
 using WPF_Restaurant.ViewModels;
 
 namespace WPF_Restaurant
@@ -19,16 +20,20 @@ namespace WPF_Restaurant
     {
         private const string CONNECTION_STRING = "Data Source=restaurant.db";
         private readonly Restaurant _restaurant;
+        private readonly RestaurantDbContextFactory _restaurantDbContextFactory;
+        private readonly DatabaseDishProvider _databaseDishProvider;
 
         public App()
         {
-            _restaurant = new Restaurant("Panorama");
+            _restaurantDbContextFactory = new RestaurantDbContextFactory(CONNECTION_STRING);
+            _databaseDishProvider = new DatabaseDishProvider(_restaurantDbContextFactory);
+
+            _restaurant = new Restaurant("Panorama", _databaseDishProvider);
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            var options = new DbContextOptionsBuilder().UseSqlite(CONNECTION_STRING).Options;
-            using (var dbContext = new RestaurantDbContext(options))
+            using (var dbContext = _restaurantDbContextFactory.CreateDbContext())
             {
                 dbContext.Database.Migrate();
             }
