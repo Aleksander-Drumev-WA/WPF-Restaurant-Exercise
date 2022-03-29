@@ -28,7 +28,8 @@
                             Margin="15"
                             VerticalAlignment="Top"
                             Padding="45 5"
-                            Style="{StaticResource defaultBtnStyle}"/>
+                            Style="{StaticResource defaultBtnStyle}"
+                            Command="{Binding NavigateCommand}"/>
 
                     <CheckBox Grid.Column="0" Grid.Row="1"
                               FontSize="14"
