@@ -21,23 +21,22 @@ namespace WPF_Restaurant
         private const string CONNECTION_STRING = "Data Source=restaurant.db";
         private readonly Restaurant _restaurant;
         private readonly RestaurantDbContextFactory _restaurantDbContextFactory;
-        private readonly DatabaseDishProvider _databaseDishProvider;
 
         public App()
         {
             _restaurantDbContextFactory = new RestaurantDbContextFactory(CONNECTION_STRING);
-            _databaseDishProvider = new DatabaseDishProvider(_restaurantDbContextFactory);
+            var databaseDishProvider = new DatabaseDishProvider(_restaurantDbContextFactory);
+            var databaseOrderCreator = new DatabaseOrderCreator(_restaurantDbContextFactory);
 
-            _restaurant = new Restaurant("Panorama", _databaseDishProvider);
+            _restaurant = new Restaurant("Panorama", databaseDishProvider, databaseOrderCreator);
         }
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
             using (var dbContext = _restaurantDbContextFactory.CreateDbContext())
             {
                 dbContext.Database.Migrate();
             }
-
             MainWindow = new MainWindow()
             {
                 DataContext = new MainViewModel(_restaurant)

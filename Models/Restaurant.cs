@@ -11,15 +11,19 @@ namespace WPF_Restaurant.Models
     {
         private readonly Kitchen _kitchen;
         private readonly DatabaseDishProvider _dishProvider;
+        private readonly DatabaseOrderCreator _databaseOrderCreator;
 
         public string Name { get; }
 
         public DatabaseDishProvider DishProvider => _dishProvider;
 
-        public Restaurant(string name, DatabaseDishProvider dishProvider)
+        public DatabaseOrderCreator OrderCreator => _databaseOrderCreator;
+
+        public Restaurant(string name, DatabaseDishProvider dishProvider, DatabaseOrderCreator databaseOrderCreator)
         {
             Name = name;
             _dishProvider = dishProvider;
+            _databaseOrderCreator = databaseOrderCreator;
             _kitchen = new Kitchen();
         }
 

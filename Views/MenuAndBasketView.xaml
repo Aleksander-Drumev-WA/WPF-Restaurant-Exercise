@@ -193,7 +193,8 @@
                         Content="Create Order"
                         HorizontalAlignment="Right"
                         Padding="55 10"
-                        Margin="0 10 16 0"/>
+                        Margin="0 10 16 0"
+                        Command="{Binding OrderCommand}"/>
             </StackPanel>
         </DockPanel>
     </Border>
