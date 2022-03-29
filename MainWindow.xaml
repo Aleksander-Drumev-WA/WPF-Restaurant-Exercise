@@ -5,8 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_Restaurant"
         xmlns:views="clr-namespace:WPF_Restaurant.Views"
+        xmlns:vms="clr-namespace:WPF_Restaurant.ViewModels"
         mc:Ignorable="d"
         Title="Restaurant" Height="810" Width="930">
-    <views:MenuAndBasketView DataContext="{Binding CurrentViewModel}"/>
+    <Grid>
+        <Grid.Resources>
+            <DataTemplate DataType="{x:Type vms:MenuAndBasketViewModel}">
+                <views:MenuAndBasketView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:MainChefViewModel}">
+                <views:MainChefView/>
+            </DataTemplate>
+        </Grid.Resources>
+
+        <ContentControl Content="{Binding CurrentViewModel}"/>
+    </Grid>
 
 </Window>

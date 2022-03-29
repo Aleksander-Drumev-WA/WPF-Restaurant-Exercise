@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Input;
 using WPF_Restaurant.Commands;
 using WPF_Restaurant.Models;
+using WPF_Restaurant.Stores;
 
 namespace WPF_Restaurant.ViewModels
 {
@@ -31,10 +32,12 @@ namespace WPF_Restaurant.ViewModels
 
         public ICommand LoadDishesCommand { get; }
 
-        public ICommand OrderCommand { get; set; }
+        public ICommand OrderCommand { get; }
+
+        public ICommand NavigateCommand { get; }
 
 
-        public MenuAndBasketViewModel(Restaurant restaurant)
+        public MenuAndBasketViewModel(Restaurant restaurant, NavigationStore navigationStore, Func<MainChefViewModel> mainChefViewModel)
         {
             _dishesInMenu = new List<DishViewModel>();
             _chosenDishes = new ObservableCollection<DishViewModel>();
@@ -44,11 +47,12 @@ namespace WPF_Restaurant.ViewModels
             RemoveDishCommand = new RemoveDishCommand(_chosenDishes);
             LoadDishesCommand = new LoadDishesCommand(_dishesInMenu, restaurant);
             OrderCommand = new CreateOrderCommand(_chosenDishes, restaurant);
+            NavigateCommand = new NavigateCommand(navigationStore, mainChefViewModel);
         }
 
-        public static MenuAndBasketViewModel LoadViewModel(Restaurant restaurant)
+        public static MenuAndBasketViewModel LoadViewModel(Restaurant restaurant, NavigationStore navigationStore, Func<MainChefViewModel> mainChefViewModel)
         {
-            var viewModel = new MenuAndBasketViewModel(restaurant);
+            var viewModel = new MenuAndBasketViewModel(restaurant, navigationStore, mainChefViewModel);
             viewModel.LoadDishesCommand.Execute(null);
             return viewModel;
         }

@@ -19,11 +19,12 @@
                     <local:RestaurantName Grid.Column="0"/>
 
                     <Button Grid.Column="1"
-                    Content="Login"
-                    Margin="15"
-                    VerticalAlignment="Top"
-                    Padding="45 5"
-                    Style="{StaticResource defaultBtnStyle}"/>
+                            Content="Login"
+                            Margin="15"
+                            VerticalAlignment="Top"
+                            Padding="45 5"
+                            Style="{StaticResource defaultBtnStyle}"
+                            Command="{Binding NavigateCommand}"/>
                 </Grid>
             </Border>
 
