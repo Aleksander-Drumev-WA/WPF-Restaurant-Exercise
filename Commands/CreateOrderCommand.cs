@@ -26,17 +26,7 @@ namespace WPF_Restaurant.Commands
         {
             try
             {
-                var orderId = await _restaurant.OrderCreator.CreateOrder();
-
-                var dishesForOrder = _chosenDishes.Select(cd => new DishInOrderDTO()
-                {
-                    Name = cd.Name,
-                    Quantity = cd.Quantity,
-                    IsReady = false,
-                    OrderId = orderId
-                });
-
-                await _restaurant.OrderCreator.PopulateOrder(dishesForOrder);
+                await _restaurant.OrderCreator.CreateOrder(_chosenDishes);
             }
             catch (Exception e)
             {
