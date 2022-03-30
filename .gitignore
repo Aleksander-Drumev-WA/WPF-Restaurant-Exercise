@@ -5,3 +5,29 @@ obj
 /.vs/WPF-Restaurant/DesignTimeBuild/.dtbcache.v2
 /.vs/WPF-Restaurant/project-colors.json
 /.vs/WPF-Restaurant/v17/.futdcache.v1
+
+
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio cache/options directory
+/.vs
+/TestWpfApp/.vs
+
+# Build results
+[Bb]uild/
+[Bb]uilds/
+[Bb]in/
+[Dd]ebug/
+[Rr]elease/
+[Oo]bj/
+[Nn]et6.0/
+[Ll]og/
+
+
+/*/[Bb]in
+/*/[Oo]bj
