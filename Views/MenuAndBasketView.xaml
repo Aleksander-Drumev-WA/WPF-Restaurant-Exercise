@@ -86,13 +86,14 @@
 
 
 
-            <StackPanel DockPanel.Dock="Right"
-                        Margin="0 10 0 0">
+            <DockPanel Margin="0 10 0 0">
                 <TextBlock Text="Basket"
                            FontSize="18"
-                           Margin="0 0 0 10"/>
+                           Margin="0 0 0 10"
+                           DockPanel.Dock="Top"/>
 
-                <Grid>
+                <Grid
+                    DockPanel.Dock="Top">
                     <ItemsControl x:Name="ChosenList" ItemsSource="{Binding ChosenDishes}">
 
                         <ItemsControl.Template>
@@ -200,11 +201,14 @@
 
                 <Button Style="{StaticResource defaultBtnStyle}"
                         Content="Create Order"
+                        MaxWidth="200"
+                        MaxHeight="50"
                         HorizontalAlignment="Right"
-                        Padding="55 10"
-                        Margin="0 10 16 0"
-                        Command="{Binding OrderCommand}"/>
-            </StackPanel>
+                        Margin="0 10 10 10"
+                        Padding="30 0"
+                        Command="{Binding OrderCommand}"
+                        DockPanel.Dock="Bottom"/>
+            </DockPanel>
         </DockPanel>
     </Border>
 </UserControl>
