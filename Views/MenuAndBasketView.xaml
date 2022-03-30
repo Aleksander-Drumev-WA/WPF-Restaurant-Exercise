@@ -86,57 +86,66 @@
 
 
 
-            <StackPanel DockPanel.Dock="Right"
-                        Margin="0 10 0 0">
+            <DockPanel Margin="0 10 0 0">
                 <TextBlock Text="Basket"
                            FontSize="18"
-                           Margin="0 0 0 10"/>
+                           Margin="0 0 0 10"
+                           DockPanel.Dock="Top"/>
 
-                <Grid>
-                    <ItemsControl x:Name="ChosenList" ItemsSource="{Binding ChosenDishes}">
+                <Button Style="{StaticResource defaultBtnStyle}"
+                        Content="Create Order"
+                        MaxWidth="200"
+                        MaxHeight="50"
+                        HorizontalAlignment="Right"
+                        Margin="0 10 10 10"
+                        Padding="30 5"
+                        Command="{Binding OrderCommand}"
+                        DockPanel.Dock="Bottom"/>
 
-                        <ItemsControl.Template>
-                            <ControlTemplate TargetType="ItemsControl">
+                <ItemsControl x:Name="ChosenList" ItemsSource="{Binding ChosenDishes}">
 
-                                <ScrollViewer MaxHeight="550">
-                                    <ItemsPresenter />
-                                </ScrollViewer>
-                            </ControlTemplate>
-                        </ItemsControl.Template>
+                    <ItemsControl.Template>
+                        <ControlTemplate TargetType="ItemsControl">
 
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
+                            <ScrollViewer MaxHeight="550">
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </ControlTemplate>
+                    </ItemsControl.Template>
 
-                                <StackPanel>
-                                    <Border Style="{StaticResource defaultBorderStyle}"
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+
+                            <StackPanel>
+                                <Border Style="{StaticResource defaultBorderStyle}"
                                             HorizontalAlignment="Stretch"
                                             Margin="0 0 0 10">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition Width="auto" MinWidth="212"/>
-                                                <ColumnDefinition Width="auto" MinWidth="75"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="auto"/>
-                                                <RowDefinition Height="auto"/>
-                                                <RowDefinition Height="auto"/>
-                                            </Grid.RowDefinitions>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="auto" MinWidth="212"/>
+                                            <ColumnDefinition Width="auto" MinWidth="75"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                        </Grid.RowDefinitions>
 
-                                            <Image Source="{Binding ImagePath}"
+                                        <Image Source="{Binding ImagePath}"
                                                    Width="220"
                                                    Margin="5,10,0,10"
                                                    HorizontalAlignment="Left"
                                                    Grid.Row="0" Grid.Column="0"
                                                    Grid.RowSpan="3"/>
 
-                                            <TextBlock Grid.Column="1" Grid.Row="0"
+                                        <TextBlock Grid.Column="1" Grid.Row="0"
                                                        Text="{Binding Name}"
                                                        VerticalAlignment="Top"
                                                        FontSize="28"
                                                        Margin="20,25,20,0"/>
 
-                                            <TextBlock Grid.Column="1"
+                                        <TextBlock Grid.Column="1"
                                                        Text="{Binding Ingredients}"
                                                        TextWrapping="Wrap"
                                                        MaxWidth="150"
@@ -145,16 +154,16 @@
                                                        HorizontalAlignment="Left"
                                                        Grid.RowSpan="2"/>
 
-                                            <StackPanel Grid.Column="1" Grid.Row="1"
+                                        <StackPanel Grid.Column="1" Grid.Row="1"
                                                         Orientation="Horizontal" 
                                                         Grid.ColumnSpan="2"
                                                         HorizontalAlignment="Right"
                                                         VerticalAlignment="Bottom"
                                                         Grid.RowSpan="2"
                                                         Margin="0 0 10 0">
-                                                <TextBlock Text="Quantity: "
+                                            <TextBlock Text="Quantity: "
                                                                FontSize="16"/>
-                                                <Button Content="-"
+                                            <Button Content="-"
                                                         Width="20"
                                                         Height="20"
                                                         Padding="0 -4 0 0"
@@ -162,10 +171,10 @@
                                                         Style="{StaticResource defaultBtnStyle}"
                                                         Command="{Binding DataContext.DecreaseQuantityCommand, ElementName=ChosenList}"
                                                         CommandParameter="{Binding Dish}"/>
-                                                <TextBlock Text="{Binding Quantity}"
+                                            <TextBlock Text="{Binding Quantity}"
                                                            FontSize="16"
                                                            Margin="5 5 5 0"/>
-                                                <Button Content="+"
+                                            <Button Content="+"
                                                         Width="20"
                                                         Height="20"
                                                         Padding="0 -4 0 0"
@@ -173,9 +182,9 @@
                                                         Style="{StaticResource defaultBtnStyle}"
                                                         Command="{Binding DataContext.IncreaseQuantityCommand, ElementName=ChosenList}"
                                                         CommandParameter="{Binding Dish}"/>
-                                            </StackPanel>
+                                        </StackPanel>
 
-                                            <Button Grid.Column="2" Grid.Row="0"
+                                        <Button Grid.Column="2" Grid.Row="0"
                                                     Content="x"
                                                     Style="{StaticResource defaultBtnStyle}"
                                                     VerticalAlignment="Top"
@@ -184,27 +193,19 @@
                                                     Margin="3"
                                                     Command="{Binding DataContext.RemoveDishCommand, ElementName=ChosenList}"
                                                     CommandParameter="{Binding Dish}">
-                                                <Button.Resources>
-                                                    <Style TargetType="Border">
-                                                        <Setter Property="CornerRadius" Value="20"/>
-                                                    </Style>
-                                                </Button.Resources>
-                                            </Button>
-                                        </Grid>
-                                    </Border>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Grid>
-
-                <Button Style="{StaticResource defaultBtnStyle}"
-                        Content="Create Order"
-                        HorizontalAlignment="Right"
-                        Padding="55 10"
-                        Margin="0 10 16 0"
-                        Command="{Binding OrderCommand}"/>
-            </StackPanel>
+                                            <Button.Resources>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="CornerRadius" Value="20"/>
+                                                </Style>
+                                            </Button.Resources>
+                                        </Button>
+                                    </Grid>
+                                </Border>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </DockPanel>
         </DockPanel>
     </Border>
 </UserControl>
