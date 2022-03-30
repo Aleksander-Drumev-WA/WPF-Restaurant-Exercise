@@ -35,6 +35,12 @@
         </Setter>
     </Style>
 
+    <Style x:Key="defaultListGridStyle" TargetType="{x:Type Grid}">
+        <Setter Property="Margin"
+                Value="0 0 0 10">
+        </Setter>
+    </Style>
+
     <Style x:Key="defaultListImageSize" TargetType="{x:Type Image}">
         <Setter Property="Width"
                 Value="66">
