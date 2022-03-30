@@ -46,17 +46,27 @@
 
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <DockPanel Style="{StaticResource defaultListDockPanelStyle}">
+                            <Grid Style="{StaticResource defaultListGridStyle}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"
+                                                      MaxWidth="235"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                
                                 <StackPanel Orientation="Horizontal"
-                                                Background="#C4C4C4"
-                                                Margin="0 0 0 5"
-                                                DockPanel.Dock="Left">
+                                            Background="#C4C4C4"
+                                            Margin="0 0 0 5"
+                                            Grid.Column="0">
                                     <Image Source="{Binding ImagePath}"
                                                Style="{StaticResource defaultListImageSize}"/>
                                     <Border Style="{StaticResource defaultBorderStyle}"
-                                                BorderThickness="0 1 1 1">
-                                        <ListViewItem Content="{Binding Name}"
-                                                          Style="{StaticResource defaultListItemStyle}"/>
+                                            BorderThickness="0 1 1 1"
+                                            MinWidth="163">
+                                        <TextBlock Text="{Binding Name}"
+                                                   FontSize="18"
+                                                   Margin="20 7"
+                                                   HorizontalAlignment="Center"/>
                                     </Border>
 
                                 </StackPanel>
@@ -65,12 +75,12 @@
                                         Style="{StaticResource defaultBtnStyle}"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
-                                        DockPanel.Dock="Right"
                                         Margin="5 0 0 0"
                                         Padding="5 0 5 0"
                                         Command="{Binding DataContext.ChooseDishCommand, ElementName=MenuList}"
-                                        CommandParameter="{Binding Dish}"/>
-                            </DockPanel>
+                                        CommandParameter="{Binding Dish}"
+                                        Grid.Column="1"/>
+                            </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
