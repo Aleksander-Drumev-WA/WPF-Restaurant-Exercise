@@ -11,12 +11,15 @@ namespace WPF_Restaurant.DTOs
     {
         public OrderDTO()
         {
-            DishesInOrder = new HashSet<DishInOrderDTO>();
+            OrderItems = new HashSet<OrderItem>();
+            CreatedOn = DateTime.UtcNow;
         }
 
         [Key]
         public int Id { get; set; }
 
-        public ICollection<DishInOrderDTO> DishesInOrder { get; set; }
+        public DateTime CreatedOn { get; set; }
+
+        public ICollection<OrderItem> OrderItems { get; set; }
     }
 }

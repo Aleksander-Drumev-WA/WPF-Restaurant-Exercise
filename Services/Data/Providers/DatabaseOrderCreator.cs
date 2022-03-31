@@ -23,20 +23,29 @@ namespace WPF_Restaurant.Services.Data.Providers
         {
             using(var dbContext = _dbContextFactory.CreateDbContext())
             {
+                var orderItems = new List<OrderItem>();
                 var order = new OrderDTO();
                 dbContext.Orders.Add(order);
                 await dbContext.SaveChangesAsync();
 
-                var dishesForOrder = _chosenDishes.Select(cd => new DishInOrderDTO()
-                {
-                    Name = cd.Name,
-                    Quantity = cd.Quantity,
-                    IsReady = false,
-                    OrderId = order.Id
-                });
+                var allDishes = dbContext.Dishes;
 
-                dbContext.DishesInOrder.AddRange(dishesForOrder);
+                foreach (var chosenDish in _chosenDishes)
+                {
+                    var dish = allDishes.FirstOrDefault(d => d.Name == chosenDish.Name);
+
+                    var orderItem = new OrderItem
+                    {
+                        DishId = dish.Id,
+                        OrderId = order.Id
+                    };
+
+                    orderItems.Add(orderItem);
+                }
+
+                dbContext.OrderItems.AddRange(orderItems);
                 await dbContext.SaveChangesAsync();
+                _chosenDishes.Clear();
             }
         }
     }

@@ -8,16 +8,16 @@ using WPF_Restaurant.Models;
 
 namespace WPF_Restaurant.DTOs
 {
-    public class DishInOrderDTO
+    public class OrderItem
     {
         [Key]
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public bool IsCompleted { get; set; }
 
-        public int Quantity { get; set; }
+        public int DishId { get; set; }
 
-        public bool IsReady { get; set; }
+        public DishDTO Dish { get; set; }
 
         public int OrderId { get; set; }
 
