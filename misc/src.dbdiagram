@@ -1,0 +1,46 @@
+//// -- LEVEL 1
+//// -- Tables and References
+//// https://dbdiagram.io/
+
+// Variant 1
+Table dishes_V1 as D {
+  id int [pk, increment] // auto-increment
+  name varchar [not null]
+  image_path varchar
+  recipe varchar [not null]
+  ingredients varchar [not null]
+}
+
+Table order_items_V1 as DO {
+  id int [pk, increment]
+  quantity int [not null]
+  completed_count int [not null] // default 0
+  dish_id int [ref: > D.id, not null]
+  order_id int [ref: > O.id, not null]
+ }
+ 
+Table orders_V1 as O {
+  id int [pk, increment] // primary key
+  date_time datetime [not null] // default current_datetime
+}
+
+// Variant 2
+Table dishes_V2 as D2 {
+  id int [pk, increment] // auto-increment
+  name varchar [not null]
+  image_path varchar
+  recipe varchar [not null]
+  ingredients varchar [not null]
+}
+
+Table order_items_V2 as DO2 {
+  id int [pk, increment]
+  is_completed bool [not null] // default false
+  dish_id int [ref: > D2.id, not null]
+  order_id int [ref: > O2.id, not null]
+ }
+ 
+Table orders_V2 as O2 {
+  id int [pk, increment] // primary key
+  date_time datetime [not null] // default current_datetime
+}
