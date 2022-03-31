@@ -21,7 +21,7 @@ namespace WPF_Restaurant.Services.Data.Providers
 
         public async Task CreateOrder(ObservableCollection<DishViewModel> _chosenDishes)
         {
-            using(var dbContext = _dbContextFactory.CreateDbContext())
+            using (var dbContext = _dbContextFactory.CreateDbContext())
             {
                 var orderItems = new List<OrderItem>();
                 var order = new OrderDTO();
@@ -34,13 +34,17 @@ namespace WPF_Restaurant.Services.Data.Providers
                 {
                     var dish = allDishes.FirstOrDefault(d => d.Name == chosenDish.Name);
 
-                    var orderItem = new OrderItem
+                    for (int i = 0; i < chosenDish.Quantity; i++)
                     {
-                        DishId = dish.Id,
-                        OrderId = order.Id
-                    };
+                        var orderItem = new OrderItem
+                        {
+                            DishId = dish.Id,
+                            OrderId = order.Id
+                        };
 
-                    orderItems.Add(orderItem);
+                        orderItems.Add(orderItem);
+                    }
+
                 }
 
                 dbContext.OrderItems.AddRange(orderItems);
