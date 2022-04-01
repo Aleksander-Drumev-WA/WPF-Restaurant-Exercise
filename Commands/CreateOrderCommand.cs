@@ -26,7 +26,9 @@ namespace WPF_Restaurant.Commands
         {
             try
             {
-                await _restaurant.OrderCreator.CreateOrder(_chosenDishes);
+                var dishes = _chosenDishes.Select(x => x.Dish).ToList();
+
+                await _restaurant.OrderCreator.CreateOrder(dishes);
 
                 MessageBox.Show("Successfully created an order.", "Success!", MessageBoxButton.OK);
             }

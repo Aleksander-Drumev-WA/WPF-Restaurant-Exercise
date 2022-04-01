@@ -18,15 +18,13 @@ namespace WPF_Restaurant.Services.Data.Providers
             _dbContextFactory = dbContextFactory;
         }
 
-        public async Task<IEnumerable<DishViewModel>> GetAllDishes()
+        public async Task<IEnumerable<Dish>> GetAllDishes()
         {
             using(var dbContext = _dbContextFactory.CreateDbContext())
             {
                 var dishesDTO = await dbContext.Dishes.ToListAsync();
 
-                var dishes = dishesDTO.Select(dto => new Dish(dto.Name, dto.ImagePath, dto.Recipe, dto.Ingredients));
-
-                return dishes.Select(d => new DishViewModel(d));
+                return dishesDTO.Select(dto => new Dish(dto.Name, dto.ImagePath, dto.Recipe, dto.Ingredients));
             }
         }
     }

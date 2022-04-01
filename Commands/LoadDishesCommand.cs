@@ -27,10 +27,8 @@ namespace WPF_Restaurant.Commands
             {
                 var dishes = await _restaurant.DishProvider.GetAllDishes();
                 Task.Delay(2000);
-                foreach (var dish in dishes)
-                {
-                    _dishesInMenu.Add(dish);
-                }
+
+                _dishesInMenu.AddRange(dishes.Select(d => new DishViewModel(d)));
             }
             catch (Exception e)
             {
