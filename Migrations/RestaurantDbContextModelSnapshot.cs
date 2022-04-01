@@ -41,7 +41,7 @@ namespace WPF_Restaurant.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Dishes");
+                    b.ToTable("Dishes", (string)null);
                 });
 
             modelBuilder.Entity("WPF_Restaurant.DTOs.OrderDTO", b =>
@@ -55,7 +55,7 @@ namespace WPF_Restaurant.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("WPF_Restaurant.DTOs.OrderItem", b =>
@@ -79,7 +79,7 @@ namespace WPF_Restaurant.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItems", (string)null);
                 });
 
             modelBuilder.Entity("WPF_Restaurant.DTOs.OrderItem", b =>
