@@ -16,7 +16,7 @@ namespace WPF_Restaurant.Services.Data
 
         public DbSet<DishDTO> Dishes { get; set; }
 
-        public DbSet<DishInOrderDTO> DishesInOrder { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
         public DbSet<OrderDTO> Orders { get; set; }
     }

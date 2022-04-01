@@ -19,23 +19,34 @@ namespace WPF_Restaurant.Services.Data.Providers
             _dbContextFactory = dbContextFactory;
         }
 
-        public async Task CreateOrder(ObservableCollection<DishViewModel> _chosenDishes)
+        public async Task CreateOrder(List<Dish> chosenDishes)
         {
-            using(var dbContext = _dbContextFactory.CreateDbContext())
+            using (var dbContext = _dbContextFactory.CreateDbContext())
             {
+                var orderItems = new List<OrderItem>();
                 var order = new OrderDTO();
                 dbContext.Orders.Add(order);
                 await dbContext.SaveChangesAsync();
 
-                var dishesForOrder = _chosenDishes.Select(cd => new DishInOrderDTO()
-                {
-                    Name = cd.Name,
-                    Quantity = cd.Quantity,
-                    IsReady = false,
-                    OrderId = order.Id
-                });
+                var allDishes = dbContext.Dishes;
 
-                dbContext.DishesInOrder.AddRange(dishesForOrder);
+                foreach (var chosenDish in chosenDishes)
+                {
+                    var dish = allDishes.FirstOrDefault(d => d.Name == chosenDish.Name);
+                    
+                    for (int i = 0; i < chosenDish.Quantity; i++)
+                    {
+                        var orderItem = new OrderItem
+                        {
+                            DishId = dish.Id,
+                            OrderId = order.Id
+                        };
+
+                        orderItems.Add(orderItem);
+                    }
+                }
+
+                dbContext.OrderItems.AddRange(orderItems);
                 await dbContext.SaveChangesAsync();
             }
         }
