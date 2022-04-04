@@ -26,7 +26,7 @@ namespace WPF_Restaurant.Commands
             try
             {
                 var orders = await _restaurant.OrdersProvider.GetAllOrders();
-                Task.Delay(2000);
+                await Task.Delay(2000);
 
                 foreach (var order in orders)
                 {

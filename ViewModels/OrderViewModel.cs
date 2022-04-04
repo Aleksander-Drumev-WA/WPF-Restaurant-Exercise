@@ -14,7 +14,8 @@ namespace WPF_Restaurant.ViewModels
 
         public int OrderNumber => _order.Id;
 
-        public IEnumerable<OrderItemViewModel> OrderItems => _order.Dishes.Select(x => new OrderItemViewModel(x));
+        public IEnumerable<OrderItemViewModel> OrderItems => _order.Dishes.DistinctBy(d => d.Id)
+                                                             .Select(d => new OrderItemViewModel(d.Name, _order.Dishes.Count(x => x.Id == d.Id)));
 
         public OrderViewModel(Order order)
         {
