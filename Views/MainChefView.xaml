@@ -53,98 +53,75 @@
                     HorizontalAlignment="Left"
                     Style="{StaticResource defaultBorderStyle}"
                     MinWidth="180"
-                    MaxWidth="200"
+                    MaxWidth="230"
                     Margin="8 15 12 15">
-                <ListView Background="#E5E5E5">
-                    <StackPanel Background="#C4C4C4"
-                                MinWidth="180"
-                                Margin="0 0 0 15">
-                        <Button Content="Order N 0005"
-                                Padding="5 10 0 0"
-                                Style="{StaticResource defaultBtnStyle}"
-                                FontSize="12"
-                                HorizontalAlignment="Left"/>
 
-                        <Border Style="{StaticResource defaultBorderStyle}">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="v"
-                                               FontSize="16"
-                                               Margin="8 0"/>
+                <ItemsControl x:Name="OrdersList" ItemsSource="{Binding Orders}">
 
-                                <TextBlock Text="Pizza - "
-                                               FontSize="12"/>
+                    <ItemsControl.Template>
+                        <ControlTemplate TargetType="ItemsControl">
 
-                                <TextBlock Text="Quantity:"
-                                               FontSize="12"/>
+                            <ItemsPresenter/>
+                        </ControlTemplate>
+                    </ItemsControl.Template>
 
-                                <!--Insert quantity value later-->
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Background="#C4C4C4"
+                                        MinWidth="180"
+                                        Margin="0 0 0 15">
+                                <Button Padding="5 10 0 0"
+                                        Style="{StaticResource defaultBtnStyle}"
+                                        FontSize="12"
+                                        HorizontalAlignment="Left">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Order Number: "
+                                                   FontSize="14"/>
+                                        <TextBlock Text="{Binding OrderNumber}"
+                                                   FontSize="14"/>
+                                    </StackPanel>
+                                </Button>
 
+                                <ItemsControl x:Name="OrderItems" ItemsSource="{Binding OrderItems}">
+                                    <ItemsControl.Template>
+                                        <ControlTemplate TargetType="ItemsControl">
+
+                                            <ItemsPresenter/>
+                                        </ControlTemplate>
+                                    </ItemsControl.Template>
+
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Style="{StaticResource defaultBorderStyle}">
+                                                <Button>
+                                                    <StackPanel Orientation="Horizontal"
+                                                                Margin="2">
+                                                        <TextBlock Text="v"
+                                                               FontSize="12"
+                                                               Margin="8 0"/>
+
+                                                        <TextBlock Text="{Binding Name}"
+                                                               FontSize="12"/>
+
+                                                        <TextBlock Text=" - "
+                                                               FontSize="12"/>
+
+                                                        <TextBlock Text="Quantity: "
+                                                               FontSize="12"/>
+
+                                                        <TextBlock Text="{Binding Quantity}"
+                                                               FontSize="12"/>
+
+                                                    </StackPanel>
+                                                </Button>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
                             </StackPanel>
-                        </Border>
-                        <Border Style="{StaticResource defaultBorderStyle}">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="v"
-                                           FontSize="16"
-                                           Margin="8 0"
-                                           Visibility="Hidden"/>
-
-                                <TextBlock Text="Chocolate Cake - "
-                                           FontSize="12"/>
-
-                                <TextBlock Text="Quantity:"
-                                           FontSize="12"/>
-
-                                <!--Insert quantity value later-->
-
-                            </StackPanel>
-                        </Border>
-                    </StackPanel>
-
-
-                    <StackPanel Background="#C4C4C4"
-                                MinWidth="180"
-                                Margin="0 0 0 15">
-                        <Button Content="Order N 0006"
-                                Padding="5 10 0 0"
-                                HorizontalAlignment="Left"
-                                Style="{StaticResource defaultBtnStyle}"
-                                FontSize="12"/>
-
-                        <Border Style="{StaticResource defaultBorderStyle}">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="v"
-                                               FontSize="16"
-                                               Margin="8 0"/>
-
-                                <TextBlock Text="Burger - "
-                                               FontSize="12"/>
-
-                                <TextBlock Text="Quantity:"
-                                               FontSize="12"/>
-
-                                <!--Insert quantity value later-->
-
-                            </StackPanel>
-                        </Border>
-                        <Border Style="{StaticResource defaultBorderStyle}">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="v"
-                                           FontSize="16"
-                                           Margin="8 0"
-                                           Visibility="Hidden"/>
-
-                                <TextBlock Text="Rice - "
-                                           FontSize="12"/>
-
-                                <TextBlock Text="Quantity:"
-                                           FontSize="12"/>
-
-                                <!--Insert quantity value later-->
-
-                            </StackPanel>
-                        </Border>
-                    </StackPanel>
-                </ListView>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Border>
 
             <!--<local:ChefLookingAtOrderView/>-->

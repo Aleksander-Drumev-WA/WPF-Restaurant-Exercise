@@ -11,16 +11,14 @@ namespace WPF_Restaurant.ViewModels
     public class OrderItemViewModel : BaseViewModel
     {
         private readonly Dish _dish;
-        private readonly int _quantity;
 
         public string Name => _dish.Name;
 
-        public int Quantity => _quantity;
+        public int Quantity => _dish.Quantity;
 
-        public OrderItemViewModel(Dish dish, int quantity)
+        public OrderItemViewModel(Dish dish)
         {
             _dish = dish;
-            _quantity = quantity;
         }
     }
 }

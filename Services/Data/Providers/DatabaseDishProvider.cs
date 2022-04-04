@@ -24,7 +24,7 @@ namespace WPF_Restaurant.Services.Data.Providers
             {
                 var dishesDTO = await dbContext.Dishes.ToListAsync();
 
-                return dishesDTO.Select(dto => new Dish(dto.Name, dto.ImagePath, dto.Recipe, dto.Ingredients));
+                return dishesDTO.Select(dto => new Dish(dto.Id, dto.Name, dto.ImagePath, dto.Recipe, dto.Ingredients));
             }
         }
     }
