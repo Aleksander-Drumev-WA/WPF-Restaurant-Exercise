@@ -8,6 +8,8 @@ namespace WPF_Restaurant.Models
 {
     public class Dish
     {
+        public int Id { get; }
+
         public string Name { get; }
 
         public string ImagePath { get; }
@@ -18,11 +20,12 @@ namespace WPF_Restaurant.Models
 
         public int Quantity { get; set; }
 
-        public Dish(string name, string imagePath, string recipe, params string[] ingredients)
+        public Dish(int id, string name, string imagePath, string recipe, params string[] ingredients)
         {
             Name = name;
             ImagePath = imagePath;
             Recipe = recipe;
+            Id = id;
             Quantity = 1;
             Ingredients = string.Join(", ", ingredients);
         }

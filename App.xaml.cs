@@ -29,8 +29,9 @@ namespace WPF_Restaurant
             _restaurantDbContextFactory = new RestaurantDbContextFactory(CONNECTION_STRING);
             var databaseDishProvider = new DatabaseDishProvider(_restaurantDbContextFactory);
             var databaseOrderCreator = new DatabaseOrderCreator(_restaurantDbContextFactory);
+            var databaseOrdersProvider = new DatabaseOrdersProvider(_restaurantDbContextFactory);
 
-            _restaurant = new Restaurant("Panorama", databaseDishProvider, databaseOrderCreator);
+            _restaurant = new Restaurant("Panorama", databaseDishProvider, databaseOrderCreator, databaseOrdersProvider);
             _navigationStore = new NavigationStore();
         }
 
@@ -52,7 +53,7 @@ namespace WPF_Restaurant
 
         private MainChefViewModel MakeMainChefViewModel()
         {
-            return new MainChefViewModel(_navigationStore, MakeMenuAndBasketViewModel);
+            return MainChefViewModel.LoadViewModel(_navigationStore, MakeMenuAndBasketViewModel, _restaurant);
         }
 
         private MenuAndBasketViewModel MakeMenuAndBasketViewModel()

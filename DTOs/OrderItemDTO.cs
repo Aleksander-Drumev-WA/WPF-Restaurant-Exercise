@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ using WPF_Restaurant.Models;
 
 namespace WPF_Restaurant.DTOs
 {
-    public class OrderItem
+    public class OrderItemDTO
     {
         [Key]
         public int Id { get; set; }
@@ -17,10 +18,10 @@ namespace WPF_Restaurant.DTOs
 
         public int DishId { get; set; }
 
-        public DishDTO Dish { get; set; }
+        public virtual DishDTO Dish { get; set; }
 
         public int OrderId { get; set; }
 
-        public OrderDTO Order { get; set; }
+        public virtual OrderDTO Order { get; set; }
     }
 }

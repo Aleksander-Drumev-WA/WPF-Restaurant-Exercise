@@ -11,7 +11,7 @@ namespace WPF_Restaurant.DTOs
     {
         public OrderDTO()
         {
-            OrderItems = new HashSet<OrderItem>();
+            OrderItems = new HashSet<OrderItemDTO>();
             CreatedOn = DateTime.UtcNow;
         }
 
@@ -20,6 +20,6 @@ namespace WPF_Restaurant.DTOs
 
         public DateTime CreatedOn { get; set; }
 
-        public ICollection<OrderItem> OrderItems { get; set; }
+        public virtual ICollection<OrderItemDTO> OrderItems { get; set; }
     }
 }

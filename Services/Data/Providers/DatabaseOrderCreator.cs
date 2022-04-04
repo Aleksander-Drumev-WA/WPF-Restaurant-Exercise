@@ -23,7 +23,7 @@ namespace WPF_Restaurant.Services.Data.Providers
         {
             using (var dbContext = _dbContextFactory.CreateDbContext())
             {
-                var orderItems = new List<OrderItem>();
+                var orderItems = new List<OrderItemDTO>();
                 var order = new OrderDTO();
                 dbContext.Orders.Add(order);
                 await dbContext.SaveChangesAsync();
@@ -36,7 +36,7 @@ namespace WPF_Restaurant.Services.Data.Providers
                     
                     for (int i = 0; i < chosenDish.Quantity; i++)
                     {
-                        var orderItem = new OrderItem
+                        var orderItem = new OrderItemDTO
                         {
                             DishId = dish.Id,
                             OrderId = order.Id
