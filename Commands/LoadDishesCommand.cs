@@ -26,7 +26,7 @@ namespace WPF_Restaurant.Commands
             try
             {
                 var dishes = await _restaurant.DishProvider.GetAllDishes();
-                await Task.Delay(2000);
+                Task.Delay(2000);
 
                 _dishesInMenu.AddRange(dishes.Select(d => new DishViewModel(d)));
             }

@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vms="clr-namespace:WPF_Restaurant.ViewModels"
+             xmlns:views="clr-namespace:WPF_Restaurant.Views"
              xmlns:local="clr-namespace:WPF_Restaurant.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -93,7 +95,8 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Border Style="{StaticResource defaultBorderStyle}">
-                                                <Button>
+                                                <Button Command="{Binding DataContext.NavigateToRecipeView, ElementName=OrdersList}"
+                                                        CommandParameter="{Binding Id}">
                                                     <StackPanel Orientation="Horizontal"
                                                                 Margin="2">
                                                         <TextBlock Text="v"
@@ -125,7 +128,18 @@
             </Border>
 
             <!--<local:ChefLookingAtOrderView/>-->
-            <local:ChefLookingAtRecipeView/>
+            <Grid>
+                <Grid.Resources>
+                    <DataTemplate DataType="{x:Type vms:ChefLookingAtOrderViewModel}">
+                        <views:ChefLookingAtOrderView/>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type vms:ChefLookingAtRecipeViewModel}">
+                        <views:ChefLookingAtRecipeView/>
+                    </DataTemplate>
+                </Grid.Resources>
+
+                <ContentControl Content="{Binding CurrentViewModel}"/>
+            </Grid>
         </DockPanel>
     </Border>
 </UserControl>

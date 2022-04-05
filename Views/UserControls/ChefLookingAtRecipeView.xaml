@@ -14,15 +14,19 @@
                 Background="#C4C4C4"
                 Margin="0 15 12 10">
             <StackPanel MinHeight="540">
-                <TextBlock Text="Order 0005/Chocolate Cake"
-                           FontSize="22"
-                           Margin="10 10 0 50"/>
+                <StackPanel Orientation="Horizontal"
+                            Margin="10 10 0 50">
+                    <TextBlock Text="Order 000"
+                               FontSize="22"/>
+                    <TextBlock Text="{Binding OrderNumber}"
+                               FontSize="22"/>
+                    <TextBlock Text="/"
+                               FontSize="22"/>
+                    <TextBlock Text="{Binding DishName}"
+                               FontSize="22"/>
+                </StackPanel>
 
-                <TextBlock Text="Prep. Preheat the oven to 350º F. Prepare two 9-inch cake pans by spraying with baking spray or buttering and lightly flouring.
-Whisk dry ingredients. Add flour, sugar, cocoa, baking powder, baking soda, salt and espresso powder to a large bowl or the bowl of a stand mixer. Whisk through to combine or, using your paddle attachment, stir through flour mixture until combined well.
-Mix in wet ingredients. Add milk, vegetable oil, eggs, and vanilla to flour mixture and mix together on medium speed until well combined. Reduce speed and carefully add boiling water to the cake batter until well combined.
-Bake. Distribute cake batter evenly between the two prepared cake pans. Bake for 30-35 minutes, until a toothpick or cake tester inserted in the center of the chocolate cake comes out clean.
-Frost. Remove from the oven and allow to cool for about 10 minutes, remove from the pan and cool completely. Frost with Chocolate Buttercream Frosting."
+                <TextBlock Text="{Binding DishRecipe}"
                         FontSize="14"
                         Margin="20 0 0 0"/>
 

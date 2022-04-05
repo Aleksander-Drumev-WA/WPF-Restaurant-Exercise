@@ -14,6 +14,7 @@ namespace WPF_Restaurant.ViewModels
     public class MainChefViewModel : BaseViewModel
     {
         private readonly ObservableCollection<OrderViewModel> _orders;
+        private BaseViewModel _baseViewModel;
 
         public ObservableCollection<OrderViewModel> Orders => _orders;
 
@@ -21,11 +22,24 @@ namespace WPF_Restaurant.ViewModels
 
         public ICommand LoadOrdersCommand { get; }
 
+        public ICommand NavigateToRecipeView { get; }
+
+        public BaseViewModel CurrentViewModel
+        {
+            get => _baseViewModel;
+            set
+            {
+                _baseViewModel = value;
+                OnPropertyChanged(nameof(CurrentViewModel));
+            }
+        }
+
         public MainChefViewModel(NavigationStore navigationStore, Func<MenuAndBasketViewModel> createMenuAndBasketViewModel, Restaurant restaurant)
         {
             _orders = new ObservableCollection<OrderViewModel>();
             NavigateCommand = new NavigateCommand(navigationStore, createMenuAndBasketViewModel);
             LoadOrdersCommand = new LoadOrdersCommand(_orders, restaurant);
+            NavigateToRecipeView = new ShowRecipeCommand(this);
         }
 
         public static MainChefViewModel LoadViewModel(NavigationStore navigationStore, Func<MenuAndBasketViewModel> mainChefViewModel, Restaurant restaurant)
