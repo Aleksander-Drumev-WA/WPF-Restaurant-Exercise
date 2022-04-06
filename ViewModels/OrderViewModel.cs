@@ -17,6 +17,8 @@ namespace WPF_Restaurant.ViewModels
         public IEnumerable<OrderItemViewModel> OrderItems => _order.Dishes.DistinctBy(d => d.Id)
                                                              .Select(d => new OrderItemViewModel(d, _order.Dishes.Count(x => x.Id == d.Id), OrderNumber));
 
+        //public IEnumerable<OrderItemViewModel> OrderItems => _order.Dishes.GroupBy(d => d).Select(d => new OrderItemViewModel(d.Key, d.Count(), OrderNumber)).DistinctBy(x => x.Id);
+
         public OrderViewModel(Order order)
         {
             _order = order;

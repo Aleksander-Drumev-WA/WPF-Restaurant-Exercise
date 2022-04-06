@@ -6,6 +6,7 @@
              xmlns:vms="clr-namespace:WPF_Restaurant.ViewModels"
              xmlns:views="clr-namespace:WPF_Restaurant.Views"
              xmlns:local="clr-namespace:WPF_Restaurant.Views"
+             xmlns:converters="clr-namespace:WPF_Restaurant.Resources.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Border Style="{StaticResource defaultBorderStyle}"
@@ -95,25 +96,32 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Border Style="{StaticResource defaultBorderStyle}">
-                                                <Button Command="{Binding DataContext.NavigateToRecipeView, ElementName=OrdersList}"
-                                                        CommandParameter="{Binding Id}">
+                                                <Button Command="{Binding DataContext.NavigateToRecipeViewCommand, ElementName=OrdersList}">
+                                                    <Button.CommandParameter>
+                                                        <MultiBinding Converter="{StaticResource MyMultiValueConverter}">
+                                                            <Binding RelativeSource="{RelativeSource Mode=Self}" Path="DataContext.Id"/>
+                                                            <Binding RelativeSource="{RelativeSource Mode=Self}" Path="DataContext.OrderNumber"/>
+                                                        </MultiBinding>
+                                                    </Button.CommandParameter>
                                                     <StackPanel Orientation="Horizontal"
                                                                 Margin="2">
                                                         <TextBlock Text="v"
-                                                               FontSize="12"
-                                                               Margin="8 0"/>
+                                                                   FontSize="12"
+                                                                   x:Name="readyState"
+                                                                   Margin="8 0"
+                                                                   Visibility="{Binding IsCompleted, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
                                                         <TextBlock Text="{Binding Name}"
-                                                               FontSize="12"/>
+                                                                   FontSize="12"/>
 
                                                         <TextBlock Text=" - "
-                                                               FontSize="12"/>
+                                                                   FontSize="12"/>
 
                                                         <TextBlock Text="Quantity: "
-                                                               FontSize="12"/>
+                                                                   FontSize="12"/>
 
                                                         <TextBlock Text="{Binding Quantity}"
-                                                               FontSize="12"/>
+                                                                   FontSize="12"/>
 
                                                     </StackPanel>
                                                 </Button>

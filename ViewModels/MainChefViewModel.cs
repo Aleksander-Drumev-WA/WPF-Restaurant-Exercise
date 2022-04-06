@@ -22,7 +22,7 @@ namespace WPF_Restaurant.ViewModels
 
         public ICommand LoadOrdersCommand { get; }
 
-        public ICommand NavigateToRecipeView { get; }
+        public ICommand NavigateToRecipeViewCommand { get; }
 
         public BaseViewModel CurrentViewModel
         {
@@ -39,7 +39,7 @@ namespace WPF_Restaurant.ViewModels
             _orders = new ObservableCollection<OrderViewModel>();
             NavigateCommand = new NavigateCommand(navigationStore, createMenuAndBasketViewModel);
             LoadOrdersCommand = new LoadOrdersCommand(_orders, restaurant);
-            NavigateToRecipeView = new ShowRecipeCommand(this);
+            NavigateToRecipeViewCommand = new ShowRecipeCommand(this, restaurant);
         }
 
         public static MainChefViewModel LoadViewModel(NavigationStore navigationStore, Func<MenuAndBasketViewModel> mainChefViewModel, Restaurant restaurant)

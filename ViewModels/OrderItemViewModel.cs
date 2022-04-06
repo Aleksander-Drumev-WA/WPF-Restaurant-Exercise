@@ -24,6 +24,16 @@ namespace WPF_Restaurant.ViewModels
 
         public int OrderNumber => _orderNumber;
 
+        public bool IsCompleted 
+        {
+            get => _dish.IsCompleted;
+            set
+            {
+                _dish.IsCompleted = value;
+                OnPropertyChanged(nameof(IsCompleted));
+            }
+        }
+
         public OrderItemViewModel(Dish dish, int quantity)
         {
             _dish = dish;
