@@ -12,10 +12,10 @@ namespace WPF_Restaurant.Commands
 {
     public class LoadDishesCommand : AsyncBaseCommand
     {
-        private readonly List<DishViewModel> _dishesInMenu;
+        private readonly ObservableCollection<DishViewModel> _dishesInMenu;
         private Restaurant _restaurant;
 
-        public LoadDishesCommand(List<DishViewModel> dishesInMenu, Restaurant restaurant)
+        public LoadDishesCommand(ObservableCollection<DishViewModel> dishesInMenu, Restaurant restaurant)
         {
             _dishesInMenu = dishesInMenu;
             _restaurant = restaurant;
@@ -28,7 +28,9 @@ namespace WPF_Restaurant.Commands
                 var dishes = await _restaurant.DishProvider.GetAllDishes();
                 await Task.Delay(2000);
 
-                _dishesInMenu.AddRange(dishes.Select(d => new DishViewModel(d)));
+                foreach(var dish in dishes.Select(d => new DishViewModel(d))) {
+                    _dishesInMenu.Add(dish);
+                }
             }
             catch (Exception e)
             {

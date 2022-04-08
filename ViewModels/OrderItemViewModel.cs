@@ -10,17 +10,33 @@ namespace WPF_Restaurant.ViewModels
 {
     public class OrderItemViewModel : BaseViewModel
     {
-        private readonly string _name;
+        private readonly Dish _dish;
+        private readonly IEnumerable<bool> _isCompletedCollection;
         private readonly int _quantity;
+        private readonly int _orderNumber;
 
-        public string Name => _name;
+        public int Id => _dish.Id;
+
+        public string Recipe => _dish.Recipe;
+
+        public string Name => _dish.Name;
 
         public int Quantity => _quantity;
 
-        public OrderItemViewModel(string name, int quantity)
+        public int OrderNumber => _orderNumber;
+
+        public IEnumerable<bool> IsCompletedCollection => _isCompletedCollection;
+
+        public OrderItemViewModel(Dish dish, int quantity)
         {
-            _name = name;
+            _dish = dish;
             _quantity = quantity;
+        }
+
+        public OrderItemViewModel(Dish dish, int quantity, int orderNumber, IEnumerable<bool> isCompletedCollection) : this(dish, quantity)
+        {
+            _orderNumber = orderNumber;
+            _isCompletedCollection = isCompletedCollection;
         }
     }
 }

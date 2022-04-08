@@ -20,6 +20,8 @@ namespace WPF_Restaurant.Models
 
         public int Quantity { get; set; }
 
+        public bool IsCompleted { get; set; }
+
         public Dish(int id, string name, string imagePath, string recipe, params string[] ingredients)
         {
             Name = name;
@@ -28,6 +30,12 @@ namespace WPF_Restaurant.Models
             Id = id;
             Quantity = 1;
             Ingredients = string.Join(", ", ingredients);
+        }
+
+        public Dish(int id, string name, string imagePath, string recipe, bool isCompleted, params string[] ingredients) 
+            : this(id, name, imagePath, recipe, ingredients)
+        {
+            IsCompleted = isCompleted;
         }
     }
 }

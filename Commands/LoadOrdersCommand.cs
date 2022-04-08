@@ -25,6 +25,7 @@ namespace WPF_Restaurant.Commands
         {
             try
             {
+                _orders.Clear();
                 var orders = await _restaurant.OrdersProvider.GetAllOrders();
                 await Task.Delay(2000);
 

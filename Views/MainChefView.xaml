@@ -3,7 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vms="clr-namespace:WPF_Restaurant.ViewModels"
+             xmlns:views="clr-namespace:WPF_Restaurant.Views"
              xmlns:local="clr-namespace:WPF_Restaurant.Views"
+             xmlns:converters="clr-namespace:WPF_Restaurant.Resources.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Border Style="{StaticResource defaultBorderStyle}"
@@ -93,24 +96,32 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Border Style="{StaticResource defaultBorderStyle}">
-                                                <Button>
+                                                <Button Command="{Binding DataContext.NavigateToRecipeViewCommand, ElementName=OrdersList}"
+                                                        CommandParameter="{Binding}">
                                                     <StackPanel Orientation="Horizontal"
                                                                 Margin="2">
                                                         <TextBlock Text="v"
-                                                               FontSize="12"
-                                                               Margin="8 0"/>
+                                                                   FontSize="12"
+                                                                   x:Name="readyState"
+                                                                   Margin="8 0">
+                                                            <TextBlock.Visibility>
+                                                                <MultiBinding Converter="{StaticResource BooleanToVisibilityConverter}">
+                                                                    <Binding RelativeSource="{RelativeSource Mode=Self}" Path="DataContext.IsCompletedCollection"/>
+                                                                </MultiBinding>
+                                                            </TextBlock.Visibility>
+                                                        </TextBlock>
 
                                                         <TextBlock Text="{Binding Name}"
-                                                               FontSize="12"/>
+                                                                   FontSize="12"/>
 
                                                         <TextBlock Text=" - "
-                                                               FontSize="12"/>
+                                                                   FontSize="12"/>
 
                                                         <TextBlock Text="Quantity: "
-                                                               FontSize="12"/>
+                                                                   FontSize="12"/>
 
                                                         <TextBlock Text="{Binding Quantity}"
-                                                               FontSize="12"/>
+                                                                   FontSize="12"/>
 
                                                     </StackPanel>
                                                 </Button>
@@ -125,7 +136,18 @@
             </Border>
 
             <!--<local:ChefLookingAtOrderView/>-->
-            <local:ChefLookingAtRecipeView/>
+            <Grid>
+                <Grid.Resources>
+                    <DataTemplate DataType="{x:Type vms:ChefLookingAtOrderViewModel}">
+                        <views:ChefLookingAtOrderView/>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type vms:ChefLookingAtRecipeViewModel}">
+                        <views:ChefLookingAtRecipeView/>
+                    </DataTemplate>
+                </Grid.Resources>
+
+                <ContentControl Content="{Binding CurrentViewModel}"/>
+            </Grid>
         </DockPanel>
     </Border>
 </UserControl>

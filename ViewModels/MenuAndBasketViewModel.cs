@@ -14,11 +14,11 @@ namespace WPF_Restaurant.ViewModels
 {
     public class MenuAndBasketViewModel : BaseViewModel
     {
-        private readonly List<DishViewModel> _dishesInMenu;
+        private readonly ObservableCollection<DishViewModel> _dishesInMenu;
 
         private readonly ObservableCollection<DishViewModel> _chosenDishes;
 
-        public List<DishViewModel> DishesInMenu => _dishesInMenu;
+        public ObservableCollection<DishViewModel> DishesInMenu => _dishesInMenu;
 
         public ObservableCollection<DishViewModel> ChosenDishes => _chosenDishes;
 
@@ -39,7 +39,7 @@ namespace WPF_Restaurant.ViewModels
 
         public MenuAndBasketViewModel(Restaurant restaurant, NavigationStore navigationStore, Func<MainChefViewModel> mainChefViewModel)
         {
-            _dishesInMenu = new List<DishViewModel>();
+            _dishesInMenu = new ObservableCollection<DishViewModel>();
             _chosenDishes = new ObservableCollection<DishViewModel>();
             ChooseDishCommand = new ChooseDishCommand(_chosenDishes);
             IncreaseQuantityCommand = new IncreaseQuantityCommand(_chosenDishes);
