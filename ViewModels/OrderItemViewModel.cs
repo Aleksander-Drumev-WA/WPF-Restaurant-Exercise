@@ -11,6 +11,7 @@ namespace WPF_Restaurant.ViewModels
     public class OrderItemViewModel : BaseViewModel
     {
         private readonly Dish _dish;
+        private readonly IEnumerable<bool> _isCompletedCollection;
         private readonly int _quantity;
         private readonly int _orderNumber;
 
@@ -24,15 +25,7 @@ namespace WPF_Restaurant.ViewModels
 
         public int OrderNumber => _orderNumber;
 
-        public bool IsCompleted 
-        {
-            get => _dish.IsCompleted;
-            set
-            {
-                _dish.IsCompleted = value;
-                OnPropertyChanged(nameof(IsCompleted));
-            }
-        }
+        public IEnumerable<bool> IsCompletedCollection => _isCompletedCollection;
 
         public OrderItemViewModel(Dish dish, int quantity)
         {
@@ -40,9 +33,10 @@ namespace WPF_Restaurant.ViewModels
             _quantity = quantity;
         }
 
-        public OrderItemViewModel(Dish dish, int quantity, int orderNumber) : this(dish, quantity)
+        public OrderItemViewModel(Dish dish, int quantity, int orderNumber, IEnumerable<bool> isCompletedCollection) : this(dish, quantity)
         {
             _orderNumber = orderNumber;
+            _isCompletedCollection = isCompletedCollection;
         }
     }
 }

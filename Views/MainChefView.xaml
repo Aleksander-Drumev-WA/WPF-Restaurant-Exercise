@@ -96,20 +96,20 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Border Style="{StaticResource defaultBorderStyle}">
-                                                <Button Command="{Binding DataContext.NavigateToRecipeViewCommand, ElementName=OrdersList}">
-                                                    <Button.CommandParameter>
-                                                        <MultiBinding Converter="{StaticResource MyMultiValueConverter}">
-                                                            <Binding RelativeSource="{RelativeSource Mode=Self}" Path="DataContext.Id"/>
-                                                            <Binding RelativeSource="{RelativeSource Mode=Self}" Path="DataContext.OrderNumber"/>
-                                                        </MultiBinding>
-                                                    </Button.CommandParameter>
+                                                <Button Command="{Binding DataContext.NavigateToRecipeViewCommand, ElementName=OrdersList}"
+                                                        CommandParameter="{Binding}">
                                                     <StackPanel Orientation="Horizontal"
                                                                 Margin="2">
                                                         <TextBlock Text="v"
                                                                    FontSize="12"
                                                                    x:Name="readyState"
-                                                                   Margin="8 0"
-                                                                   Visibility="{Binding IsCompleted, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                                                   Margin="8 0">
+                                                            <TextBlock.Visibility>
+                                                                <MultiBinding Converter="{StaticResource BooleanToVisibilityConverter}">
+                                                                    <Binding RelativeSource="{RelativeSource Mode=Self}" Path="DataContext.IsCompletedCollection"/>
+                                                                </MultiBinding>
+                                                            </TextBlock.Visibility>
+                                                        </TextBlock>
 
                                                         <TextBlock Text="{Binding Name}"
                                                                    FontSize="12"/>

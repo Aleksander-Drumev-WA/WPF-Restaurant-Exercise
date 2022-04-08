@@ -27,17 +27,20 @@ namespace WPF_Restaurant.Commands
         {
             try
             {
-                var values = (object[])parameter;
-
-                var dishId = (int)values[0];
-                var orderId = (int)values[1];
-
-                var chosenDish = _mainChefViewModel.Orders.SelectMany(x => x.OrderItems.Where(oi => oi.Id == dishId && oi.OrderNumber == orderId)).FirstOrDefault();
-                if (chosenDish != null)
+                if (parameter is OrderItemViewModel)
                 {
-                    var viewModel = new ChefLookingAtRecipeViewModel(chosenDish.OrderNumber, dishId, chosenDish.Name, chosenDish.Recipe, _restaurant, _mainChefViewModel.Orders);
+                    var incomingViewModel = (OrderItemViewModel)parameter;
 
-                    _mainChefViewModel.CurrentViewModel = viewModel;
+                    var chosenDish = _mainChefViewModel.Orders
+                        .SingleOrDefault(o => o.OrderNumber == incomingViewModel.OrderNumber)?.OrderItems
+                        .FirstOrDefault(oi => oi.Id == incomingViewModel.Id);
+
+                    if (chosenDish != null)
+                    {
+                        var viewModel = new ChefLookingAtRecipeViewModel(chosenDish, incomingViewModel.Id, _restaurant, _mainChefViewModel.Orders);
+
+                        _mainChefViewModel.CurrentViewModel = viewModel;
+                    }
                 }
             }
             catch (ArgumentNullException ane)

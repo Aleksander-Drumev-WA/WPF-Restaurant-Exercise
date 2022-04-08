@@ -39,13 +39,14 @@ namespace WPF_Restaurant.Services.Data.Providers
         {
             using (var dbContext = _dbContextFactory.CreateDbContext())
             {
-                var dishesToChangeCompletedState = await dbContext.OrderItems.Where(oi => oi.DishId == dishId && oi.OrderId == orderNumber).ToListAsync();
+                var dishToChangeCompletedState = await dbContext.OrderItems.FirstOrDefaultAsync(oi => oi.DishId == dishId && oi.OrderId == orderNumber && oi.IsCompleted == false);
+                if (dishToChangeCompletedState != null)
+                {
+                    dishToChangeCompletedState.IsCompleted = true;
 
-
-                dishesToChangeCompletedState.ForEach(oi => oi.IsCompleted = true);
-
-                dbContext.OrderItems.UpdateRange(dishesToChangeCompletedState);
-                await dbContext.SaveChangesAsync();
+                    dbContext.OrderItems.Update(dishToChangeCompletedState);
+                    await dbContext.SaveChangesAsync();
+                }
             }
         }
     }

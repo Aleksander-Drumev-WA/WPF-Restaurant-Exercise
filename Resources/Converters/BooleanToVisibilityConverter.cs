@@ -9,13 +9,14 @@ using System.Windows.Data;
 
 namespace WPF_Restaurant.Resources.Converters
 {
-    public class BooleanToVisibilityConverter : IValueConverter
+    public class BooleanToVisibilityConverter : IMultiValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if ((bool)value)
-            {
+            var isCompletedCollection = (IEnumerable<bool>)values[0];
 
+            if (!isCompletedCollection.Any())
+            {
                 return Visibility.Visible;
             }
             else
@@ -24,9 +25,9 @@ namespace WPF_Restaurant.Resources.Converters
             }
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
-            return Binding.DoNothing;
+            return null;
         }
     }
 }

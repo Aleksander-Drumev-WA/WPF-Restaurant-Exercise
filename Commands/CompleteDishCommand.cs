@@ -11,12 +11,12 @@ using WPF_Restaurant.ViewModels;
 
 namespace WPF_Restaurant.Commands
 {
-    public class CompleteDishesCommand : AsyncBaseCommand
+    public class CompleteDishCommand : AsyncBaseCommand
     {
         private Restaurant _restaurant;
         private ICommand _loadOrdersCommand;
 
-        public CompleteDishesCommand(Restaurant restaurant, ICommand loadOrdersCommand)
+        public CompleteDishCommand(Restaurant restaurant, ICommand loadOrdersCommand)
         {
             _restaurant = restaurant;
             _loadOrdersCommand = loadOrdersCommand;
@@ -26,12 +26,13 @@ namespace WPF_Restaurant.Commands
         {
             try
             {
-                var values = (object[])parameter;
-                var dishId = (int)values[0];
-                var orderNumber = (int)values[1];
-
-                await _restaurant.OrdersProvider.CompleteDish(dishId, orderNumber);
-                _loadOrdersCommand.Execute(null);
+                if (parameter is ChefLookingAtRecipeViewModel)
+                {
+                    var viewModel = (ChefLookingAtRecipeViewModel)parameter;
+                    await _restaurant.OrdersProvider.CompleteDish(viewModel.DishId, viewModel.OrderNumber);
+                    _loadOrdersCommand.Execute(null);
+                    MessageBox.Show("Dish completed successfully!", "Success!", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
             }
             catch (ArgumentNullException ane)
             {

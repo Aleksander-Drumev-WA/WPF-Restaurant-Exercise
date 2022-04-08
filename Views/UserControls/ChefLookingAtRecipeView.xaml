@@ -40,13 +40,8 @@
                 Margin="0 0 15 10"
                 Padding="35 8"
                 FontSize="14"
-                Command="{Binding CompleteDishesCommand}">
-            <Button.CommandParameter>
-                <MultiBinding Converter="{StaticResource MyMultiValueConverter}">
-                    <Binding RelativeSource="{RelativeSource Mode=Self}" Path="DataContext.DishId"/>
-                    <Binding RelativeSource="{RelativeSource Mode=Self}" Path="DataContext.OrderNumber"/>
-                </MultiBinding>
-            </Button.CommandParameter>
+                Command="{Binding CompleteDishCommand}"
+                CommandParameter="{Binding}">
         </Button>
     </StackPanel>
 </UserControl>
