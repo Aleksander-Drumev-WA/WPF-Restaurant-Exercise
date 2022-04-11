@@ -76,7 +76,9 @@
                                 <Button Padding="5 10 0 0"
                                         Style="{StaticResource defaultBtnStyle}"
                                         FontSize="12"
-                                        HorizontalAlignment="Left">
+                                        HorizontalAlignment="Left"
+                                        Command="{Binding DataContext.ShowDishesInOrderCommand, ElementName=OrdersList}"
+                                        CommandParameter="{Binding OrderNumber}">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Order Number: "
                                                    FontSize="14"/>
