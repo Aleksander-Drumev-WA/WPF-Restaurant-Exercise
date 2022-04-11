@@ -6,36 +6,6 @@
              xmlns:local="clr-namespace:WPF_Restaurant.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-
-
-        <StackPanel x:Key="RenderBlock">
-
-            <Border Style="{StaticResource defaultBorderStyle}"
-                    Margin="0 0 32 0">
-                <StackPanel Background="#C4C4C4">
-                    <TextBlock Text="{Binding Name}"
-                               FontSize="24"
-                               Margin="10 10 0 30"/>
-
-                    <TextBlock Text="{Binding Recipe}"
-                               FontSize="14"
-                               Margin="15 0 15 15"/>
-                </StackPanel>
-            </Border>
-
-            <Button Style="{StaticResource defaultBtnStyle}"
-                    Content="Done"
-                    MaxWidth="170"
-                    HorizontalAlignment="Right"
-                    Margin="0 15 35 10"
-                    Padding="50 8"/>
-        </StackPanel>
-    </UserControl.Resources>
-    <!--<UserControl.DataContext>
-        <DynamicResource ResourceKey="RenderBlock"/>
-    </UserControl.DataContext>-->
-    
     <StackPanel>
         <StackPanel Orientation="Horizontal"
                     Margin="20 20 0 40">
@@ -45,22 +15,46 @@
                        FontSize="24"/>
         </StackPanel>
 
-        <ScrollViewer>
-            <ItemsControl x:Name="OrderItems" ItemsSource="{Binding OrderItems}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <ContentControl>
-                            <ContentControl.Content>
-                                <MultiBinding Converter="{StaticResource MyMultiValueConverter}">
-                                    <Binding RelativeSource="{RelativeSource Mode=Self}" Path="DataContext.RenderCount"/>
-                                    <Binding Source="{StaticResource RenderBlock}"/>
-                                </MultiBinding>
-                            </ContentControl.Content>
-                        </ContentControl>
+        <ItemsControl x:Name="OrderItems" ItemsSource="{Binding RenderItems}">
+            <ItemsControl.Template>
+                <ControlTemplate TargetType="ItemsControl">
 
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
+                    <ScrollViewer MaxHeight="550">
+                        <ItemsPresenter />
+                    </ScrollViewer>
+                </ControlTemplate>
+            </ItemsControl.Template>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+
+                        <Border Style="{StaticResource defaultBorderStyle}"
+                                    Margin="0 0 32 0">
+                            <StackPanel Background="#C4C4C4">
+                                <TextBlock Text="{Binding Name}"
+                                               FontSize="24"
+                                               Margin="10 10 0 30"/>
+
+                                <TextBlock Text="{Binding Recipe}"
+                                               FontSize="14"
+                                               Margin="15 0 15 15"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Button Style="{StaticResource defaultBtnStyle}"
+                                Content="Done"
+                                MaxWidth="170"
+                                HorizontalAlignment="Right"
+                                Margin="0 15 35 10"
+                                Padding="50 8"
+                                IsEnabled="{Binding IsCompleted}"
+                                Command="{Binding DataContext.CompleteDishCommand, ElementName=OrderItems}"
+                                CommandParameter="{Binding}"/>
+                    </StackPanel>
+
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </StackPanel>
 </UserControl>

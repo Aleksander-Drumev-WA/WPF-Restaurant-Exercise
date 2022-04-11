@@ -1,24 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using WPF_Restaurant.Commands;
+using WPF_Restaurant.Models;
 
 namespace WPF_Restaurant.ViewModels
 {
     public class ChefLookingAtOrderViewModel : BaseViewModel
     {
         private int _orderNumber;
-        private IEnumerable<OrderItemViewModel> _orderItems;
 
         public int OrderNumber => _orderNumber;
 
-        public IEnumerable<OrderItemViewModel> OrderItems => _orderItems;
+        public ObservableCollection<ChefLookingAtOrderItemViewModel> RenderItems { get; }
 
-        public ChefLookingAtOrderViewModel(int orderNumber, IEnumerable<OrderItemViewModel> orderItems)
+        public ICommand LoadOrdersCommand { get; }
+
+        public ICommand CompleteDishCommand { get; }
+
+        public ChefLookingAtOrderViewModel(int orderNumber, IEnumerable<OrderItemViewModel> orderItems, Restaurant restaurant, MainChefViewModel mainChefViewModel)
         {
             _orderNumber = orderNumber;
-            _orderItems = orderItems;
+            RenderItems = new ObservableCollection<ChefLookingAtOrderItemViewModel>(
+                orderItems.SelectMany(oi =>
+                {
+                return Enumerable.Repeat(oi, oi.Quantity)
+                .Select((x, index) => new ChefLookingAtOrderItemViewModel(x.Name, x.Recipe, (x.RenderCount) > index, x.OrderNumber, x.Id));
+                })
+            );
+
+            LoadOrdersCommand = new LoadOrdersCommand(mainChefViewModel.Orders, restaurant);
+            CompleteDishCommand = new CompleteDishCommand(restaurant, LoadOrdersCommand);
         }
     }
 }
