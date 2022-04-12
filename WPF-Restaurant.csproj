@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Tests\**" />
+    <EmbeddedResource Remove="Tests\**" />
+    <None Remove="Tests\**" />
+    <Page Remove="Tests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Resources\Images\beef.jpg" />
     <None Remove="Resources\Images\beer.jpg" />
     <None Remove="Resources\Images\burger.jpg" />
