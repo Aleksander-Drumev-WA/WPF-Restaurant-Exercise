@@ -73,8 +73,25 @@ namespace Tests
 		{
 			public bool Equals(OrderItem1? x, OrderItem1? y)
 			{
-				// TODO: Implement
-				return false;
+				if (x == null && y == null)
+                {
+					return true;
+                }
+				else if (x == null || y == null)
+                {
+					return false;
+                }
+				else if (x.DishId == y.DishId &&
+						 x.DishName == y.DishName &&
+						 x.DishRecipe == y.DishRecipe &&
+						 x.DishIngredients == y.DishIngredients)
+                {
+					return true;
+                }
+				else
+                {
+					return false;
+                }
 			}
 
 			public int GetHashCode([DisallowNull] OrderItem1 obj)

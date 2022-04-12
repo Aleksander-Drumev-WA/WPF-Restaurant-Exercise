@@ -68,14 +68,20 @@ namespace Tests
 
 		public override bool Equals(object? obj)
 		{
-			// TODO: Implement
-			return false;
+			if (obj == null || !this.GetType().Equals(obj.GetType()))
+            {
+				return false;
+            }
+			else
+            {
+				Dish dish = (Dish)obj;
+				return (dish.Id == Id) && (dish.Name == Name);
+            }
 		}
 
 		public override int GetHashCode()
 		{
-			// TODO: Implement
-			return 0;
+			return HashCode.Combine(Id, Name);
 		}
 	}
 
