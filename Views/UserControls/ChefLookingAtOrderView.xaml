@@ -7,54 +7,54 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel>
-        <TextBlock Text="Order N 0005"
-                           FontSize="24"
-                           Margin="20 30 0 30"/>
+        <StackPanel Orientation="Horizontal"
+                    Margin="20 20 0 40">
+            <TextBlock Text="Order N 000"
+                       FontSize="24"/>
+            <TextBlock Text="{Binding OrderNumber}"
+                       FontSize="24"/>
+        </StackPanel>
 
-        <Border Style="{StaticResource defaultBorderStyle}"
-                        Margin="0 0 32 0">
-            <StackPanel Background="#C4C4C4">
-                <TextBlock Text="Pizza"
-                                       FontSize="24"
-                                       Margin="10 10 0 30"/>
+        <ItemsControl x:Name="OrderItems" ItemsSource="{Binding RenderItems}">
+            <ItemsControl.Template>
+                <ControlTemplate TargetType="ItemsControl">
 
-                <TextBlock Text="Use a homemade dough with lots of flavor. I will bore your brains out about how to achieve this in my Pizza Dough post.
-Use a decent Pizza Sauce (here's my recipe)
-Preheat your oven at least 30 minutes. Yes, really, set a timer. I don't care when your oven beeps to let you know it's reached the right temperature. Wait 30 minutes.
-Par bake your pizza crust to make sure your pizza has a crisp bottom and a cooked center"
-                                       FontSize="14"
-                                       Margin="15 0 15 15"/>
-            </StackPanel>
-        </Border>
+                    <ScrollViewer MaxHeight="550">
+                        <ItemsPresenter />
+                    </ScrollViewer>
+                </ControlTemplate>
+            </ItemsControl.Template>
 
-        <Button Style="{StaticResource defaultBtnStyle}"
-                Content="Done"
-                MaxWidth="170"
-                HorizontalAlignment="Right"
-                Margin="0 15 35 10"
-                Padding="50 8"/>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
 
-        <Border Style="{StaticResource defaultBorderStyle}"
-                Margin="0 0 32 0">
-            <StackPanel Background="#C4C4C4">
-                <TextBlock Text="Chocolate Cake"
-                           FontSize="24"
-                           Margin="10 10 0 30"/>
+                        <Border Style="{StaticResource defaultBorderStyle}"
+                                    Margin="0 0 32 0">
+                            <StackPanel Background="#C4C4C4">
+                                <TextBlock Text="{Binding Name}"
+                                               FontSize="24"
+                                               Margin="10 10 0 30"/>
 
-                <TextBlock Text="Use a homemade dough with lots of flavor. I will bore your brains out about how to achieve this in my Pizza Dough post.
-Use a decent Pizza Sauce (here's my recipe)
-Preheat your oven at least 30 minutes. Yes, really, set a timer. I don't care when your oven beeps to let you know it's reached the right temperature. Wait 30 minutes.
-Par bake your pizza crust to make sure your pizza has a crisp bottom and a cooked center"
-                           FontSize="14"
-                           Margin="15 0 15 15"/>
-            </StackPanel>
-        </Border>
+                                <TextBlock Text="{Binding Recipe}"
+                                               FontSize="14"
+                                               Margin="15 0 15 15"/>
+                            </StackPanel>
+                        </Border>
 
-        <Button Style="{StaticResource defaultBtnStyle}"
-                Content="Done"
-                MaxWidth="170"
-                HorizontalAlignment="Right"
-                Margin="0 15 35 0"
-                Padding="50 8"/>
+                        <Button Style="{StaticResource defaultBtnStyle}"
+                                Content="Done"
+                                MaxWidth="170"
+                                HorizontalAlignment="Right"
+                                Margin="0 15 35 10"
+                                Padding="50 8"
+                                IsEnabled="{Binding IsCompleted}"
+                                Command="{Binding DataContext.CompleteDishCommand, ElementName=OrderItems}"
+                                CommandParameter="{Binding}"/>
+                    </StackPanel>
+
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </StackPanel>
 </UserControl>

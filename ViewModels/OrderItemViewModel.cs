@@ -27,6 +27,8 @@ namespace WPF_Restaurant.ViewModels
 
         public IEnumerable<bool> IsCompletedCollection => _isCompletedCollection;
 
+        public int RenderCount => _isCompletedCollection.Count();
+
         public OrderItemViewModel(Dish dish, int quantity)
         {
             _dish = dish;

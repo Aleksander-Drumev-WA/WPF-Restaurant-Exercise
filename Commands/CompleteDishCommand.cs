@@ -26,12 +26,14 @@ namespace WPF_Restaurant.Commands
         {
             try
             {
-                if (parameter is ChefLookingAtRecipeViewModel)
+                if (parameter is ChefLookingAtRecipeViewModel chefLookingAtRecipeViewModel)
                 {
-                    var viewModel = (ChefLookingAtRecipeViewModel)parameter;
-                    await _restaurant.OrdersProvider.CompleteDish(viewModel.DishId, viewModel.OrderNumber);
-                    _loadOrdersCommand.Execute(null);
-                    MessageBox.Show("Dish completed successfully!", "Success!", MessageBoxButton.OK, MessageBoxImage.Information);
+                    await CompleteSingleDish(chefLookingAtRecipeViewModel.DishId, chefLookingAtRecipeViewModel.OrderNumber);
+                }
+                else if (parameter is ChefLookingAtOrderItemViewModel chefLookingAtOrderItemViewModel)
+                {
+                    await CompleteSingleDish(chefLookingAtOrderItemViewModel.DishId, chefLookingAtOrderItemViewModel.OrderNumber);
+                    chefLookingAtOrderItemViewModel.IsCompleted = false;
                 }
             }
             catch (ArgumentNullException ane)
@@ -42,6 +44,13 @@ namespace WPF_Restaurant.Commands
             {
                 MessageBox.Show(e.Message, "Unexpected error occured.", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private async Task CompleteSingleDish(int dishId, int orderNumber)
+        {
+            await _restaurant.OrdersProvider.CompleteDish(dishId, orderNumber);
+            _loadOrdersCommand.Execute(null);
+            MessageBox.Show("Dish completed successfully!", "Success!", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }
