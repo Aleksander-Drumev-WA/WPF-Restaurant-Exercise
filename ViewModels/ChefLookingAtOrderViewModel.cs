@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using WPF_Restaurant.Commands;
 using WPF_Restaurant.Models;
+using WPF_Restaurant.Stores;
 
 namespace WPF_Restaurant.ViewModels
 {
@@ -22,7 +23,11 @@ namespace WPF_Restaurant.ViewModels
 
         public ICommand CompleteDishCommand { get; }
 
-        public ChefLookingAtOrderViewModel(int orderNumber, IEnumerable<OrderItemViewModel> orderItems, Restaurant restaurant, MainChefViewModel mainChefViewModel)
+        public ChefLookingAtOrderViewModel(int orderNumber,
+               IEnumerable<OrderItemViewModel> orderItems,
+               Restaurant restaurant,
+               MainChefViewModel mainChefViewModel,
+               MessageStore messageStore)
         {
             _orderNumber = orderNumber;
             RenderItems = new ObservableCollection<ChefLookingAtOrderItemViewModel>(
@@ -33,8 +38,8 @@ namespace WPF_Restaurant.ViewModels
                 })
             );
 
-            LoadOrdersCommand = new LoadOrdersCommand(mainChefViewModel.Orders, restaurant);
-            CompleteDishCommand = new CompleteDishCommand(restaurant, LoadOrdersCommand);
+            LoadOrdersCommand = new LoadOrdersCommand(mainChefViewModel.Orders, restaurant, messageStore);
+            CompleteDishCommand = new CompleteDishCommand(restaurant, LoadOrdersCommand, messageStore);
         }
     }
 }

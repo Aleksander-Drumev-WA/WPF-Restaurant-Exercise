@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using WPF_Restaurant.Models;
+using WPF_Restaurant.Stores;
 using WPF_Restaurant.ViewModels;
+using static WPF_Restaurant.Stores.MessageStore;
 
 namespace WPF_Restaurant.Commands
 {
@@ -13,11 +15,13 @@ namespace WPF_Restaurant.Commands
     {
         private MainChefViewModel _mainChefViewModel;
         private readonly Restaurant _restaurant;
+        private readonly MessageStore _messageStore;
 
-        public ShowDishesInOrderCommand(MainChefViewModel mainChefViewModel, Restaurant restaurant)
+        public ShowDishesInOrderCommand(MainChefViewModel mainChefViewModel, Restaurant restaurant, MessageStore messageStore)
         {
             _mainChefViewModel = mainChefViewModel;
             _restaurant = restaurant;
+            _messageStore = messageStore;
         }
 
         public override void Execute(object? parameter)
@@ -29,7 +33,12 @@ namespace WPF_Restaurant.Commands
                     var orderWithDishes = _mainChefViewModel.Orders.FirstOrDefault(o => o.OrderNumber == incomingOrderNumber);
                     if (orderWithDishes != null)
                     {
-                        var viewModel = new ChefLookingAtOrderViewModel(orderWithDishes.OrderNumber, orderWithDishes.OrderItems, _restaurant, _mainChefViewModel);
+                        var viewModel = new ChefLookingAtOrderViewModel(
+                            orderWithDishes.OrderNumber,
+                            orderWithDishes.OrderItems,
+                            _restaurant,
+                            _mainChefViewModel,
+                            _messageStore);
 
                         _mainChefViewModel.CurrentViewModel = viewModel;
                     }
@@ -37,11 +46,11 @@ namespace WPF_Restaurant.Commands
             }
             catch (ArgumentNullException ane)
             {
-                MessageBox.Show(ane.Message, "No item has been selected.", MessageBoxButton.OK, MessageBoxImage.Error);
+                _messageStore.SetMessage(ane.Message, MessageType.Error);
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, "Unexpected error occured.", MessageBoxButton.OK, MessageBoxImage.Error);
+                _messageStore.SetMessage(e.Message, MessageType.Error);
             }
         }
     }

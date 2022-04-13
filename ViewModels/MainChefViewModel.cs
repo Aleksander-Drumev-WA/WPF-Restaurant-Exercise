@@ -36,18 +36,31 @@ namespace WPF_Restaurant.ViewModels
             }
         }
 
-        public MainChefViewModel(NavigationStore navigationStore, Func<MenuAndBasketViewModel> createMenuAndBasketViewModel, Restaurant restaurant)
+        public MessageViewModel MessageViewModel { get; }
+
+        public MainChefViewModel(
+            NavigationStore navigationStore,
+            Func<MenuAndBasketViewModel> createMenuAndBasketViewModel,
+            Restaurant restaurant,
+            MessageStore messageStore,
+            MessageViewModel messageViewModel)
         {
             _orders = new ObservableCollection<OrderViewModel>();
             NavigateCommand = new NavigateCommand(navigationStore, createMenuAndBasketViewModel);
-            LoadOrdersCommand = new LoadOrdersCommand(_orders, restaurant);
-            NavigateToRecipeViewCommand = new ShowRecipeCommand(this, restaurant);
-            ShowDishesInOrderCommand = new ShowDishesInOrderCommand(this, restaurant);
+            LoadOrdersCommand = new LoadOrdersCommand(_orders, restaurant, messageStore);
+            NavigateToRecipeViewCommand = new ShowRecipeCommand(this, restaurant, messageStore);
+            ShowDishesInOrderCommand = new ShowDishesInOrderCommand(this, restaurant, messageStore);
+            MessageViewModel = messageViewModel;
         }
 
-        public static MainChefViewModel LoadViewModel(NavigationStore navigationStore, Func<MenuAndBasketViewModel> mainChefViewModel, Restaurant restaurant)
+        public static MainChefViewModel LoadViewModel(
+            NavigationStore navigationStore,
+            Func<MenuAndBasketViewModel> mainChefViewModel,
+            Restaurant restaurant,
+            MessageStore messageStore,
+            MessageViewModel messageViewModel)
         {
-            var viewModel = new MainChefViewModel(navigationStore, mainChefViewModel, restaurant);
+            var viewModel = new MainChefViewModel(navigationStore, mainChefViewModel, restaurant, messageStore, messageViewModel);
             viewModel.LoadOrdersCommand.Execute(null);
             return viewModel;
         }

@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using WPF_Restaurant.DTOs;
 using WPF_Restaurant.Models;
+using WPF_Restaurant.Stores;
 using WPF_Restaurant.ViewModels;
+using static WPF_Restaurant.Stores.MessageStore;
 
 namespace WPF_Restaurant.Commands
 {
@@ -15,11 +17,13 @@ namespace WPF_Restaurant.Commands
     {
         private ObservableCollection<DishViewModel> _chosenDishes;
         private readonly Restaurant _restaurant;
+        private readonly MessageStore _messageStore;
 
-        public CreateOrderCommand(ObservableCollection<DishViewModel> chosenDishes, Restaurant restaurant)
+        public CreateOrderCommand(ObservableCollection<DishViewModel> chosenDishes, Restaurant restaurant, MessageStore messageStore)
         {
             _chosenDishes = chosenDishes;
             _restaurant = restaurant;
+            _messageStore = messageStore;
         }
 
         public override async Task ExecuteAsync(object? parameter)
@@ -30,11 +34,11 @@ namespace WPF_Restaurant.Commands
 
                 await _restaurant.OrderCreator.CreateOrder(dishes);
 
-                MessageBox.Show("Successfully created an order.", "Success!", MessageBoxButton.OK);
+                _messageStore.SetMessage("Successfully created an order.", MessageType.Information);
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, "Failed to create a order.", MessageBoxButton.OK, MessageBoxImage.Error);
+                _messageStore.SetMessage(e.Message, MessageType.Error);
             }
         }
 

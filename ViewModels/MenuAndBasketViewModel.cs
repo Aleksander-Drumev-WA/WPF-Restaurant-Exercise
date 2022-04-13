@@ -22,6 +22,8 @@ namespace WPF_Restaurant.ViewModels
 
         public ObservableCollection<DishViewModel> ChosenDishes => _chosenDishes;
 
+        public MessageViewModel MessageViewModel { get; }
+
         public ICommand ChooseDishCommand { get; }
 
         public ICommand IncreaseQuantityCommand { get; }
@@ -37,22 +39,33 @@ namespace WPF_Restaurant.ViewModels
         public ICommand NavigateCommand { get; }
 
 
-        public MenuAndBasketViewModel(Restaurant restaurant, NavigationStore navigationStore, Func<MainChefViewModel> mainChefViewModel)
+        public MenuAndBasketViewModel(
+            Restaurant restaurant,
+            NavigationStore navigationStore,
+            Func<MainChefViewModel> mainChefViewModel,
+            MessageStore messageStore,
+            MessageViewModel messageViewModel)
         {
             _dishesInMenu = new ObservableCollection<DishViewModel>();
             _chosenDishes = new ObservableCollection<DishViewModel>();
-            ChooseDishCommand = new ChooseDishCommand(_chosenDishes);
-            IncreaseQuantityCommand = new IncreaseQuantityCommand(_chosenDishes);
-            DecreaseQuantityCommand = new DecreaseQuantityCommand(_chosenDishes);
-            RemoveDishCommand = new RemoveDishCommand(_chosenDishes);
-            LoadDishesCommand = new LoadDishesCommand(_dishesInMenu, restaurant);
-            OrderCommand = new CreateOrderCommand(_chosenDishes, restaurant);
+            ChooseDishCommand = new ChooseDishCommand(_chosenDishes, messageStore);
+            IncreaseQuantityCommand = new IncreaseQuantityCommand(_chosenDishes, messageStore);
+            DecreaseQuantityCommand = new DecreaseQuantityCommand(_chosenDishes, messageStore);
+            RemoveDishCommand = new RemoveDishCommand(_chosenDishes, messageStore);
+            LoadDishesCommand = new LoadDishesCommand(_dishesInMenu, restaurant, messageStore);
+            OrderCommand = new CreateOrderCommand(_chosenDishes, restaurant, messageStore);
             NavigateCommand = new NavigateCommand(navigationStore, mainChefViewModel);
+            MessageViewModel = messageViewModel;
         }
 
-        public static MenuAndBasketViewModel LoadViewModel(Restaurant restaurant, NavigationStore navigationStore, Func<MainChefViewModel> mainChefViewModel)
+        public static MenuAndBasketViewModel LoadViewModel(
+            Restaurant restaurant,
+            NavigationStore navigationStore,
+            Func<MainChefViewModel> mainChefViewModel,
+            MessageStore messageStore,
+            MessageViewModel messageViewModel)
         {
-            var viewModel = new MenuAndBasketViewModel(restaurant, navigationStore, mainChefViewModel);
+            var viewModel = new MenuAndBasketViewModel(restaurant, navigationStore, mainChefViewModel, messageStore, messageViewModel);
             viewModel.LoadDishesCommand.Execute(null);
             return viewModel;
         }
