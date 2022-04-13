@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using WPF_Restaurant.Models;
+using WPF_Restaurant.Stores;
 using WPF_Restaurant.ViewModels;
+using static WPF_Restaurant.Stores.MessageStore;
 
 namespace WPF_Restaurant.Commands
 {
@@ -15,11 +17,13 @@ namespace WPF_Restaurant.Commands
     {
         private Restaurant _restaurant;
         private ICommand _loadOrdersCommand;
+        private readonly MessageStore _messageStore;
 
-        public CompleteDishCommand(Restaurant restaurant, ICommand loadOrdersCommand)
+        public CompleteDishCommand(Restaurant restaurant, ICommand loadOrdersCommand, MessageStore messageStore)
         {
             _restaurant = restaurant;
             _loadOrdersCommand = loadOrdersCommand;
+            _messageStore = messageStore;
         }
 
         public override async Task ExecuteAsync(object? parameter)
@@ -38,11 +42,11 @@ namespace WPF_Restaurant.Commands
             }
             catch (ArgumentNullException ane)
             {
-                MessageBox.Show(ane.Message, "No item has been selected.", MessageBoxButton.OK, MessageBoxImage.Error);
+                _messageStore.SetMessage(ane.Message, MessageType.Error);
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, "Unexpected error occured.", MessageBoxButton.OK, MessageBoxImage.Error);
+                _messageStore.SetMessage(e.Message, MessageType.Error);
             }
         }
 
@@ -50,7 +54,7 @@ namespace WPF_Restaurant.Commands
         {
             await _restaurant.OrdersProvider.CompleteDish(dishId, orderNumber);
             _loadOrdersCommand.Execute(null);
-            MessageBox.Show("Dish completed successfully!", "Success!", MessageBoxButton.OK, MessageBoxImage.Information);
+            _messageStore.SetMessage("Dish completed successfully!", MessageType.Information);
         }
     }
 }

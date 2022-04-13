@@ -7,21 +7,25 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using WPF_Restaurant.Models;
+using WPF_Restaurant.Stores;
 using WPF_Restaurant.ViewModels;
+using static WPF_Restaurant.Stores.MessageStore;
 
 namespace WPF_Restaurant.Commands
 {
     public class ChooseDishCommand : BaseCommand
     {
         private readonly ObservableCollection<DishViewModel> _chosenDishes;
+        private readonly MessageStore _messageStore;
         private DishViewModel _dishViewModel;
         private Dish? _dish;
 
         public DishViewModel ChosenDish => _dishViewModel;
 
-        public ChooseDishCommand(ObservableCollection<DishViewModel> chosenDishes)
+        public ChooseDishCommand(ObservableCollection<DishViewModel> chosenDishes, MessageStore messageStore)
         {
             _chosenDishes = chosenDishes;
+            _messageStore = messageStore;
         }
 
         public override void Execute(object? parameter)
@@ -35,13 +39,11 @@ namespace WPF_Restaurant.Commands
             // Logging later
             catch (ArgumentNullException ex)
             {
-                MessageBox.Show(ex.Message, "Error occured.", MessageBoxButton.OK, MessageBoxImage.Error);
-
+                _messageStore.SetMessage(ex.Message, MessageType.Error);
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, "Unexpected error occured.", MessageBoxButton.OK, MessageBoxImage.Error);
-
+                _messageStore.SetMessage(e.Message, MessageType.Error);
             }
         }
     }

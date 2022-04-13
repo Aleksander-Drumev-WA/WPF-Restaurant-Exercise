@@ -6,7 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using WPF_Restaurant.Models;
+using WPF_Restaurant.Stores;
 using WPF_Restaurant.ViewModels;
+using static WPF_Restaurant.Stores.MessageStore;
 
 namespace WPF_Restaurant.Commands
 {
@@ -14,11 +16,13 @@ namespace WPF_Restaurant.Commands
     {
         private ObservableCollection<OrderViewModel> _orders;
         private Restaurant _restaurant;
+        private readonly MessageStore _messageStore;
 
-        public LoadOrdersCommand(ObservableCollection<OrderViewModel> orders, Restaurant restaurant)
+        public LoadOrdersCommand(ObservableCollection<OrderViewModel> orders, Restaurant restaurant, MessageStore messageStore)
         {
             _orders = orders;
             _restaurant = restaurant;
+            _messageStore = messageStore;
         }
 
         public override async Task ExecuteAsync(object? parameter)
@@ -38,7 +42,7 @@ namespace WPF_Restaurant.Commands
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, "Failed to load orders.", MessageBoxButton.OK, MessageBoxImage.Error);
+                _messageStore.SetMessage(e.Message, MessageType.Error);
             }
         }
     }

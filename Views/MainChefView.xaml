@@ -5,28 +5,31 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:vms="clr-namespace:WPF_Restaurant.ViewModels"
              xmlns:views="clr-namespace:WPF_Restaurant.Views"
-             xmlns:local="clr-namespace:WPF_Restaurant.Views"
+             xmlns:ucs="clr-namespace:WPF_Restaurant.Views.UserControls"
              xmlns:converters="clr-namespace:WPF_Restaurant.Resources.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Border Style="{StaticResource defaultBorderStyle}"
             Background="#E5E5E5">
-        <DockPanel>
-            <Border DockPanel.Dock="Top">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="auto"
+        <Grid>
+            <ucs:GlobalMessageBanner/>
+
+            <DockPanel>
+                <Border DockPanel.Dock="Top">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"
                                           MinWidth="200"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
 
-                    <local:RestaurantName Grid.Column="0" Grid.Row="0"/>
+                        <views:RestaurantName Grid.Column="0" Grid.Row="0"/>
 
-                    <Button Grid.Column="1" Grid.Row="0"
+                        <Button Grid.Column="1" Grid.Row="0"
                             Content="Back"
                             Margin="15"
                             VerticalAlignment="Top"
@@ -34,24 +37,24 @@
                             Style="{StaticResource defaultBtnStyle}"
                             Command="{Binding NavigateCommand}"/>
 
-                    <CheckBox Grid.Column="0" Grid.Row="1"
+                        <CheckBox Grid.Column="0" Grid.Row="1"
                               FontSize="14"
                               Background="#C4C4C4"
                               Margin="10">
-                        Not Ready
-                    </CheckBox>
+                            Not Ready
+                        </CheckBox>
 
-                    <Button Grid.Column="1" Grid.Row="1"
+                        <Button Grid.Column="1" Grid.Row="1"
                             Content="Filter"
                             Padding="11 5"
                             Margin="0 0 15 0"
                             HorizontalContentAlignment="Left"
                             FontSize="16"
                             Background="#C4C4C4"/>
-                </Grid>
-            </Border>
+                    </Grid>
+                </Border>
 
-            <Border DockPanel.Dock="Left"
+                <Border DockPanel.Dock="Left"
                     VerticalAlignment="Stretch"
                     HorizontalAlignment="Left"
                     Style="{StaticResource defaultBorderStyle}"
@@ -59,97 +62,99 @@
                     MaxWidth="230"
                     Margin="8 15 12 15">
 
-                <ItemsControl x:Name="OrdersList" ItemsSource="{Binding Orders}">
+                    <ItemsControl x:Name="OrdersList" ItemsSource="{Binding Orders}">
 
-                    <ItemsControl.Template>
-                        <ControlTemplate TargetType="ItemsControl">
+                        <ItemsControl.Template>
+                            <ControlTemplate TargetType="ItemsControl">
 
-                            <ItemsPresenter/>
-                        </ControlTemplate>
-                    </ItemsControl.Template>
+                                <ItemsPresenter/>
+                            </ControlTemplate>
+                        </ItemsControl.Template>
 
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Background="#C4C4C4"
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Background="#C4C4C4"
                                         MinWidth="180"
                                         Margin="0 0 0 15">
-                                <Button Padding="5 10 0 0"
+                                    <Button Padding="5 10 0 0"
                                         Style="{StaticResource defaultBtnStyle}"
                                         FontSize="12"
                                         HorizontalAlignment="Left"
                                         Command="{Binding DataContext.ShowDishesInOrderCommand, ElementName=OrdersList}"
                                         CommandParameter="{Binding OrderNumber}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Order Number: "
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Order Number: "
                                                    FontSize="14"/>
-                                        <TextBlock Text="{Binding OrderNumber}"
+                                            <TextBlock Text="{Binding OrderNumber}"
                                                    FontSize="14"/>
-                                    </StackPanel>
-                                </Button>
+                                        </StackPanel>
+                                    </Button>
 
-                                <ItemsControl x:Name="OrderItems" ItemsSource="{Binding OrderItems}">
-                                    <ItemsControl.Template>
-                                        <ControlTemplate TargetType="ItemsControl">
+                                    <ItemsControl x:Name="OrderItems" ItemsSource="{Binding OrderItems}">
+                                        <ItemsControl.Template>
+                                            <ControlTemplate TargetType="ItemsControl">
 
-                                            <ItemsPresenter/>
-                                        </ControlTemplate>
-                                    </ItemsControl.Template>
+                                                <ItemsPresenter/>
+                                            </ControlTemplate>
+                                        </ItemsControl.Template>
 
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <Border Style="{StaticResource defaultBorderStyle}">
-                                                <Button Command="{Binding DataContext.NavigateToRecipeViewCommand, ElementName=OrdersList}"
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Style="{StaticResource defaultBorderStyle}">
+                                                    <Button Command="{Binding DataContext.NavigateToRecipeViewCommand, ElementName=OrdersList}"
                                                         CommandParameter="{Binding}">
-                                                    <StackPanel Orientation="Horizontal"
+                                                        <StackPanel Orientation="Horizontal"
                                                                 Margin="2">
-                                                        <TextBlock Text="v"
+                                                            <TextBlock Text="v"
                                                                    FontSize="12"
                                                                    x:Name="readyState"
                                                                    Margin="8 0">
-                                                            <TextBlock.Visibility>
-                                                                <MultiBinding Converter="{StaticResource BooleanToVisibilityConverter}">
-                                                                    <Binding RelativeSource="{RelativeSource Mode=Self}" Path="DataContext.IsCompletedCollection"/>
-                                                                </MultiBinding>
-                                                            </TextBlock.Visibility>
-                                                        </TextBlock>
+                                                                <TextBlock.Visibility>
+                                                                    <MultiBinding Converter="{StaticResource BooleanToVisibilityConverter}">
+                                                                        <Binding RelativeSource="{RelativeSource Mode=Self}" Path="DataContext.IsCompletedCollection"/>
+                                                                    </MultiBinding>
+                                                                </TextBlock.Visibility>
+                                                            </TextBlock>
 
-                                                        <TextBlock Text="{Binding Name}"
+                                                            <TextBlock Text="{Binding Name}"
                                                                    FontSize="12"/>
 
-                                                        <TextBlock Text=" - "
+                                                            <TextBlock Text=" - "
                                                                    FontSize="12"/>
 
-                                                        <TextBlock Text="Quantity: "
+                                                            <TextBlock Text="Quantity: "
                                                                    FontSize="12"/>
 
-                                                        <TextBlock Text="{Binding Quantity}"
+                                                            <TextBlock Text="{Binding Quantity}"
                                                                    FontSize="12"/>
 
-                                                    </StackPanel>
-                                                </Button>
-                                            </Border>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </StackPanel>
+                                                        </StackPanel>
+                                                    </Button>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Border>
+
+                <!--<local:ChefLookingAtOrderView/>-->
+                <Grid>
+                    <Grid.Resources>
+                        <DataTemplate DataType="{x:Type vms:ChefLookingAtOrderViewModel}">
+                            <views:ChefLookingAtOrderView/>
                         </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </Border>
+                        <DataTemplate DataType="{x:Type vms:ChefLookingAtRecipeViewModel}">
+                            <views:ChefLookingAtRecipeView/>
+                        </DataTemplate>
+                    </Grid.Resources>
 
-            <!--<local:ChefLookingAtOrderView/>-->
-            <Grid>
-                <Grid.Resources>
-                    <DataTemplate DataType="{x:Type vms:ChefLookingAtOrderViewModel}">
-                        <views:ChefLookingAtOrderView/>
-                    </DataTemplate>
-                    <DataTemplate DataType="{x:Type vms:ChefLookingAtRecipeViewModel}">
-                        <views:ChefLookingAtRecipeView/>
-                    </DataTemplate>
-                </Grid.Resources>
+                    <ContentControl Content="{Binding CurrentViewModel}"/>
+                </Grid>
+            </DockPanel>
+        </Grid>
 
-                <ContentControl Content="{Binding CurrentViewModel}"/>
-            </Grid>
-        </DockPanel>
     </Border>
 </UserControl>

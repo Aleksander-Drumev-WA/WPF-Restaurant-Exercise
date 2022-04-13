@@ -6,17 +6,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using WPF_Restaurant.Models;
+using WPF_Restaurant.Stores;
 using WPF_Restaurant.ViewModels;
+using static WPF_Restaurant.Stores.MessageStore;
 
 namespace WPF_Restaurant.Commands
 {
     public class DecreaseQuantityCommand : BaseCommand
     {
         private ObservableCollection<DishViewModel> _chosenDishes;
+        private readonly MessageStore _messageStore;
 
-        public DecreaseQuantityCommand(ObservableCollection<DishViewModel> chosenDishes)
+        public DecreaseQuantityCommand(ObservableCollection<DishViewModel> chosenDishes, MessageStore messageStore)
         {
             _chosenDishes = chosenDishes;
+            _messageStore = messageStore;
         }
 
         public override void Execute(object? parameter)
@@ -30,11 +34,11 @@ namespace WPF_Restaurant.Commands
             }
             catch (ArgumentNullException ane)
             {
-                MessageBox.Show(ane.Message, "Error occured.", MessageBoxButton.OK, MessageBoxImage.Error);
+                _messageStore.SetMessage(ane.Message, MessageType.Error);
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, "Unexpected error occured.", MessageBoxButton.OK, MessageBoxImage.Error);
+                _messageStore.SetMessage(e.Message, MessageType.Error);
             }
         }
     }

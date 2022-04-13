@@ -23,6 +23,8 @@ namespace WPF_Restaurant
         private readonly Restaurant _restaurant;
         private readonly RestaurantDbContextFactory _restaurantDbContextFactory;
         private readonly NavigationStore _navigationStore;
+        private readonly MessageStore _messageStore;
+        private readonly MessageViewModel _messageViewModel;
 
         public App()
         {
@@ -33,11 +35,13 @@ namespace WPF_Restaurant
 
             _restaurant = new Restaurant("Panorama", databaseDishProvider, databaseOrderCreator, databaseOrdersProvider);
             _navigationStore = new NavigationStore();
+            _messageStore = new MessageStore();
+            _messageViewModel = new MessageViewModel(_messageStore);
         }
 
         protected override async void OnStartup(StartupEventArgs e)
         {
-            _navigationStore.CurrentViewModel = MenuAndBasketViewModel.LoadViewModel(_restaurant, _navigationStore, MakeMainChefViewModel);
+            _navigationStore.CurrentViewModel = MenuAndBasketViewModel.LoadViewModel(_restaurant, _navigationStore, MakeMainChefViewModel, _messageStore, _messageViewModel);
             using (var dbContext = _restaurantDbContextFactory.CreateDbContext())
             {
                 dbContext.Database.Migrate();
@@ -53,12 +57,12 @@ namespace WPF_Restaurant
 
         private MainChefViewModel MakeMainChefViewModel()
         {
-            return MainChefViewModel.LoadViewModel(_navigationStore, MakeMenuAndBasketViewModel, _restaurant);
+            return MainChefViewModel.LoadViewModel(_navigationStore, MakeMenuAndBasketViewModel, _restaurant, _messageStore, _messageViewModel);
         }
 
         private MenuAndBasketViewModel MakeMenuAndBasketViewModel()
         {
-            return MenuAndBasketViewModel.LoadViewModel(_restaurant, _navigationStore, MakeMainChefViewModel);
+            return MenuAndBasketViewModel.LoadViewModel(_restaurant, _navigationStore, MakeMainChefViewModel, _messageStore, _messageViewModel);
                  
         }
     }
