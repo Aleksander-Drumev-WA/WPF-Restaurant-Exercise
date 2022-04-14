@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -6,6 +8,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using WPF_Restaurant.Commands;
 using WPF_Restaurant.Models;
 using WPF_Restaurant.Services.Data;
 using WPF_Restaurant.Services.Data.Providers;
@@ -41,6 +44,15 @@ namespace WPF_Restaurant
 
         protected override async void OnStartup(StartupEventArgs e)
         {
+            ILoggerFactory loggerFactory = LoggerFactory.Create(builder =>
+            {
+                var loggingConfiguration = new LoggerConfiguration()
+                .WriteTo.File(@"...\Logs\log.txt", rollingInterval: RollingInterval.Day);
+                builder.AddSerilog(loggingConfiguration.CreateLogger());
+            });
+            ILogger<ChooseDishCommand> chooseDishCommandLogger = loggerFactory.CreateLogger<ChooseDishCommand>();
+            chooseDishCommandLogger.LogInformation("TEsting!");
+
             _navigationStore.CurrentViewModel = MenuAndBasketViewModel.LoadViewModel(_restaurant, _navigationStore, MakeMainChefViewModel, _messageStore, _messageViewModel);
             using (var dbContext = _restaurantDbContextFactory.CreateDbContext())
             {

@@ -35,6 +35,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Serilog" Version="2.10.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,6 +50,10 @@
     <Resource Include="Resources\Images\rice.jpg" />
     <Resource Include="Resources\Images\salad.jpg" />
     <Resource Include="Resources\Images\triple-chocolate-cake.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Logs\" />
   </ItemGroup>
 
 </Project>
