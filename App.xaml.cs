@@ -48,7 +48,7 @@ namespace WPF_Restaurant
 			ILoggerFactory loggerFactory = LoggerFactory.Create(builder =>
 			{
                 var loggingConfiguration = new LoggerConfiguration()
-                    .WriteTo.File(@"f:\log\log.txt", rollingInterval: RollingInterval.Day);
+                    .WriteTo.File(@"..\log\log.txt", rollingInterval: RollingInterval.Day);
 				builder.AddSerilog(loggingConfiguration.CreateLogger());
 			});
 			ILogger<ChooseDishCommand> chooseDishCommandLogger = loggerFactory.CreateLogger<ChooseDishCommand>();
