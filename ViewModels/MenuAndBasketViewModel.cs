@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -44,11 +45,12 @@ namespace WPF_Restaurant.ViewModels
             NavigationStore navigationStore,
             Func<MainChefViewModel> mainChefViewModel,
             MessageStore messageStore,
-            MessageViewModel messageViewModel)
+            MessageViewModel messageViewModel,
+            ILoggerFactory factory)
         {
             _dishesInMenu = new ObservableCollection<DishViewModel>();
             _chosenDishes = new ObservableCollection<DishViewModel>();
-            ChooseDishCommand = new ChooseDishCommand(_chosenDishes, messageStore);
+            ChooseDishCommand = new ChooseDishCommand(_chosenDishes, messageStore, factory);
             IncreaseQuantityCommand = new IncreaseQuantityCommand(_chosenDishes, messageStore);
             DecreaseQuantityCommand = new DecreaseQuantityCommand(_chosenDishes, messageStore);
             RemoveDishCommand = new RemoveDishCommand(_chosenDishes, messageStore);
@@ -63,9 +65,10 @@ namespace WPF_Restaurant.ViewModels
             NavigationStore navigationStore,
             Func<MainChefViewModel> mainChefViewModel,
             MessageStore messageStore,
-            MessageViewModel messageViewModel)
+            MessageViewModel messageViewModel,
+            ILoggerFactory factory)
         {
-            var viewModel = new MenuAndBasketViewModel(restaurant, navigationStore, mainChefViewModel, messageStore, messageViewModel);
+            var viewModel = new MenuAndBasketViewModel(restaurant, navigationStore, mainChefViewModel, messageStore, messageViewModel, factory);
             viewModel.LoadDishesCommand.Execute(null);
             return viewModel;
         }

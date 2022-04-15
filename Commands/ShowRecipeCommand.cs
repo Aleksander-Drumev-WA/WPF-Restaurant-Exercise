@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -18,13 +19,15 @@ namespace WPF_Restaurant.Commands
         private MainChefViewModel _mainChefViewModel;
         private readonly Restaurant _restaurant;
         private readonly MessageStore _messageStore;
+		private readonly ILoggerFactory _factory;
 
-        public ShowRecipeCommand(MainChefViewModel mainChefViewModel, Restaurant restaurant, MessageStore messageStore)
+		public ShowRecipeCommand(MainChefViewModel mainChefViewModel, Restaurant restaurant, MessageStore messageStore, ILoggerFactory factory)
         {
             _mainChefViewModel = mainChefViewModel;
             _restaurant = restaurant;
             _messageStore = messageStore;
-        }
+			_factory = factory;
+		}
 
         public override void Execute(object? parameter)
         {
@@ -45,7 +48,8 @@ namespace WPF_Restaurant.Commands
                                         incomingViewModel.Id,
                                         _restaurant,
                                         _mainChefViewModel.Orders,
-                                        _messageStore);
+                                        _messageStore, 
+                                        _factory);
 
                         _mainChefViewModel.CurrentViewModel = viewModel;
                     }
