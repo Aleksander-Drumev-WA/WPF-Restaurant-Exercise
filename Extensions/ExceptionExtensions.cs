@@ -21,5 +21,14 @@ namespace WPF_Restaurant.Extensions
             }
             while (innerException != null);
         }
+
+        public static string GetExceptionData(this Exception ex)
+		{
+            return string.Join(Environment.NewLine,
+                    ex.GetType().Name,
+                    ex.Message,
+                    ex.StackTrace,
+                    string.Join(Environment.NewLine, ex.GetInnerExceptionMessages()));
+        }
     }
 }

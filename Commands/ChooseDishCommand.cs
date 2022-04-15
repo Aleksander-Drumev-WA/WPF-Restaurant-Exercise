@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using WPF_Restaurant.Models;
 using WPF_Restaurant.Stores;
 using WPF_Restaurant.ViewModels;
+using WPF_Restaurant.Extensions;
 using static WPF_Restaurant.Stores.MessageStore;
 
 namespace WPF_Restaurant.Commands
@@ -46,12 +47,12 @@ namespace WPF_Restaurant.Commands
             catch (ArgumentNullException ex)
             {
                 _messageStore.SetMessage(ex.Message, MessageType.Error);
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex.GetExceptionData());
             }
             catch (Exception e)
             {
                 _messageStore.SetMessage(e.Message, MessageType.Error);
-                _logger.LogError(e.Message);
+                _logger.LogError(e.GetExceptionData());
 
             }
         }

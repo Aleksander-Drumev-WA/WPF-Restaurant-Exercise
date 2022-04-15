@@ -49,7 +49,7 @@ namespace WPF_Restaurant.ViewModels
         {
             _orders = new ObservableCollection<OrderViewModel>();
             NavigateCommand = new NavigateCommand(navigationStore, createMenuAndBasketViewModel);
-            LoadOrdersCommand = new LoadOrdersCommand(_orders, restaurant, messageStore);
+            LoadOrdersCommand = new LoadOrdersCommand(_orders, restaurant, messageStore, factory);
             NavigateToRecipeViewCommand = new ShowRecipeCommand(this, restaurant, messageStore, factory);
             ShowDishesInOrderCommand = new ShowDishesInOrderCommand(this, restaurant, messageStore, factory);
             MessageViewModel = messageViewModel;

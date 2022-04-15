@@ -39,7 +39,7 @@ namespace WPF_Restaurant.ViewModels
         {
             _chosenDish = chosenDish;
             _dishId = id;
-            LoadOrdersCommand = new LoadOrdersCommand(orders, restaurant, messageStore);
+            LoadOrdersCommand = new LoadOrdersCommand(orders, restaurant, messageStore, factory);
             CompleteDishCommand = new CompleteDishCommand(restaurant, LoadOrdersCommand, messageStore, factory);
         }
     }

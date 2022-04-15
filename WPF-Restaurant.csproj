@@ -9,9 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Logs\**" />
     <Compile Remove="Tests\**" />
+    <EmbeddedResource Remove="Logs\**" />
     <EmbeddedResource Remove="Tests\**" />
+    <None Remove="Logs\**" />
     <None Remove="Tests\**" />
+    <Page Remove="Logs\**" />
     <Page Remove="Tests\**" />
   </ItemGroup>
 
@@ -50,10 +54,6 @@
     <Resource Include="Resources\Images\rice.jpg" />
     <Resource Include="Resources\Images\salad.jpg" />
     <Resource Include="Resources\Images\triple-chocolate-cake.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Logs\" />
   </ItemGroup>
 
 </Project>

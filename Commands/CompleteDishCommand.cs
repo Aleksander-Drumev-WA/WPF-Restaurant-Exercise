@@ -36,7 +36,6 @@ namespace WPF_Restaurant.Commands
             {
                 if (parameter is ChefLookingAtRecipeViewModel chefLookingAtRecipeViewModel)
                 {
-                    throw new ArgumentNullException("Test", new ArgumentNullException());
                     _logger.LogInformation("Start finishing a dish operation...");
                     await CompleteSingleDish(chefLookingAtRecipeViewModel.DishId, chefLookingAtRecipeViewModel.OrderNumber);
                     _logger.LogInformation("Finishing a dish was successful.");
@@ -52,14 +51,12 @@ namespace WPF_Restaurant.Commands
             }
             catch (ArgumentNullException ane)
             {
-                _logger.LogError(GetLogData(ane));
-
+                _logger.LogError(ane.GetExceptionData());
                 _messageStore.SetMessage(ane.Message, MessageType.Error);
             }
             catch (Exception e)
             {
-                _logger.LogError(GetLogData(e));
-
+                _logger.LogError(e.GetExceptionData());
                 _messageStore.SetMessage(e.Message, MessageType.Error);
             }
         }
@@ -69,16 +66,6 @@ namespace WPF_Restaurant.Commands
             await _restaurant.OrdersProvider.CompleteDish(dishId, orderNumber);
             _loadOrdersCommand.Execute(null);
             _messageStore.SetMessage("Dish completed successfully!", MessageType.Information);
-        }
-
-        private string GetLogData(Exception exception)
-		{
-            return string.Join(Environment.NewLine,
-                    exception.GetType().Name,
-                    exception.Message,
-                    exception.StackTrace,
-                    string.Join(Environment.NewLine, exception.GetInnerExceptionMessages()));
-
         }
     }
 }

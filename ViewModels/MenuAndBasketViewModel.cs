@@ -51,11 +51,11 @@ namespace WPF_Restaurant.ViewModels
             _dishesInMenu = new ObservableCollection<DishViewModel>();
             _chosenDishes = new ObservableCollection<DishViewModel>();
             ChooseDishCommand = new ChooseDishCommand(_chosenDishes, messageStore, factory);
-            IncreaseQuantityCommand = new IncreaseQuantityCommand(_chosenDishes, messageStore);
-            DecreaseQuantityCommand = new DecreaseQuantityCommand(_chosenDishes, messageStore);
-            RemoveDishCommand = new RemoveDishCommand(_chosenDishes, messageStore);
-            LoadDishesCommand = new LoadDishesCommand(_dishesInMenu, restaurant, messageStore);
-            OrderCommand = new CreateOrderCommand(_chosenDishes, restaurant, messageStore);
+            IncreaseQuantityCommand = new IncreaseQuantityCommand(_chosenDishes, messageStore, factory);
+            DecreaseQuantityCommand = new DecreaseQuantityCommand(_chosenDishes, messageStore, factory);
+            RemoveDishCommand = new RemoveDishCommand(_chosenDishes, messageStore, factory);
+            LoadDishesCommand = new LoadDishesCommand(_dishesInMenu, restaurant, messageStore, factory);
+            OrderCommand = new CreateOrderCommand(_chosenDishes, restaurant, messageStore, factory);
             NavigateCommand = new NavigateCommand(navigationStore, mainChefViewModel);
             MessageViewModel = messageViewModel;
         }
