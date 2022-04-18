@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -6,6 +8,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using WPF_Restaurant.Commands;
 using WPF_Restaurant.Models;
 using WPF_Restaurant.Services.Data;
 using WPF_Restaurant.Services.Data.Providers;
@@ -25,6 +28,7 @@ namespace WPF_Restaurant
         private readonly NavigationStore _navigationStore;
         private readonly MessageStore _messageStore;
         private readonly MessageViewModel _messageViewModel;
+        private readonly ILoggerFactory _loggerFactory;
 
         public App()
         {
@@ -37,11 +41,17 @@ namespace WPF_Restaurant
             _navigationStore = new NavigationStore();
             _messageStore = new MessageStore();
             _messageViewModel = new MessageViewModel(_messageStore);
+            _loggerFactory = LoggerFactory.Create(builder =>
+            {
+                var loggingConfiguration = new LoggerConfiguration()
+                .WriteTo.File(@"..\Logs\log.txt", rollingInterval: RollingInterval.Day);
+                builder.AddSerilog(loggingConfiguration.CreateLogger());
+            });
         }
 
         protected override async void OnStartup(StartupEventArgs e)
         {
-            _navigationStore.CurrentViewModel = MenuAndBasketViewModel.LoadViewModel(_restaurant, _navigationStore, MakeMainChefViewModel, _messageStore, _messageViewModel);
+            _navigationStore.CurrentViewModel = MenuAndBasketViewModel.LoadViewModel(_restaurant, _navigationStore, MakeMainChefViewModel, _messageStore, _messageViewModel, _loggerFactory);
             using (var dbContext = _restaurantDbContextFactory.CreateDbContext())
             {
                 dbContext.Database.Migrate();
@@ -57,12 +67,12 @@ namespace WPF_Restaurant
 
         private MainChefViewModel MakeMainChefViewModel()
         {
-            return MainChefViewModel.LoadViewModel(_navigationStore, MakeMenuAndBasketViewModel, _restaurant, _messageStore, _messageViewModel);
+            return MainChefViewModel.LoadViewModel(_navigationStore, MakeMenuAndBasketViewModel, _restaurant, _messageStore, _messageViewModel, _loggerFactory);
         }
 
         private MenuAndBasketViewModel MakeMenuAndBasketViewModel()
         {
-            return MenuAndBasketViewModel.LoadViewModel(_restaurant, _navigationStore, MakeMainChefViewModel, _messageStore, _messageViewModel);
+            return MenuAndBasketViewModel.LoadViewModel(_restaurant, _navigationStore, MakeMainChefViewModel, _messageStore, _messageViewModel, _loggerFactory);
                  
         }
     }

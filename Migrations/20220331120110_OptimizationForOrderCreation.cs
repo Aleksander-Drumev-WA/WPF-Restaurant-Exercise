@@ -12,9 +12,6 @@ namespace WPF_Restaurant.Migrations
             migrationBuilder.DropTable(
                 name: "DishesInOrder");
 
-            migrationBuilder.DropTable(
-                name: "Orders");
-
             migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new

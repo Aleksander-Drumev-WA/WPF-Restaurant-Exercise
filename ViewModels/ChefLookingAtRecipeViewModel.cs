@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -33,12 +34,13 @@ namespace WPF_Restaurant.ViewModels
             int id,
             Restaurant restaurant,
             ObservableCollection<OrderViewModel> orders,
-            MessageStore messageStore)
+            MessageStore messageStore, 
+            ILoggerFactory factory)
         {
             _chosenDish = chosenDish;
             _dishId = id;
-            LoadOrdersCommand = new LoadOrdersCommand(orders, restaurant, messageStore);
-            CompleteDishCommand = new CompleteDishCommand(restaurant, LoadOrdersCommand, messageStore);
+            LoadOrdersCommand = new LoadOrdersCommand(orders, restaurant, messageStore, factory);
+            CompleteDishCommand = new CompleteDishCommand(restaurant, LoadOrdersCommand, messageStore, factory);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -43,13 +44,14 @@ namespace WPF_Restaurant.ViewModels
             Func<MenuAndBasketViewModel> createMenuAndBasketViewModel,
             Restaurant restaurant,
             MessageStore messageStore,
-            MessageViewModel messageViewModel)
+            MessageViewModel messageViewModel, 
+            ILoggerFactory factory)
         {
             _orders = new ObservableCollection<OrderViewModel>();
             NavigateCommand = new NavigateCommand(navigationStore, createMenuAndBasketViewModel);
-            LoadOrdersCommand = new LoadOrdersCommand(_orders, restaurant, messageStore);
-            NavigateToRecipeViewCommand = new ShowRecipeCommand(this, restaurant, messageStore);
-            ShowDishesInOrderCommand = new ShowDishesInOrderCommand(this, restaurant, messageStore);
+            LoadOrdersCommand = new LoadOrdersCommand(_orders, restaurant, messageStore, factory);
+            NavigateToRecipeViewCommand = new ShowRecipeCommand(this, restaurant, messageStore, factory);
+            ShowDishesInOrderCommand = new ShowDishesInOrderCommand(this, restaurant, messageStore, factory);
             MessageViewModel = messageViewModel;
         }
 
@@ -58,9 +60,10 @@ namespace WPF_Restaurant.ViewModels
             Func<MenuAndBasketViewModel> mainChefViewModel,
             Restaurant restaurant,
             MessageStore messageStore,
-            MessageViewModel messageViewModel)
+            MessageViewModel messageViewModel, 
+            ILoggerFactory factory)
         {
-            var viewModel = new MainChefViewModel(navigationStore, mainChefViewModel, restaurant, messageStore, messageViewModel);
+            var viewModel = new MainChefViewModel(navigationStore, mainChefViewModel, restaurant, messageStore, messageViewModel, factory);
             viewModel.LoadOrdersCommand.Execute(null);
             return viewModel;
         }

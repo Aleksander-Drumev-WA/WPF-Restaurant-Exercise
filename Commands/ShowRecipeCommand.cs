@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using WPF_Restaurant.Extensions;
 using WPF_Restaurant.Models;
 using WPF_Restaurant.Stores;
 using WPF_Restaurant.ViewModels;
@@ -18,13 +20,17 @@ namespace WPF_Restaurant.Commands
         private MainChefViewModel _mainChefViewModel;
         private readonly Restaurant _restaurant;
         private readonly MessageStore _messageStore;
+		private readonly ILoggerFactory _factory;
+        private readonly ILogger<ShowRecipeCommand> _logger;
 
-        public ShowRecipeCommand(MainChefViewModel mainChefViewModel, Restaurant restaurant, MessageStore messageStore)
+		public ShowRecipeCommand(MainChefViewModel mainChefViewModel, Restaurant restaurant, MessageStore messageStore, ILoggerFactory factory)
         {
             _mainChefViewModel = mainChefViewModel;
             _restaurant = restaurant;
             _messageStore = messageStore;
-        }
+			_factory = factory;
+            _logger = factory.CreateLogger<ShowRecipeCommand>();
+		}
 
         public override void Execute(object? parameter)
         {
@@ -32,6 +38,7 @@ namespace WPF_Restaurant.Commands
             {
                 if (parameter is OrderItemViewModel)
                 {
+                    _logger.LogInformation("Start showing recipe...");
                     var incomingViewModel = (OrderItemViewModel)parameter;
 
                     var chosenDish = _mainChefViewModel.Orders
@@ -45,19 +52,27 @@ namespace WPF_Restaurant.Commands
                                         incomingViewModel.Id,
                                         _restaurant,
                                         _mainChefViewModel.Orders,
-                                        _messageStore);
+                                        _messageStore, 
+                                        _factory);
 
                         _mainChefViewModel.CurrentViewModel = viewModel;
                     }
+                    _logger.LogInformation("Recipe has been shown successfully.");
                 }
+				else
+				{
+                    _logger.LogWarning("Invalid parameter type in ShowRecipeCommand");
+				}
             }
             catch (ArgumentNullException ane)
             {
                 _messageStore.SetMessage(ane.Message, MessageType.Error);
+                _logger.LogError(ane.GetExceptionData());
             }
             catch (Exception e)
             {
                 _messageStore.SetMessage(e.Message, MessageType.Error);
+                _logger.LogError(e.GetExceptionData());
             }
         }
     }
