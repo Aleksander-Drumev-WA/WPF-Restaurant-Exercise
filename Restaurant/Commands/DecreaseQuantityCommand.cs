@@ -37,6 +37,7 @@ namespace WPF_Restaurant.Commands
                 var modelToChange = _chosenDishes.FirstOrDefault(cd => cd.Name == dishViewModel.Name);
                 modelToChange.Quantity--;
                 _logger.LogInformation("Quantity has been decreased.");
+                _messageStore.SetMessage("Quantity decresed!", MessageType.Information);
             }
             catch (ArgumentNullException ane)
             {

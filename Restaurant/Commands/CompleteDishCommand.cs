@@ -49,6 +49,8 @@ namespace WPF_Restaurant.Commands
                     chefLookingAtOrderItemViewModel.IsCompleted = false;
                     _logger.LogInformation("Finishing a dish was successful.");
                 }
+
+                _messageStore.SetMessage("Dish has been finished.", MessageType.Information);
             }
             catch (ArgumentNullException ane)
             {

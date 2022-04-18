@@ -12,7 +12,9 @@
     <Border Style="{StaticResource defaultBorderStyle}"
             Background="#E5E5E5">
         <Grid>
-            <ucs:GlobalMessageBanner/>
+            <ucs:GlobalMessageBanner DataContext="{Binding MessageViewModel}"
+                                     Panel.ZIndex="3"
+                                     Visibility="{Binding HasMessage, Converter={StaticResource GlobalNormalBooleanToVisibilityConverter}}"/>
 
             <DockPanel>
                 <Border DockPanel.Dock="Top">
@@ -27,7 +29,8 @@
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
 
-                        <views:RestaurantName Grid.Column="0" Grid.Row="0"/>
+                        <views:RestaurantName Grid.Column="0" Grid.Row="0"
+                                              Panel.ZIndex="2"/>
 
                         <Button Grid.Column="1" Grid.Row="0"
                             Content="Back"
