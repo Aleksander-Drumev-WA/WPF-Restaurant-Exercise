@@ -8,7 +8,7 @@ namespace WPF_Restaurant.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            var dir = Environment.CurrentDirectory.Replace("bin\\Debug\\net6.0-windows", "Resources\\Images\\");
+            var dir = Environment.CurrentDirectory + "\\Resources\\Images\\";
             migrationBuilder.Sql($"INSERT INTO Dishes (Name, ImagePath, Recipe, Ingredients) VALUES ('Pizza', '{dir}pizza.jpg', 'Whatever recipe', 'Pepperoni, Mushroom, Onion, Olives, Mozzarella');");
             migrationBuilder.Sql($"INSERT INTO Dishes (Name, ImagePath, Recipe, Ingredients) VALUES ('Burger', '{dir}burger.jpg', 'Whatever recipe', 'Beef, Egg, Onion, Mayonnaise, Iceberg lettuce leaves, Tomato');");
             migrationBuilder.Sql($"INSERT INTO Dishes (Name, ImagePath, Recipe, Ingredients) VALUES ('Beef', '{dir}beef.jpg', 'Whatever recipe', 'Beef');");
