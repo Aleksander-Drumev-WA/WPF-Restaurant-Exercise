@@ -55,4 +55,10 @@
     <Resource Include="Resources\Images\triple-chocolate-cake.jpg" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Resources\Images\not-found-image.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

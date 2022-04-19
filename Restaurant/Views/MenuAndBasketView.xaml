@@ -5,9 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WPF_Restaurant.Views"
              xmlns:ucs="clr-namespace:WPF_Restaurant.Views.UserControls"
+             xmlns:converters="clr-namespace:WPF_Restaurant.Resources.Converters"
              xmlns:sampleData="clr-namespace:WPF_Restaurant.Views.SampleData"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:ImageToSourceConverter x:Key="ImageToSourceConverter"/>
+    </UserControl.Resources>
     <Border Style="{StaticResource defaultBorderStyle}">
         <Grid>
             <ucs:GlobalMessageBanner DataContext="{Binding MessageViewModel}"
@@ -62,7 +66,7 @@
                                         <ColumnDefinition Width="auto"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <Image Source="{Binding ImagePath}"
+                                    <Image Source="{Binding ImagePath, Converter={StaticResource ImageToSourceConverter}}"
                                        Style="{StaticResource defaultListImageSize}"
                                        Grid.Column="0"/>
                                     <Border Style="{StaticResource defaultBorderStyle}"
@@ -139,7 +143,7 @@
                                                 <RowDefinition Height="auto"/>
                                             </Grid.RowDefinitions>
 
-                                            <Image Source="{Binding ImagePath}"
+                                            <Image Source="{Binding ImagePath, Converter={StaticResource ImageToSourceConverter}}"
                                                    Width="220"
                                                    Margin="5,10,0,10"
                                                    HorizontalAlignment="Left"
