@@ -50,7 +50,6 @@ namespace WPF_Restaurant
 
         protected override async void OnStartup(StartupEventArgs e)
         {
-            _navigationStore.CurrentViewModel = MenuAndBasketViewModel.LoadViewModel(_restaurant, _navigationStore, MakeMainChefViewModel, _messageStore, _messageViewModel, _loggerFactory);
             using (var dbContext = _restaurantDbContextFactory.CreateDbContext())
             {
                 dbContext.Database.Migrate();
@@ -61,6 +60,7 @@ namespace WPF_Restaurant
             };
             MainWindow.Show();
 
+            _navigationStore.CurrentViewModel = MenuAndBasketViewModel.LoadViewModel(_restaurant, _navigationStore, MakeMainChefViewModel, _messageStore, _messageViewModel, _loggerFactory);
             base.OnStartup(e);
         }
 
