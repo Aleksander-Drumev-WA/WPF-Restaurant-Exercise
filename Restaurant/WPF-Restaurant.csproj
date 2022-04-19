@@ -24,6 +24,7 @@
     <None Remove="Resources\Images\beer.jpg" />
     <None Remove="Resources\Images\burger.jpg" />
     <None Remove="Resources\Images\ice-cream.jpg" />
+    <None Remove="Resources\Images\not-found-image.jpg" />
     <None Remove="Resources\Images\pasta.jpg" />
     <None Remove="Resources\Images\pizza.jpg" />
     <None Remove="Resources\Images\potatoes.jpg" />
@@ -43,16 +44,39 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\Images\beef.jpg" />
-    <Resource Include="Resources\Images\beer.jpg" />
-    <Resource Include="Resources\Images\burger.jpg" />
-    <Resource Include="Resources\Images\ice-cream.jpg" />
-    <Resource Include="Resources\Images\pasta.jpg" />
-    <Resource Include="Resources\Images\pizza.jpg" />
-    <Resource Include="Resources\Images\potatoes.jpg" />
-    <Resource Include="Resources\Images\rice.jpg" />
-    <Resource Include="Resources\Images\salad.jpg" />
-    <Resource Include="Resources\Images\triple-chocolate-cake.jpg" />
+    <Content Include="Resources\Images\beef.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\beer.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\burger.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\ice-cream.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\not-found-image.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\pasta.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\pizza.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\potatoes.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\rice.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\salad.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\triple-chocolate-cake.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
