@@ -7,9 +7,11 @@ namespace WPF_Restaurant.Resources.Converters
 {
 	public class ImageToSourceConverter : IValueConverter
 	{
+		private static readonly string defaultPath = Environment.CurrentDirectory + "\\Resources\\Images\\not-found-image.jpg";
+
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			var result = string.Empty;
+			string? result = null;
 			if (value is string path)
 			{
 				var exists = File.Exists(path);
@@ -17,17 +19,9 @@ namespace WPF_Restaurant.Resources.Converters
 				{
 					result = path;
 				}
-				else
-				{
-					result = Environment.CurrentDirectory + "\\Resources\\Images\\not-found-image.jpg";
-				}
-			}
-			else
-			{
-				result = Environment.CurrentDirectory + "\\Resources\\Images\\not-found-image.jpg";
 			}
 
-			return result;
+			return result ?? defaultPath;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
