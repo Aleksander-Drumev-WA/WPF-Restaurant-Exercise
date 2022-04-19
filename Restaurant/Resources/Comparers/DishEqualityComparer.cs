@@ -24,8 +24,7 @@ namespace WPF_Restaurant.Resources.Comparers
                      x.Name == y.Name &&
                      x.Recipe == y.Recipe &&
                      x.Ingredients == y.Ingredients &&
-                     x.Quantity == y.Quantity &&
-                     x.IsCompleted == y.IsCompleted)
+                     x.Quantity == y.Quantity)
             {
                 return true;
             }
@@ -37,7 +36,7 @@ namespace WPF_Restaurant.Resources.Comparers
 
         public int GetHashCode([DisallowNull] Dish obj)
         {
-            return HashCode.Combine(obj.Id, obj.Name, obj.Recipe, obj.Ingredients, obj.Quantity, obj.IsCompleted);
+            return HashCode.Combine(obj.Id, obj.Name, obj.Recipe, obj.Ingredients, obj.Quantity);
         }
     }
 }
