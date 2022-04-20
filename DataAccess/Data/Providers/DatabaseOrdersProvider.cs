@@ -17,12 +17,16 @@ namespace WPF_Restaurant.DataAccess.Data.Providers
             _dbContextFactory = dbContextFactory;
         }
 
-        public async Task<IEnumerable<Order>> GetAllOrders()
+        public async Task<IEnumerable<Order>> GetAllOrders(bool notReady = false, string? nameFilter = null)
         {
             using (var dbContext = _dbContextFactory.CreateDbContext())
             {
                 var orders = new List<Order>();
-                var ordersDTO = await dbContext.Orders.Include(o => o.OrderItems).ThenInclude(x => x.Dish).ToListAsync();
+                var ordersDTO = await dbContext.Orders
+                    .Include(o => o.OrderItems
+                    .Where(oi => (oi.IsCompleted == !notReady) && (nameFilter == null ? true : oi.Dish.Name.ToLower().Contains(nameFilter.ToLower()))))
+                    .ThenInclude(x => x.Dish)
+                    .ToListAsync();
 
                 foreach (var orderFromDb in ordersDTO)
                 {

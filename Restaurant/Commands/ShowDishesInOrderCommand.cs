@@ -47,7 +47,8 @@ namespace WPF_Restaurant.Commands
                             _restaurant,
                             _mainChefViewModel,
                             _messageStore, 
-                            _factory);
+                            _factory,
+                            _mainChefViewModel.NotReadyFilterChecked);
 
                         _mainChefViewModel.CurrentViewModel = viewModel;
                     }

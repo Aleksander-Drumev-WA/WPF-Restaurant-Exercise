@@ -16,7 +16,8 @@ namespace WPF_Restaurant.ViewModels
     {
         private readonly ObservableCollection<OrderViewModel> _orders;
         private BaseViewModel _baseViewModel;
-
+        private bool _notReadyCheck;
+        private string _nameFilter;
         public ObservableCollection<OrderViewModel> Orders => _orders;
 
         public ICommand NavigateCommand { get; }
@@ -27,7 +28,19 @@ namespace WPF_Restaurant.ViewModels
 
         public ICommand ShowDishesInOrderCommand { get; }
 
-        public BaseViewModel CurrentViewModel
+		public bool NotReadyFilterChecked 
+        {
+            get => _notReadyCheck;
+			set
+			{
+                _notReadyCheck = value;
+                OnPropertyChanged(nameof(NotReadyFilterChecked));
+			}
+        }
+
+		public FiltersViewModel FiltersViewModel { get; set; }
+
+		public BaseViewModel CurrentViewModel
         {
             get => _baseViewModel;
             set
@@ -53,6 +66,7 @@ namespace WPF_Restaurant.ViewModels
             NavigateToRecipeViewCommand = new ShowRecipeCommand(this, restaurant, messageStore, factory);
             ShowDishesInOrderCommand = new ShowDishesInOrderCommand(this, restaurant, messageStore, factory);
             MessageViewModel = messageViewModel;
+            FiltersViewModel = new FiltersViewModel();
         }
 
         public static MainChefViewModel LoadViewModel(
@@ -64,7 +78,7 @@ namespace WPF_Restaurant.ViewModels
             ILoggerFactory factory)
         {
             var viewModel = new MainChefViewModel(navigationStore, mainChefViewModel, restaurant, messageStore, messageViewModel, factory);
-            viewModel.LoadOrdersCommand.Execute(null);
+            viewModel.LoadOrdersCommand.Execute(false);
             return viewModel;
         }
     }
