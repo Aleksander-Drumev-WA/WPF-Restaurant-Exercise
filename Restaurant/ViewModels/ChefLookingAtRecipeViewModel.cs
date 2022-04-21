@@ -30,18 +30,19 @@ namespace WPF_Restaurant.ViewModels
 
         public ICommand LoadOrdersCommand { get; }
 
-        public ChefLookingAtRecipeViewModel(
+		public ChefLookingAtRecipeViewModel(
             OrderItemViewModel chosenDish,
             int id,
             Restaurant restaurant,
             ObservableCollection<OrderViewModel> orders,
             MessageStore messageStore, 
-            ILoggerFactory factory)
+            ILoggerFactory factory,
+            bool notReadyFilter)
         {
             _chosenDish = chosenDish;
             _dishId = id;
             LoadOrdersCommand = new LoadOrdersCommand(orders, restaurant, messageStore, factory);
-            CompleteDishCommand = new CompleteDishCommand(restaurant, LoadOrdersCommand, messageStore, factory);
+            CompleteDishCommand = new CompleteDishCommand(restaurant, LoadOrdersCommand, messageStore, factory, notReadyFilter);
         }
     }
 }
