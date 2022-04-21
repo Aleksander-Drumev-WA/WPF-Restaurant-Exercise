@@ -43,7 +43,7 @@ namespace WPF_Restaurant.ViewModels
             );
 
             LoadOrdersCommand = new LoadOrdersCommand(mainChefViewModel.Orders, restaurant, messageStore, factory);
-            CompleteDishCommand = new CompleteDishCommand(restaurant, LoadOrdersCommand, messageStore, factory, notReadyFilter);
+            CompleteDishCommand = new CompleteDishCommand(restaurant, LoadOrdersCommand, messageStore, factory, mainChefViewModel);
         }
     }
 }

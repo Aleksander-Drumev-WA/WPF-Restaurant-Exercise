@@ -7,7 +7,7 @@ using WPF_Restaurant.ViewModels;
 
 namespace WPF_Restaurant.Stores
 {
-    public class NavigationStore
+    public class NavigationStore : BaseViewModel
     {
         private BaseViewModel _currentViewModel;
 

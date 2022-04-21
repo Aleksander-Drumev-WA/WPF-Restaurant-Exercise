@@ -52,10 +52,9 @@ namespace WPF_Restaurant.Commands
                                         chosenDish,
                                         incomingViewModel.Id,
                                         _restaurant,
-                                        _mainChefViewModel.Orders,
+                                        _mainChefViewModel,
                                         _messageStore, 
-                                        _factory,
-                                        _mainChefViewModel.NotReadyFilterChecked);
+                                        _factory);
 
                         _mainChefViewModel.CurrentViewModel = viewModel;
                     }
