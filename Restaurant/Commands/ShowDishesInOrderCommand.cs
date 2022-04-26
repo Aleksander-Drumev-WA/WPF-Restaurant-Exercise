@@ -43,7 +43,7 @@ namespace WPF_Restaurant.Commands
                     {
                         var viewModel = new ChefLookingAtOrderViewModel(
                             orderWithDishes.OrderNumber,
-                            orderWithDishes.OrderItems,
+                            orderWithDishes.Order,
                             _restaurant,
                             _mainChefViewModel,
                             _messageStore, 
