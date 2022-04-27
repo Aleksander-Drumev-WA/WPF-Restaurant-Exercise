@@ -35,12 +35,12 @@ namespace WPF_Restaurant
 					})
 					.ConfigureServices(services =>
 					{
-						services.AddSingleton(new RestaurantDbContextFactory(CONNECTION_STRING));
-						services.AddSingleton<DatabaseDishProvider>();
-						services.AddSingleton<DatabaseOrderCreator>();
-						services.AddSingleton<DatabaseOrdersProvider>();
+						services.AddTransient(s => new RestaurantDbContextFactory(CONNECTION_STRING));
+						services.AddTransient<DatabaseDishProvider>();
+						services.AddTransient<DatabaseOrderCreator>();
+						services.AddTransient<DatabaseOrdersProvider>();
 
-						services.AddSingleton((s) => new Restaurant(
+						services.AddTransient((s) => new Restaurant(
 							"Panorama",
 							s.GetRequiredService<DatabaseDishProvider>(),
 							s.GetRequiredService<DatabaseOrderCreator>(),
@@ -48,7 +48,7 @@ namespace WPF_Restaurant
 
 						services.AddSingleton<MessageViewModel>();
 						services.AddSingleton<MessageStore>();
-						services.AddSingleton<NavigationStore>();
+						services.AddTransient<NavigationStore>();
 						
 
 						services.AddTransient<MenuAndBasketViewModel>();
