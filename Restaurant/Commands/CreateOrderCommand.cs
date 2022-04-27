@@ -12,6 +12,7 @@ using WPF_Restaurant.Stores;
 using WPF_Restaurant.ViewModels;
 using static WPF_Restaurant.Stores.MessageStore;
 using WPF_Restaurant.DataAccess.Data;
+using Models.Models;
 
 namespace WPF_Restaurant.Commands
 {
@@ -35,7 +36,7 @@ namespace WPF_Restaurant.Commands
             try
             {
                 _logger.LogInformation("Creating order...");
-                var dishes = _chosenDishes.Select(x => x.Dish).ToList();
+                var dishes = _chosenDishes.Select(x => new CartItem(x.Dish, x.Quantity));
 
                 await _restaurant.OrderCreator.CreateOrder(dishes);
 

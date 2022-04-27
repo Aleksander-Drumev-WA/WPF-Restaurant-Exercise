@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WPF_Restaurant.DataAccess.DTOs
+namespace WPF_Restaurant.DataAccess.Entities
 {
-    public class OrderDTO
+    public class OrderEntity
     {
-        public OrderDTO()
+        public OrderEntity()
         {
-            OrderItems = new HashSet<OrderItemDTO>();
+            OrderItems = new HashSet<OrderItemEntity>();
             CreatedOn = DateTime.UtcNow;
         }
 
@@ -20,6 +20,6 @@ namespace WPF_Restaurant.DataAccess.DTOs
 
         public DateTime CreatedOn { get; set; }
 
-        public virtual ICollection<OrderItemDTO> OrderItems { get; set; }
+        public virtual ICollection<OrderItemEntity> OrderItems { get; set; }
     }
 }

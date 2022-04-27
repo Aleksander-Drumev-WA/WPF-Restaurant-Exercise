@@ -18,8 +18,6 @@ namespace WPF_Restaurant.Models
 
         public string Ingredients { get; }
 
-        public int Quantity { get; set; }
-
         public bool IsCompleted { get; set; }
 
         public Dish(int id, string name, string imagePath, string recipe, params string[] ingredients)
@@ -28,7 +26,6 @@ namespace WPF_Restaurant.Models
             ImagePath = imagePath;
             Recipe = recipe;
             Id = id;
-            Quantity = 1;
             Ingredients = string.Join(", ", ingredients);
         }
 

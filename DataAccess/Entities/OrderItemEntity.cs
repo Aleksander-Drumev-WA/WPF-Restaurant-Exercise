@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using WPF_Restaurant.Models;
 
-namespace WPF_Restaurant.DataAccess.DTOs
+namespace WPF_Restaurant.DataAccess.Entities
 {
-    public class OrderItemDTO
+    public class OrderItemEntity
     {
         [Key]
         public int Id { get; set; }
@@ -18,10 +18,10 @@ namespace WPF_Restaurant.DataAccess.DTOs
 
         public int DishId { get; set; }
 
-        public virtual DishDTO Dish { get; set; }
+        public virtual DishEntity Dish { get; set; }
 
         public int OrderId { get; set; }
 
-        public virtual OrderDTO Order { get; set; }
+        public virtual OrderEntity Order { get; set; }
     }
 }

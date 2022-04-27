@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DataAccess.Abstractions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using WPF_Restaurant.Models;
 
 namespace WPF_Restaurant.DataAccess.Data.Providers
 {
-    public class DatabaseDishProvider
+    public class DatabaseDishProvider : IDishProvider
     {
         private readonly RestaurantDbContextFactory _dbContextFactory;
 

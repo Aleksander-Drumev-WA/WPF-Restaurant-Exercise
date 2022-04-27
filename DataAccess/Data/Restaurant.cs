@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAccess.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,23 +10,23 @@ namespace WPF_Restaurant.DataAccess.Data
 {
     public class Restaurant
     {
-        private readonly DatabaseDishProvider _dishProvider;
-        private readonly DatabaseOrderCreator _databaseOrderCreator;
-        private readonly DatabaseOrdersProvider _databaseOrdersProvider;
+        private readonly IDishProvider _dishProvider;
+        private readonly IOrderCreator _databaseOrderCreator;
+        private readonly IOrderProvider _databaseOrdersProvider;
 
         public string Name { get; }
 
-        public DatabaseDishProvider DishProvider => _dishProvider;
+        public IDishProvider DishProvider => _dishProvider;
 
-        public DatabaseOrderCreator OrderCreator => _databaseOrderCreator;
+        public IOrderCreator OrderCreator => _databaseOrderCreator;
 
-        public DatabaseOrdersProvider OrdersProvider => _databaseOrdersProvider;
+        public IOrderProvider OrdersProvider => _databaseOrdersProvider;
 
         public Restaurant(
             string name,
-            DatabaseDishProvider dishProvider,
-            DatabaseOrderCreator databaseOrderCreator,
-            DatabaseOrdersProvider databaseOrdersProvider)
+            IDishProvider dishProvider,
+            IOrderCreator databaseOrderCreator,
+            IOrderProvider databaseOrdersProvider)
         {
             Name = name;
             _dishProvider = dishProvider;

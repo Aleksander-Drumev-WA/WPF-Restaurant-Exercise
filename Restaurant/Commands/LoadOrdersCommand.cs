@@ -47,8 +47,6 @@ namespace WPF_Restaurant.Commands
 				{
 					throw new ArgumentException("Wrong parameter passed to LoadOrdersCommand");
 				}
-				await Task.Delay(2000);
-
 				foreach (var order in orders)
 				{
 					var orderViewModel = new OrderViewModel(order);
