@@ -25,7 +25,7 @@ namespace WPF_Restaurant.ViewModels
 
         public ICommand CompleteDishCommand { get; }
 
-		public ChefLookingAtOrderViewModel(int orderNumber,
+		public ChefLookingAtOrderViewModel(
                Order order,
                Restaurant restaurant,
                MainChefViewModel mainChefViewModel,
@@ -33,9 +33,9 @@ namespace WPF_Restaurant.ViewModels
                ILoggerFactory factory,
                bool notReadyFilter)
         {
-            _orderNumber = orderNumber;
+            _orderNumber = order.Id;
             RenderItems = new ObservableCollection<ChefLookingAtOrderItemViewModel>(
-                order.Dishes.Select(oi => new ChefLookingAtOrderItemViewModel(oi.Name, oi.Recipe, !(oi.IsCompleted), orderNumber, oi.Id))
+                order.Dishes.Select(oi => new ChefLookingAtOrderItemViewModel(oi.Name, oi.Recipe, !(oi.IsCompleted), order.Id, oi.Id))
             );
 
             LoadOrdersCommand = new LoadOrdersCommand(mainChefViewModel.Orders, restaurant, messageStore, factory);
