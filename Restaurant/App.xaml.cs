@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using System;
@@ -16,63 +18,74 @@ using WPF_Restaurant.ViewModels;
 
 namespace WPF_Restaurant
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : Application
-    {
-        private const string CONNECTION_STRING = "Data Source=restaurant.db";
-        private readonly Restaurant _restaurant;
-        private readonly RestaurantDbContextFactory _restaurantDbContextFactory;
-        private readonly NavigationStore _navigationStore;
-        private readonly MessageStore _messageStore;
-        private readonly MessageViewModel _messageViewModel;
-        private readonly ILoggerFactory _loggerFactory;
+	/// <summary>
+	/// Interaction logic for App.xaml
+	/// </summary>
+	public partial class App : Application
+	{
+		private const string CONNECTION_STRING = "Data Source=restaurant.db";
+		private readonly IHost _host;
 
-        public App()
-        {
-            _restaurantDbContextFactory = new RestaurantDbContextFactory(CONNECTION_STRING);
-            var databaseDishProvider = new DatabaseDishProvider(_restaurantDbContextFactory);
-            var databaseOrderCreator = new DatabaseOrderCreator(_restaurantDbContextFactory);
-            var databaseOrdersProvider = new DatabaseOrdersProvider(_restaurantDbContextFactory);
+		public App()
+		{
+			_host = Host.CreateDefaultBuilder()
+					.UseSerilog((host, loggerConfiguration) =>
+					{
+						loggerConfiguration.WriteTo.File(@"..\Logs\log.txt", rollingInterval: RollingInterval.Day);
+					})
+					.ConfigureServices(services =>
+					{
+						services.AddTransient(s => new RestaurantDbContextFactory(CONNECTION_STRING));
+						services.AddTransient<DatabaseDishProvider>();
+						services.AddTransient<DatabaseOrderCreator>();
+						services.AddTransient<DatabaseOrdersProvider>();
 
-            _restaurant = new Restaurant("Panorama", databaseDishProvider, databaseOrderCreator, databaseOrdersProvider);
-            _navigationStore = new NavigationStore();
-            _messageStore = new MessageStore();
-            _messageViewModel = new MessageViewModel(_messageStore);
-            _loggerFactory = LoggerFactory.Create(builder =>
-            {
-                var loggingConfiguration = new LoggerConfiguration()
-                .WriteTo.File(@"..\Logs\log.txt", rollingInterval: RollingInterval.Day);
-                builder.AddSerilog(loggingConfiguration.CreateLogger());
-            });
-        }
+						services.AddTransient((s) => new Restaurant(
+							"Panorama",
+							s.GetRequiredService<DatabaseDishProvider>(),
+							s.GetRequiredService<DatabaseOrderCreator>(),
+							s.GetRequiredService<DatabaseOrdersProvider>()));
 
-        protected override async void OnStartup(StartupEventArgs e)
-        {
-            using (var dbContext = _restaurantDbContextFactory.CreateDbContext())
-            {
-                dbContext.Database.Migrate();
-            }
-            MainWindow = new MainWindow()
-            {
-                DataContext = new MainViewModel(_navigationStore)
-            };
-            MainWindow.Show();
+						services.AddSingleton<MessageViewModel>();
+						services.AddSingleton<MessageStore>();
+						services.AddTransient<NavigationStore>();
+						
 
-            _navigationStore.CurrentViewModel = MenuAndBasketViewModel.LoadViewModel(_restaurant, _navigationStore, MakeMainChefViewModel, _messageStore, _messageViewModel, _loggerFactory);
-            base.OnStartup(e);
-        }
+						services.AddTransient<MenuAndBasketViewModel>();
+						services.AddSingleton<Func<MenuAndBasketViewModel>>((s) => () => s.GetRequiredService<MenuAndBasketViewModel>());
 
-        private MainChefViewModel MakeMainChefViewModel()
-        {
-            return MainChefViewModel.LoadViewModel(_navigationStore, MakeMenuAndBasketViewModel, _restaurant, _messageStore, _messageViewModel, _loggerFactory);
-        }
+						services.AddTransient<MainChefViewModel>();
+						services.AddSingleton<Func<MainChefViewModel>>((s) => () => s.GetRequiredService<MainChefViewModel>());
 
-        private MenuAndBasketViewModel MakeMenuAndBasketViewModel()
-        {
-            return MenuAndBasketViewModel.LoadViewModel(_restaurant, _navigationStore, MakeMainChefViewModel, _messageStore, _messageViewModel, _loggerFactory);
-                 
-        }
-    }
+						services.AddSingleton<MainViewModel>();
+						services.AddSingleton((s) => new MainWindow()
+						{
+							DataContext = s.GetRequiredService<MainViewModel>(),
+						});
+
+						
+
+
+					}).Build();
+		}
+
+		protected override void OnStartup(StartupEventArgs e)
+		{
+			_host.Start();
+
+			var restaurantDbContextFactory = _host.Services.GetRequiredService<RestaurantDbContextFactory>();
+			using (var dbContext = restaurantDbContextFactory.CreateDbContext())
+			{
+				dbContext.Database.Migrate();
+			}
+
+			var mainViewModel = _host.Services.GetRequiredService<MainViewModel>();
+			mainViewModel.CurrentViewModel = _host.Services.GetRequiredService<MenuAndBasketViewModel>();
+
+			MainWindow = _host.Services.GetRequiredService<MainWindow>();
+			MainWindow.Show();
+
+			base.OnStartup(e);
+		}
+	}
 }

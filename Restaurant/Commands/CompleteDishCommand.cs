@@ -22,15 +22,15 @@ namespace WPF_Restaurant.Commands
         private ICommand _loadOrdersCommand;
         private readonly MessageStore _messageStore;
         private readonly ILogger<CompleteDishCommand> _logger;
-        private readonly bool _notReady;
+        private readonly MainChefViewModel _mainChefViewModel;
 
-        public CompleteDishCommand(Restaurant restaurant, ICommand loadOrdersCommand, MessageStore messageStore, ILoggerFactory factory, bool notReadyFilter)
+        public CompleteDishCommand(Restaurant restaurant, ICommand loadOrdersCommand, MessageStore messageStore, ILoggerFactory factory, MainChefViewModel mainChefViewModel)
         {
             _restaurant = restaurant;
             _loadOrdersCommand = loadOrdersCommand;
             _messageStore = messageStore;
             _logger = factory.CreateLogger<CompleteDishCommand>();
-            _notReady = notReadyFilter;
+            _mainChefViewModel = mainChefViewModel;
         }
 
         public override async Task ExecuteAsync(object? parameter)
@@ -69,7 +69,7 @@ namespace WPF_Restaurant.Commands
         private async Task CompleteSingleDish(int dishId, int orderNumber)
         {
             await _restaurant.OrdersProvider.CompleteDish(dishId, orderNumber);
-            _loadOrdersCommand.Execute(_notReady);
+            _loadOrdersCommand.Execute(_mainChefViewModel);
             _messageStore.SetMessage("Dish completed successfully!", MessageType.Information);
         }
     }

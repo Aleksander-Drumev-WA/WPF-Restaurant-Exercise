@@ -38,7 +38,15 @@ namespace WPF_Restaurant.ViewModels
 			}
         }
 
-		public FiltersViewModel FiltersViewModel { get; set; }
+		public string NameFilter 
+        {
+            get => _nameFilter;
+			set
+			{
+                _nameFilter = value;
+                OnPropertyChanged(nameof(NameFilter));
+			}
+        }
 
 		public BaseViewModel CurrentViewModel
         {
@@ -61,25 +69,12 @@ namespace WPF_Restaurant.ViewModels
             ILoggerFactory factory)
         {
             _orders = new ObservableCollection<OrderViewModel>();
-            NavigateCommand = new NavigateCommand(navigationStore, createMenuAndBasketViewModel);
+            NavigateCommand = new NavigateCommand<MenuAndBasketViewModel>(navigationStore, createMenuAndBasketViewModel);
             LoadOrdersCommand = new LoadOrdersCommand(_orders, restaurant, messageStore, factory);
+            LoadOrdersCommand.Execute(this);
             NavigateToRecipeViewCommand = new ShowRecipeCommand(this, restaurant, messageStore, factory);
             ShowDishesInOrderCommand = new ShowDishesInOrderCommand(this, restaurant, messageStore, factory);
             MessageViewModel = messageViewModel;
-            FiltersViewModel = new FiltersViewModel();
-        }
-
-        public static MainChefViewModel LoadViewModel(
-            NavigationStore navigationStore,
-            Func<MenuAndBasketViewModel> mainChefViewModel,
-            Restaurant restaurant,
-            MessageStore messageStore,
-            MessageViewModel messageViewModel, 
-            ILoggerFactory factory)
-        {
-            var viewModel = new MainChefViewModel(navigationStore, mainChefViewModel, restaurant, messageStore, messageViewModel, factory);
-            viewModel.LoadOrdersCommand.Execute(false);
-            return viewModel;
         }
     }
 }

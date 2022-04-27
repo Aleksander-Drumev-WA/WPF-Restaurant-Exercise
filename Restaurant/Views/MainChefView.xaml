@@ -45,8 +45,8 @@
                                   Background="#C4C4C4"
                                   Margin="10"
                                   Command="{Binding LoadOrdersCommand}"
-                                  CommandParameter="{Binding FiltersViewModel}"
-                                  IsChecked="{Binding FiltersViewModel.NotReadyFilterChecked}">
+                                  CommandParameter="{Binding}"
+                                  IsChecked="{Binding NotReadyFilterChecked}">
                             Not Ready
                         </CheckBox>
 
@@ -62,11 +62,11 @@
                                     FontSize="16"
                                     Background="#C4C4C4"
                                     Command="{Binding LoadOrdersCommand}"
-                                    CommandParameter="{Binding FiltersViewModel}"/>
+                                    CommandParameter="{Binding}"/>
 
                             <TextBox MinWidth="110"
                                      MaxHeight="30"
-                                     Text="{Binding FiltersViewModel.NameFilter}"/>
+                                     Text="{Binding NameFilter}"/>
                         </StackPanel>
                     </Grid>
                 </Border>

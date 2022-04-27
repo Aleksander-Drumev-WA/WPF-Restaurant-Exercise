@@ -55,22 +55,10 @@ namespace WPF_Restaurant.ViewModels
             DecreaseQuantityCommand = new DecreaseQuantityCommand(_chosenDishes, messageStore, factory);
             RemoveDishCommand = new RemoveDishCommand(_chosenDishes, messageStore, factory);
             LoadDishesCommand = new LoadDishesCommand(_dishesInMenu, restaurant, messageStore, factory);
+            LoadDishesCommand.Execute(null);
             OrderCommand = new CreateOrderCommand(_chosenDishes, restaurant, messageStore, factory);
-            NavigateCommand = new NavigateCommand(navigationStore, mainChefViewModel);
+            NavigateCommand = new NavigateCommand<MainChefViewModel>(navigationStore, mainChefViewModel);
             MessageViewModel = messageViewModel;
-        }
-
-        public static MenuAndBasketViewModel LoadViewModel(
-            Restaurant restaurant,
-            NavigationStore navigationStore,
-            Func<MainChefViewModel> mainChefViewModel,
-            MessageStore messageStore,
-            MessageViewModel messageViewModel,
-            ILoggerFactory factory)
-        {
-            var viewModel = new MenuAndBasketViewModel(restaurant, navigationStore, mainChefViewModel, messageStore, messageViewModel, factory);
-            viewModel.LoadDishesCommand.Execute(null);
-            return viewModel;
         }
     }
 }

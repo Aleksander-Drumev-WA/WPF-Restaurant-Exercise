@@ -39,11 +39,7 @@ namespace WPF_Restaurant.Commands
 				_orders.Clear();
 				IEnumerable<Order> orders;
 
-				if (parameter is bool notReady)
-				{
-					orders = await _restaurant.OrdersProvider.GetAllOrders(notReady);
-				}
-				else if (parameter is FiltersViewModel filters)
+				if (parameter is MainChefViewModel filters)
 				{
 					orders = await _restaurant.OrdersProvider.GetAllOrders(filters.NotReadyFilterChecked, filters.NameFilter);
 				}

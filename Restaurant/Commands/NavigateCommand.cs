@@ -8,12 +8,13 @@ using WPF_Restaurant.ViewModels;
 
 namespace WPF_Restaurant.Commands
 {
-    public class NavigateCommand : BaseCommand
+    public class NavigateCommand<TViewModel> : BaseCommand 
+        where TViewModel : BaseViewModel 
     {
         private NavigationStore _navigationStore;
-        private readonly Func<BaseViewModel> _createViewModel;
+        private readonly Func<TViewModel> _createViewModel;
 
-        public NavigateCommand(NavigationStore navigationStore, Func<BaseViewModel> createViewModel)
+        public NavigateCommand(NavigationStore navigationStore, Func<TViewModel> createViewModel)
         {
             _navigationStore = navigationStore;
             _createViewModel = createViewModel;

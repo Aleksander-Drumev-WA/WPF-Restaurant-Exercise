@@ -34,15 +34,14 @@ namespace WPF_Restaurant.ViewModels
             OrderItemViewModel chosenDish,
             int id,
             Restaurant restaurant,
-            ObservableCollection<OrderViewModel> orders,
-            MessageStore messageStore, 
-            ILoggerFactory factory,
-            bool notReadyFilter)
-        {
+            MainChefViewModel mainChefViewModel,
+            MessageStore messageStore,
+            ILoggerFactory factory)
+		{
             _chosenDish = chosenDish;
             _dishId = id;
-            LoadOrdersCommand = new LoadOrdersCommand(orders, restaurant, messageStore, factory);
-            CompleteDishCommand = new CompleteDishCommand(restaurant, LoadOrdersCommand, messageStore, factory, notReadyFilter);
+            LoadOrdersCommand = new LoadOrdersCommand(mainChefViewModel.Orders, restaurant, messageStore, factory);
+            CompleteDishCommand = new CompleteDishCommand(restaurant, LoadOrdersCommand, messageStore, factory, mainChefViewModel);
         }
-    }
+	}
 }
