@@ -42,8 +42,7 @@ namespace WPF_Restaurant.Commands
                     if (orderWithDishes != null)
                     {
                         var viewModel = new ChefLookingAtOrderViewModel(
-                            orderWithDishes.OrderNumber,
-                            orderWithDishes.OrderItems,
+                            orderWithDishes.Order,
                             _restaurant,
                             _mainChefViewModel,
                             _messageStore, 

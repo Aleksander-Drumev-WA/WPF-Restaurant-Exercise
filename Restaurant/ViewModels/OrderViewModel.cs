@@ -12,7 +12,9 @@ namespace WPF_Restaurant.ViewModels
     {
         private readonly Order _order;
 
-        public int OrderNumber => _order.Id;
+		public Order Order => _order;
+
+		public int OrderNumber => _order.Id;
 
         public IEnumerable<OrderItemViewModel> OrderItems => _order.Dishes
                                                              .GroupBy(d => d, new DishEqualityComparer())
