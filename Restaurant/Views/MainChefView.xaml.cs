@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPF_Restaurant.ViewModels;
 
 namespace WPF_Restaurant.Views
 {
@@ -24,5 +25,16 @@ namespace WPF_Restaurant.Views
         {
             InitializeComponent();
         }
-    }
+
+		private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+		{
+            if (sender is TextBox textBox)
+			{
+                if (textBox.DataContext is MainChefViewModel viewModel)
+				{
+                    viewModel.LoadOrdersCommand.Execute(viewModel);
+				}
+			}
+		}
+	}
 }

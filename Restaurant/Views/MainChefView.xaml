@@ -6,7 +6,6 @@
              xmlns:vms="clr-namespace:WPF_Restaurant.ViewModels"
              xmlns:views="clr-namespace:WPF_Restaurant.Views"
              xmlns:ucs="clr-namespace:WPF_Restaurant.Views.UserControls"
-             xmlns:converters="clr-namespace:WPF_Restaurant.Resources.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Border Style="{StaticResource defaultBorderStyle}"
@@ -50,24 +49,16 @@
                             Not Ready
                         </CheckBox>
 
-                        <StackPanel Orientation="Horizontal"
-                                    Grid.Column="1" Grid.Row="1"
-                                    Margin="15 0 0 0">
-                            <Button Content="Filter"
-                                    MaxWidth="60"
-                                    MaxHeight="30"
-                                    Padding="11 5"
-                                    Margin="0 0 5 0"
-                                    HorizontalContentAlignment="Left"
-                                    FontSize="16"
-                                    Background="#C4C4C4"
-                                    Command="{Binding LoadOrdersCommand}"
-                                    CommandParameter="{Binding}"/>
 
-                            <TextBox MinWidth="110"
-                                     MaxHeight="30"
-                                     Text="{Binding NameFilter}"/>
-                        </StackPanel>
+
+
+                        <TextBox MinWidth="110"
+                                 Grid.Column="1" Grid.Row="1"
+                                 MaxHeight="30"
+                                 MaxWidth="180"
+                                 Margin="10 0 15 0"
+                                 Text="{Binding NameFilter, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                                 TextChanged="TextBox_TextChanged"/>
                     </Grid>
                 </Border>
 
