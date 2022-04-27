@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DataAccess.Abstractions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -35,16 +36,16 @@ namespace WPF_Restaurant
 					})
 					.ConfigureServices(services =>
 					{
-						services.AddSingleton(new RestaurantDbContextFactory(CONNECTION_STRING));
-						services.AddSingleton<DatabaseDishProvider>();
-						services.AddSingleton<DatabaseOrderCreator>();
-						services.AddSingleton<DatabaseOrdersProvider>();
+						services.AddTransient(s => new RestaurantDbContextFactory(CONNECTION_STRING));
+						services.AddTransient<IDishProvider, DatabaseDishProvider>();
+						services.AddTransient<IOrderCreator, DatabaseOrderCreator>();
+						services.AddTransient<IOrderProvider, DatabaseOrdersProvider>();
 
-						services.AddSingleton((s) => new Restaurant(
+						services.AddTransient((s) => new Restaurant(
 							"Panorama",
-							s.GetRequiredService<DatabaseDishProvider>(),
-							s.GetRequiredService<DatabaseOrderCreator>(),
-							s.GetRequiredService<DatabaseOrdersProvider>()));
+							s.GetRequiredService<IDishProvider>(),
+							s.GetRequiredService<IOrderCreator>(),
+							s.GetRequiredService<IOrderProvider>()));
 
 						services.AddSingleton<MessageViewModel>();
 						services.AddSingleton<MessageStore>();

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WPF_Restaurant.DataAccess.DTOs;
+using WPF_Restaurant.DataAccess.Entities;
 
 namespace WPF_Restaurant.DataAccess.Data
 {
@@ -15,10 +15,10 @@ namespace WPF_Restaurant.DataAccess.Data
             
         }
 
-        public DbSet<DishDTO> Dishes { get; set; }
+        public DbSet<DishEntity> Dishes { get; set; }
 
-        public DbSet<OrderItemDTO> OrderItems { get; set; }
+        public DbSet<OrderItemEntity> OrderItems { get; set; }
 
-        public DbSet<OrderDTO> Orders { get; set; }
+        public DbSet<OrderEntity> Orders { get; set; }
     }
 }

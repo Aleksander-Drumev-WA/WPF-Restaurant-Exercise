@@ -12,6 +12,7 @@ namespace WPF_Restaurant.ViewModels
     public class DishViewModel : BaseViewModel
     {
         private readonly Dish _dish;
+        private int _quantity;
 
         public Dish Dish => _dish;
 
@@ -25,10 +26,10 @@ namespace WPF_Restaurant.ViewModels
 
         public int Quantity 
         {
-            get => _dish.Quantity;
+            get => _quantity;
             set
             {
-                _dish.Quantity = value;
+                _quantity = value;
                 OnPropertyChanged(nameof(Quantity));
             }
         }
@@ -36,6 +37,7 @@ namespace WPF_Restaurant.ViewModels
         public DishViewModel(Dish dish)
         {
             _dish = dish;
+            _quantity = 1;
         }
     }
 }

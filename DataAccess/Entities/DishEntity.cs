@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WPF_Restaurant.DataAccess.DTOs
+namespace WPF_Restaurant.DataAccess.Entities
 {
-    public class DishDTO
+    public class DishEntity
     {
         [Key]
         public int Id { get; set; }
