@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WPF_Restaurant.ViewModels
+namespace WPF_Restaurant.ViewModels.Common
 {
     public class BaseViewModel : INotifyPropertyChanged
     {

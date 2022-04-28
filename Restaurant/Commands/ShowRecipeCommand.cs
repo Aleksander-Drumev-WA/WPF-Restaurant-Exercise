@@ -11,6 +11,7 @@ using WPF_Restaurant.Extensions;
 using WPF_Restaurant.Models;
 using WPF_Restaurant.Stores;
 using WPF_Restaurant.ViewModels;
+using WPF_Restaurant.ViewModels.Chef;
 using WPF_Restaurant.Views;
 using static WPF_Restaurant.Stores.MessageStore;
 

@@ -8,7 +8,7 @@ using WPF_Restaurant.Commands;
 using WPF_Restaurant.Stores;
 using static WPF_Restaurant.Stores.MessageStore;
 
-namespace WPF_Restaurant.ViewModels
+namespace WPF_Restaurant.ViewModels.Common
 {
     public class MessageViewModel : BaseViewModel
     {

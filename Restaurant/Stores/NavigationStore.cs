@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WPF_Restaurant.ViewModels;
+using WPF_Restaurant.ViewModels.Common;
 
 namespace WPF_Restaurant.Stores
 {

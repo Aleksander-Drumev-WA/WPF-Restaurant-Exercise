@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using WPF_Restaurant.Models;
 using WPF_Restaurant.Stores;
 
-namespace WPF_Restaurant.ViewModels
+namespace WPF_Restaurant.ViewModels.Common
 {
     public class MainViewModel : BaseViewModel
     {
