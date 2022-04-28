@@ -75,7 +75,9 @@
                         <ItemsControl.Template>
                             <ControlTemplate TargetType="ItemsControl">
 
-                                <ItemsPresenter/>
+                                <ScrollViewer MaxHeight="620">
+                                    <ItemsPresenter/>
+                                </ScrollViewer>
                             </ControlTemplate>
                         </ItemsControl.Template>
 

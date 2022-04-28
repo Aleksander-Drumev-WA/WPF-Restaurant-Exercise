@@ -49,7 +49,7 @@ namespace WPF_Restaurant
 
 						services.AddSingleton<MessageViewModel>();
 						services.AddSingleton<MessageStore>();
-						services.AddTransient<NavigationStore>();
+						services.AddSingleton<NavigationStore>();
 						
 
 						services.AddTransient<MenuAndBasketViewModel>();
