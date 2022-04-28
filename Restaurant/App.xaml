@@ -10,6 +10,7 @@
             </ResourceDictionary.MergedDictionaries>
             <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
             <BooleanToVisibilityConverter x:Key="GlobalNormalBooleanToVisibilityConverter"/>
+            <converters:CloneValuesConverter x:Key="CloneValuesConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
