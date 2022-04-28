@@ -20,8 +20,6 @@ namespace WPF_Restaurant.ViewModels
 
 		private readonly ObservableCollection<DishViewModel> _chosenDishes;
 
-		private RelayCommand _changeQuantityCommand;
-
 		public ObservableCollection<DishViewModel> DishesInMenu => _dishesInMenu;
 
 		public ObservableCollection<DishViewModel> ChosenDishes => _chosenDishes;
@@ -30,31 +28,9 @@ namespace WPF_Restaurant.ViewModels
 
 		public ICommand ChooseDishCommand { get; }
 
-		public RelayCommand ChangeQuantityCommand
-		{
-			get
-			{
-				return _changeQuantityCommand ?? (_changeQuantityCommand = new RelayCommand((obj) =>
-				{
-					if (obj is object[] parameters)
-					{
-						if (parameters[0] is Dish dish && parameters[1] is string sign)
-						{
-							var dishToChange = _chosenDishes.First(d => d.Name == dish.Name);
-							if (sign == "+")
-							{
-								dishToChange.Quantity++;
-							}
-							else if (sign == "-")
-							{
+		public ICommand IncreaseQuantityCommand { get; }
 
-								dishToChange.Quantity--;
-							}
-						}
-					}
-				}));
-			}
-		}
+		public ICommand DecreaseQuantityCommand { get; }
 
 		public ICommand RemoveDishCommand { get; }
 
@@ -78,10 +54,32 @@ namespace WPF_Restaurant.ViewModels
 			ChooseDishCommand = new ChooseDishCommand(_chosenDishes, messageStore, factory);
 			RemoveDishCommand = new RemoveDishCommand(_chosenDishes, messageStore, factory);
 			LoadDishesCommand = new LoadDishesCommand(_dishesInMenu, restaurant, messageStore, factory);
+			IncreaseQuantityCommand = new RelayCommand((param) => ExecuteChangeQuantityCommand(1, param));
+			DecreaseQuantityCommand = new RelayCommand((param) => ExecuteChangeQuantityCommand(-1, param), (param) => CanChangeQuantity(param));
 			LoadDishesCommand.Execute(null);
 			OrderCommand = new CreateOrderCommand(_chosenDishes, restaurant, messageStore, factory);
 			NavigateCommand = new NavigateCommand<MainChefViewModel>(navigationStore, mainChefViewModel);
 			MessageViewModel = messageViewModel;
+		}
+		private void ExecuteChangeQuantityCommand(int amount, object param)
+		{
+			if (param is DishViewModel dishViewModel)
+			{
+				var newQuantity = dishViewModel.Quantity + amount;
+				dishViewModel.Quantity = newQuantity < 1 ? 1 : newQuantity;
+			}
+		}
+
+		private bool CanChangeQuantity(object param)
+		{
+			if (param is DishViewModel dishViewModel)
+			{
+				return dishViewModel.Quantity <= 1 ? false : true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 	}
 }

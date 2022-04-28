@@ -180,14 +180,8 @@
                                                         Padding="0 -4 0 0"
                                                         FontSize="16"
                                                         Style="{StaticResource defaultBtnStyle}"
-                                                        Command="{Binding DataContext.ChangeQuantityCommand, ElementName=ChosenList}">
-                                                    <Button.CommandParameter>
-                                                        <MultiBinding Converter="{StaticResource CloneValuesConverter}">
-                                                            <Binding Path="Dish"/>
-                                                            <Binding Path="Content" RelativeSource="{RelativeSource Mode=Self}"/>
-                                                        </MultiBinding>
-                                                    </Button.CommandParameter>
-                                                </Button>
+                                                        Command="{Binding DataContext.DecreaseQuantityCommand, ElementName=ChosenList}"
+                                                        CommandParameter="{Binding}"/>
                                                 <TextBlock Text="{Binding Quantity}"
                                                            FontSize="16"
                                                            Margin="5 5 5 0"/>
@@ -197,14 +191,8 @@
                                                         Padding="0 -4 0 0"
                                                         FontSize="16"
                                                         Style="{StaticResource defaultBtnStyle}"
-                                                        Command="{Binding DataContext.ChangeQuantityCommand, ElementName=ChosenList}">
-                                                    <Button.CommandParameter>
-                                                        <MultiBinding Converter="{StaticResource CloneValuesConverter}">
-                                                            <Binding Path="Dish"/>
-                                                            <Binding Path="Content" RelativeSource="{RelativeSource Mode=Self}"/>
-                                                        </MultiBinding>
-                                                    </Button.CommandParameter>
-                                                </Button>
+                                                        Command="{Binding DataContext.IncreaseQuantityCommand, ElementName=ChosenList}"
+                                                        CommandParameter="{Binding}"/>
                                             </StackPanel>
 
                                             <Button Grid.Column="2" Grid.Row="0"
