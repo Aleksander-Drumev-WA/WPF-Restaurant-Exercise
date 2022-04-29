@@ -11,6 +11,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using WPF_Restaurant.Commands;
 using WPF_Restaurant.DataAccess.Data;
 using WPF_Restaurant.DataAccess.Data.Providers;
@@ -52,12 +53,20 @@ namespace WPF_Restaurant
 						services.AddSingleton<MessageStore>();
 						services.AddSingleton<NavigationStore>();
 						
+						services.AddSingleton<ICommand, NavigateCommand<MenuAndBasketViewModel>>();
+						services.AddSingleton<NavigateCommand<MainChefViewModel>>();
 
-						services.AddTransient<MenuAndBasketViewModel>();
+						services.AddTransient(s => new MenuAndBasketViewModel(
+							s.GetRequiredService<Restaurant>(),
+							s.GetRequiredService<NavigateCommand<MainChefViewModel>>(),
+							s.GetRequiredService<MessageStore>(),
+							s.GetRequiredService<MessageViewModel>(),
+							s.GetRequiredService<ILoggerFactory>()));
 						services.AddSingleton<Func<MenuAndBasketViewModel>>((s) => () => s.GetRequiredService<MenuAndBasketViewModel>());
 
 						services.AddTransient<MainChefViewModel>();
 						services.AddSingleton<Func<MainChefViewModel>>((s) => () => s.GetRequiredService<MainChefViewModel>());
+
 
 						services.AddSingleton<MainViewModel>();
 						services.AddSingleton((s) => new MainWindow()
