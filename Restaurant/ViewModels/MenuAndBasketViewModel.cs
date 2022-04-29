@@ -41,8 +41,7 @@ namespace WPF_Restaurant.ViewModels
 
 		public MenuAndBasketViewModel(
 			Restaurant restaurant,
-			NavigationStore navigationStore,
-			Func<MainChefViewModel> mainChefViewModel,
+			ICommand navigateCommand,
 			MessageStore messageStore,
 			MessageViewModel messageViewModel,
 			ILoggerFactory factory)
@@ -56,7 +55,7 @@ namespace WPF_Restaurant.ViewModels
 			DecreaseQuantityCommand = new RelayCommand((param) => ExecuteChangeQuantityCommand(-1, param), (param) => CanChangeQuantity(param));
 			LoadDishesCommand.Execute(null);
 			OrderCommand = new CreateOrderCommand(_chosenDishes, restaurant, messageStore, factory);
-			NavigateCommand = new NavigateCommand<MainChefViewModel>(navigationStore, mainChefViewModel);
+			NavigateCommand = navigateCommand;
 			MessageViewModel = messageViewModel;
 		}
 		private void ExecuteChangeQuantityCommand(int amount, object param)

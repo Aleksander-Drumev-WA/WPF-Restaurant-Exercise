@@ -63,15 +63,14 @@ namespace WPF_Restaurant.ViewModels
         public MessageViewModel MessageViewModel { get; }
 
         public MainChefViewModel(
-            NavigationStore navigationStore,
-            Func<MenuAndBasketViewModel> createMenuAndBasketViewModel,
+            ICommand navigateCommand,
             Restaurant restaurant,
             MessageStore messageStore,
             MessageViewModel messageViewModel, 
             ILoggerFactory factory)
         {
             _orders = new ObservableCollection<OrderViewModel>();
-            NavigateCommand = new NavigateCommand<MenuAndBasketViewModel>(navigationStore, createMenuAndBasketViewModel);
+            NavigateCommand = navigateCommand;
             LoadOrdersCommand = new LoadOrdersCommand(_orders, restaurant, messageStore, factory);
             LoadOrdersCommand.Execute(this);
             NavigateToRecipeViewCommand = new ShowRecipeCommand(this, restaurant, messageStore, factory);
