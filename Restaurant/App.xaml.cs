@@ -16,6 +16,7 @@ using WPF_Restaurant.DataAccess.Data;
 using WPF_Restaurant.DataAccess.Data.Providers;
 using WPF_Restaurant.Stores;
 using WPF_Restaurant.ViewModels;
+using WPF_Restaurant.ViewModels.Common;
 
 namespace WPF_Restaurant
 {

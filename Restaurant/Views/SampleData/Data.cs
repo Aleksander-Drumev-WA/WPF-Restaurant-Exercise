@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WPF_Restaurant.ViewModels;
+using WPF_Restaurant.ViewModels.Customer;
 
 namespace WPF_Restaurant.Views.SampleData
 {

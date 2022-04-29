@@ -1,16 +1,15 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
+
 using WPF_Restaurant.Commands;
 using WPF_Restaurant.DataAccess.Data;
 using WPF_Restaurant.Models;
 using WPF_Restaurant.Stores;
+using WPF_Restaurant.ViewModels.Common;
+using WPF_Restaurant.ViewModels.Customer;
+
 
 namespace WPF_Restaurant.ViewModels
 {
@@ -39,7 +38,6 @@ namespace WPF_Restaurant.ViewModels
 		public ICommand OrderCommand { get; }
 
 		public ICommand NavigateCommand { get; }
-
 
 		public MenuAndBasketViewModel(
 			Restaurant restaurant,

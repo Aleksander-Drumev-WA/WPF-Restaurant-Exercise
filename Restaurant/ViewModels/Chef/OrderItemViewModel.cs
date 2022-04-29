@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WPF_Restaurant.Models;
+using WPF_Restaurant.ViewModels.Common;
 
-namespace WPF_Restaurant.ViewModels
+namespace WPF_Restaurant.ViewModels.Chef
 {
     public class OrderItemViewModel : BaseViewModel
     {

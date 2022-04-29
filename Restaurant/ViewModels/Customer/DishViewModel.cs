@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using WPF_Restaurant.Commands;
 using WPF_Restaurant.Models;
+using WPF_Restaurant.ViewModels.Common;
 
-namespace WPF_Restaurant.ViewModels
+namespace WPF_Restaurant.ViewModels.Customer
 {
     public class DishViewModel : BaseViewModel
     {

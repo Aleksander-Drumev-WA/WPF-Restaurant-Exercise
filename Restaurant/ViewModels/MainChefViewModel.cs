@@ -9,6 +9,8 @@ using System.Windows.Input;
 using WPF_Restaurant.Commands;
 using WPF_Restaurant.DataAccess.Data;
 using WPF_Restaurant.Stores;
+using WPF_Restaurant.ViewModels.Chef;
+using WPF_Restaurant.ViewModels.Common;
 
 namespace WPF_Restaurant.ViewModels
 {

@@ -13,6 +13,7 @@ using WPF_Restaurant.ViewModels;
 using static WPF_Restaurant.Stores.MessageStore;
 using WPF_Restaurant.DataAccess.Data;
 using Models.Models;
+using WPF_Restaurant.ViewModels.Customer;
 
 namespace WPF_Restaurant.Commands
 {
