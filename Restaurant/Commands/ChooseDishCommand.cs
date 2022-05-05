@@ -19,15 +19,15 @@ namespace WPF_Restaurant.Commands
 	public class ChooseDishCommand : BaseCommand
 	{
 		private readonly ObservableCollection<DishViewModel> _chosenDishes;
-		private readonly MessageStore _messageStore;
-		private readonly ILogger<ChooseDishCommand> _logger;
+		private readonly IMessageStore _messageStore;
+		private readonly ILogger _logger;
 
-		public ChooseDishCommand(ObservableCollection<DishViewModel> chosenDishes, MessageStore messageStore, ILoggerFactory factory)
+		public ChooseDishCommand(ObservableCollection<DishViewModel> chosenDishes, IMessageStore messageStore, ILogger logger)
 		{
 			_chosenDishes = chosenDishes;
 			_messageStore = messageStore;
 
-			_logger = factory?.CreateLogger<ChooseDishCommand>();
+			_logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
 		public override void Execute(object? parameter)
@@ -38,7 +38,7 @@ namespace WPF_Restaurant.Commands
 				if (parameter is Dish dish)
 				{
 					_chosenDishes.Add(new DishViewModel(dish));
-					_logger?.LogInformation("Choosing dish completed successfully.");
+					_logger.LogInformation("Choosing dish completed successfully.");
 				}
 				else
 				{
@@ -47,8 +47,8 @@ namespace WPF_Restaurant.Commands
 			}
 			catch (Exception e)
 			{
-				_messageStore?.SetMessage(e.Message, MessageType.Error);
-				_logger?.LogError(e.GetExceptionData());
+				_messageStore.SetMessage(e.Message, MessageType.Error);
+				_logger.LogError(e.GetExceptionData());
 
 			}
 		}

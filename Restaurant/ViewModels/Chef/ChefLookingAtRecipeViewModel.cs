@@ -28,7 +28,7 @@ namespace WPF_Restaurant.ViewModels.Chef
             OrderItemViewModel chosenDish,
             Restaurant restaurant,
             MainChefViewModel mainChefViewModel,
-            MessageStore messageStore,
+            IMessageStore messageStore,
             ILoggerFactory factory)
 		{
             _chosenDish = chosenDish;

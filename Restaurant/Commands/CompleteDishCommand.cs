@@ -21,11 +21,11 @@ namespace WPF_Restaurant.Commands
     {
         private Restaurant _restaurant;
         private ICommand _loadOrdersCommand;
-        private readonly MessageStore _messageStore;
+        private readonly IMessageStore _messageStore;
         private readonly ILogger<CompleteDishCommand> _logger;
         private readonly MainChefViewModel _mainChefViewModel;
 
-        public CompleteDishCommand(Restaurant restaurant, ICommand loadOrdersCommand, MessageStore messageStore, ILoggerFactory factory, MainChefViewModel mainChefViewModel)
+        public CompleteDishCommand(Restaurant restaurant, ICommand loadOrdersCommand, IMessageStore messageStore, ILoggerFactory factory, MainChefViewModel mainChefViewModel)
         {
             _restaurant = restaurant;
             _loadOrdersCommand = loadOrdersCommand;

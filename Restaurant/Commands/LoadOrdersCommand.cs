@@ -20,17 +20,16 @@ namespace WPF_Restaurant.Commands
 	{
 		private ObservableCollection<OrderViewModel> _orders;
 		private Restaurant _restaurant;
-		private readonly MessageStore _messageStore;
+		private readonly IMessageStore _messageStore;
 		private readonly ILogger<LoadOrdersCommand> _logger;
 
-		public LoadOrdersCommand(ObservableCollection<OrderViewModel> orders, Restaurant restaurant, MessageStore messageStore, ILoggerFactory factory)
+		public LoadOrdersCommand(ObservableCollection<OrderViewModel> orders, Restaurant restaurant, IMessageStore messageStore, ILoggerFactory factory)
 		{
 			_orders = orders;
 			_restaurant = restaurant;
 			_messageStore = messageStore;
 			_logger = factory?.CreateLogger<LoadOrdersCommand>();
 		}
-
 
 		public override async Task ExecuteAsync(object? parameter)
 		{

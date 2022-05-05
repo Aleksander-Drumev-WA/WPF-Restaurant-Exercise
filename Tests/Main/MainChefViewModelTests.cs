@@ -12,6 +12,7 @@ using WPF_Restaurant.Models;
 using WPF_Restaurant.Stores;
 using WPF_Restaurant.ViewModels;
 using WPF_Restaurant.ViewModels.Chef;
+using Microsoft.Extensions.Logging;
 
 namespace Tests.Main
 {
@@ -22,6 +23,10 @@ namespace Tests.Main
 		private Mock<IDishProvider> _dishProvider;
 		private Mock<IOrderCreator> _orderCreator;
 		private Mock<IOrderProvider> _orderProvider;
+
+		private Mock<ILoggerFactory> _logFactoryMock;
+		private Mock<IMessageStore> _messageStoreMock;
+
 
 		[SetUp]
 		public void SetUp()
@@ -39,6 +44,14 @@ namespace Tests.Main
 			_orderCreator = new Mock<IOrderCreator>();
 			_dishProvider = new Mock<IDishProvider>();
 			_restaurant = new Restaurant("Resty", _dishProvider.Object, _orderCreator.Object, _orderProvider.Object);
+
+			// We need mock the CreateLogger because test try to write to logs.
+			_logFactoryMock = new Mock<ILoggerFactory>();
+			_logFactoryMock.Setup(m => m.CreateLogger(It.IsAny<string>()))
+				.Returns(new StubLogger());
+
+			// We don't mock _messageStoreMock here because don't test it
+			_messageStoreMock = new Mock<IMessageStore>();
 		}
 
 		[Test]
@@ -69,7 +82,11 @@ namespace Tests.Main
 				_order
 			});
 			var navStore = new NavigationStore();
-			var navigateCommand = new NavigateCommand<MenuAndBasketViewModel>(navStore, MenuFactory);
+
+			var navigateCommand = new NavigateCommand<MenuAndBasketViewModel>(
+				navStore, 
+				() => new MenuAndBasketViewModel(_restaurant, null, _messageStoreMock.Object, null, _logFactoryMock.Object));
+
 			var sut = new MainChefViewModel(navigateCommand, _restaurant, null, null, null);
 
 			// Act
@@ -255,9 +272,21 @@ namespace Tests.Main
 				.BeEquivalentTo(_order.Dishes, options => options.ExcludingMissingMembers());
 		}
 
-		private MenuAndBasketViewModel MenuFactory()
+		internal class StubLogger : ILogger
 		{
-			return new MenuAndBasketViewModel(_restaurant, null, null, null, null);
+			public IDisposable BeginScope<TState>(TState state)
+			{
+				return null;
+			}
+
+			public bool IsEnabled(LogLevel logLevel)
+			{
+				return false;
+			}
+
+			public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
+			{
+			}
 		}
 	}
 }

@@ -18,21 +18,21 @@ namespace WPF_Restaurant.Commands
 	public class RemoveDishCommand : BaseCommand
 	{
 		private ObservableCollection<DishViewModel> _chosenDishes;
-		private readonly MessageStore _messageStore;
-		private readonly ILogger<RemoveDishCommand> _logger;
+		private readonly IMessageStore _messageStore;
+		private readonly ILogger _logger;
 
-		public RemoveDishCommand(ObservableCollection<DishViewModel> chosenDishes, MessageStore messageStore, ILoggerFactory factory)
+		public RemoveDishCommand(ObservableCollection<DishViewModel> chosenDishes, IMessageStore messageStore, ILogger logger)
 		{
 			_chosenDishes = chosenDishes;
 			_messageStore = messageStore;
-			_logger = factory?.CreateLogger<RemoveDishCommand>();
+			_logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
 		public override void Execute(object? parameter)
 		{
 			try
 			{
-				_logger?.LogInformation("Start removing dish...");
+				_logger.LogInformation("Start removing dish...");
 				if (parameter is Dish dish)
 				{
 					var dishToRemove = _chosenDishes.First(cd => cd.Name == dish.Name);
@@ -47,13 +47,13 @@ namespace WPF_Restaurant.Commands
 			}
 			catch (ArgumentNullException ane)
 			{
-				_logger?.LogError(ane.GetExceptionData());
-				_messageStore?.SetMessage(ane.Message, MessageType.Error);
+				_logger.LogError(ane.GetExceptionData());
+				_messageStore.SetMessage(ane.Message, MessageType.Error);
 			}
 			catch (Exception e)
 			{
-				_logger?.LogError(e.GetExceptionData());
-				_messageStore?.SetMessage(e.Message, MessageType.Error);
+				_logger.LogError(e.GetExceptionData());
+				_messageStore.SetMessage(e.Message, MessageType.Error);
 			}
 		}
 	}

@@ -6,52 +6,52 @@ using System.Threading.Tasks;
 
 namespace WPF_Restaurant.Stores
 {
-    public class MessageStore
-    {
-        public enum MessageType
-        {
-            Information,
-            Error
-        }
+	public class MessageStore : IMessageStore
+	{
+		public enum MessageType
+		{
+			Information,
+			Error
+		}
 
-        private string _message;
+		private string _message;
 
-        public string Message 
-        {
-            get => _message;
-            private set
-            {
-                _message = value;
-                MessageChanged?.Invoke();
-            }
-        }
+		public string Message
+		{
+			get => _message;
+			private set
+			{
+				_message = value;
+				MessageChanged?.Invoke();
+			}
+		}
 
-        private MessageType _type;
+		private MessageType _type;
 
-        public MessageType Type 
-        {
-            get => _type;
-            private set
-            {
-                _type = value;
-                TypeChanged?.Invoke();
-            }
-        }
+		public MessageType Type
+		{
+			get => _type;
+			private set
+			{
+				_type = value;
+				TypeChanged?.Invoke();
+			}
+		}
 
-        public bool HasMessage => !string.IsNullOrEmpty(Message);
+		public bool HasMessage => !string.IsNullOrEmpty(Message);
 
-        public event Action MessageChanged;
-        public event Action TypeChanged;
+		public event Action MessageChanged;
+		public event Action TypeChanged;
 
-        public void SetMessage(string message, MessageType type)
-        {
-            Message = message;
-            Type = type;
-        }
+		public void SetMessage(string message, MessageType type)
+		{
+			Message = message;
+			Type = type;
+		}
 
-        public void ClearMessage()
-        {
-            Message = string.Empty;
-        }
-    }
+		public void ClearMessage()
+		{
+			Message = string.Empty;
+		}
+	}
 }

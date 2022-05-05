@@ -21,16 +21,17 @@ namespace WPF_Restaurant.Commands
     {
         private ObservableCollection<DishViewModel> _chosenDishes;
         private readonly Restaurant _restaurant;
-        private readonly MessageStore _messageStore;
-        private readonly ILogger<CreateOrderCommand> _logger;
+        private readonly IMessageStore _messageStore;
+        private readonly ILogger _logger;
 
-		public CreateOrderCommand(ObservableCollection<DishViewModel> chosenDishes, Restaurant restaurant, MessageStore messageStore, ILoggerFactory factory)
+        // Why we use Restaurant restaurant, if we need only IOrderCreator?
+        public CreateOrderCommand(ObservableCollection<DishViewModel> chosenDishes, Restaurant restaurant, IMessageStore messageStore, ILogger logger)
         {
             _chosenDishes = chosenDishes;
             _restaurant = restaurant;
             _messageStore = messageStore;
-            _logger = factory?.CreateLogger<CreateOrderCommand>();
-		}
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
 
         public override async Task ExecuteAsync(object? parameter)
         {
@@ -46,8 +47,8 @@ namespace WPF_Restaurant.Commands
             }
             catch (Exception e)
             {
-                _messageStore?.SetMessage(e.Message, MessageType.Error);
-                _logger?.LogError(e.GetExceptionData());
+                _messageStore.SetMessage(e.Message, MessageType.Error);
+                _logger.LogError(e.GetExceptionData());
             }
         }
 

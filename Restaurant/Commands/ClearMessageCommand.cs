@@ -7,6 +7,7 @@ using WPF_Restaurant.Stores;
 
 namespace WPF_Restaurant.Commands
 {
+    // We can remove it, if use RelayCommand
     public class ClearMessageCommand : BaseCommand
     {
         private readonly MessageStore _messageStore;

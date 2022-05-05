@@ -17,6 +17,7 @@ using static WPF_Restaurant.Stores.MessageStore;
 
 namespace WPF_Restaurant.Commands
 {
+    // we can delete this if will use RelayCommand
     public class ShowRecipeCommand : BaseCommand
     {
         private MainChefViewModel _mainChefViewModel;
