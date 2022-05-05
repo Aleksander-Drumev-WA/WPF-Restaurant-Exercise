@@ -11,9 +11,8 @@ namespace WPF_Restaurant.ViewModels.Chef
     public class ChefLookingAtRecipeViewModel : BaseViewModel
     {
         private readonly OrderItemViewModel _chosenDish;
-        private readonly int _dishId;
 
-        public int DishId => _dishId;
+        public int DishId => _chosenDish.Id;
 
         public int OrderNumber => _chosenDish.OrderNumber;
 
@@ -27,15 +26,13 @@ namespace WPF_Restaurant.ViewModels.Chef
 
 		public ChefLookingAtRecipeViewModel(
             OrderItemViewModel chosenDish,
-            int id,
             Restaurant restaurant,
             MainChefViewModel mainChefViewModel,
             MessageStore messageStore,
             ILoggerFactory factory)
 		{
             _chosenDish = chosenDish;
-            _dishId = id;
-            LoadOrdersCommand = new LoadOrdersCommand(mainChefViewModel.Orders, restaurant, messageStore, factory);
+            LoadOrdersCommand = new LoadOrdersCommand(mainChefViewModel?.Orders, restaurant, messageStore, factory);
             CompleteDishCommand = new CompleteDishCommand(restaurant, LoadOrdersCommand, messageStore, factory, mainChefViewModel);
         }
 	}

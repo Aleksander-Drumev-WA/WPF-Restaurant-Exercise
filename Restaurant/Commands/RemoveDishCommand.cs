@@ -25,20 +25,20 @@ namespace WPF_Restaurant.Commands
 		{
 			_chosenDishes = chosenDishes;
 			_messageStore = messageStore;
-			_logger = factory.CreateLogger<RemoveDishCommand>();
+			_logger = factory?.CreateLogger<RemoveDishCommand>();
 		}
 
 		public override void Execute(object? parameter)
 		{
 			try
 			{
-				_logger.LogInformation("Start removing dish...");
+				_logger?.LogInformation("Start removing dish...");
 				if (parameter is Dish dish)
 				{
 					var dishToRemove = _chosenDishes.First(cd => cd.Name == dish.Name);
 					_chosenDishes.Remove(dishToRemove);
-					_messageStore.SetMessage("Dish has been removed.", MessageType.Information);
-					_logger.LogInformation("Dish has been removed successfully.");
+					_messageStore?.SetMessage("Dish has been removed.", MessageType.Information);
+					_logger?.LogInformation("Dish has been removed successfully.");
 				}
 				else
 				{
@@ -47,13 +47,13 @@ namespace WPF_Restaurant.Commands
 			}
 			catch (ArgumentNullException ane)
 			{
-				_logger.LogError(ane.GetExceptionData());
-				_messageStore.SetMessage(ane.Message, MessageType.Error);
+				_logger?.LogError(ane.GetExceptionData());
+				_messageStore?.SetMessage(ane.Message, MessageType.Error);
 			}
 			catch (Exception e)
 			{
-				_logger.LogError(e.GetExceptionData());
-				_messageStore.SetMessage(e.Message, MessageType.Error);
+				_logger?.LogError(e.GetExceptionData());
+				_messageStore?.SetMessage(e.Message, MessageType.Error);
 			}
 		}
 	}

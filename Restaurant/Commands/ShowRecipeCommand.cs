@@ -31,17 +31,16 @@ namespace WPF_Restaurant.Commands
             _restaurant = restaurant;
             _messageStore = messageStore;
 			_factory = factory;
-            _logger = factory.CreateLogger<ShowRecipeCommand>();
+            _logger = factory?.CreateLogger<ShowRecipeCommand>();
 		}
 
         public override void Execute(object? parameter)
         {
             try
             {
-                if (parameter is OrderItemViewModel)
+                if (parameter is OrderItemViewModel incomingViewModel)
                 {
-                    _logger.LogInformation("Start showing recipe...");
-                    var incomingViewModel = (OrderItemViewModel)parameter;
+                    _logger?.LogInformation("Start showing recipe...");
 
                     var chosenDish = _mainChefViewModel.Orders
                         .SingleOrDefault(o => o.OrderNumber == incomingViewModel.OrderNumber)?.OrderItems
@@ -51,19 +50,18 @@ namespace WPF_Restaurant.Commands
                     {
                         var viewModel = new ChefLookingAtRecipeViewModel(
                                         chosenDish,
-                                        incomingViewModel.Id,
                                         _restaurant,
                                         _mainChefViewModel,
                                         _messageStore, 
                                         _factory);
 
                         _mainChefViewModel.CurrentViewModel = viewModel;
+                        _logger?.LogInformation("Recipe has been shown successfully.");
                     }
-                    _logger.LogInformation("Recipe has been shown successfully.");
                 }
 				else
 				{
-                    _logger.LogWarning("Invalid parameter type in ShowRecipeCommand");
+                    _logger?.LogWarning("Invalid parameter type in ShowRecipeCommand");
 				}
             }
             catch (ArgumentNullException ane)

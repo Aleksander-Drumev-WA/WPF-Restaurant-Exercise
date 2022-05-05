@@ -29,7 +29,7 @@ namespace WPF_Restaurant.Commands
             _restaurant = restaurant;
             _messageStore = messageStore;
 			_factory = factory;
-			_logger = factory.CreateLogger<ShowDishesInOrderCommand>();
+			_logger = factory?.CreateLogger<ShowDishesInOrderCommand>();
 		}
 
         public override void Execute(object? parameter)
@@ -38,7 +38,7 @@ namespace WPF_Restaurant.Commands
             {
                 if (parameter is int incomingOrderNumber)
                 {
-                    _logger.LogInformation("Start showing dishes in an order...");
+                    _logger?.LogInformation("Start showing dishes in an order...");
                     var orderWithDishes = _mainChefViewModel.Orders.FirstOrDefault(o => o.OrderNumber == incomingOrderNumber);
                     if (orderWithDishes != null)
                     {
@@ -51,23 +51,23 @@ namespace WPF_Restaurant.Commands
                             _mainChefViewModel.NotReadyFilterChecked);
 
                         _mainChefViewModel.CurrentViewModel = viewModel;
+                        _logger?.LogInformation("Dishes in order have been shown successfully.");
                     }
-                    _logger.LogInformation("Dishes in order have been shown successfully.");
                 }
 				else
 				{
-                    _logger.LogWarning("Invalid parameter type in ShowDishesInOrderCommand");
+                    _logger?.LogWarning("Invalid parameter passed in ShowDishesInOrderCommand");
 				}
             }
             catch (ArgumentNullException ane)
             {
                 _messageStore.SetMessage(ane.Message, MessageType.Error);
-                _logger.LogError(ane.GetExceptionData());
+                _logger?.LogError(ane.GetExceptionData());
             }
             catch (Exception e)
             {
                 _messageStore.SetMessage(e.Message, MessageType.Error);
-                _logger.LogError(e.GetExceptionData());
+                _logger?.LogError(e.GetExceptionData());
             }
         }
     }

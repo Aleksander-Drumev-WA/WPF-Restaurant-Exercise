@@ -30,7 +30,7 @@ namespace WPF_Restaurant.Commands
             _restaurant = restaurant;
             _loadOrdersCommand = loadOrdersCommand;
             _messageStore = messageStore;
-            _logger = factory.CreateLogger<CompleteDishCommand>();
+            _logger = factory?.CreateLogger<CompleteDishCommand>();
             _mainChefViewModel = mainChefViewModel;
         }
 
@@ -40,30 +40,30 @@ namespace WPF_Restaurant.Commands
             {
                 if (parameter is ChefLookingAtRecipeViewModel chefLookingAtRecipeViewModel)
                 {
-                    _logger.LogInformation("Start finishing a dish operation...");
+                    _logger?.LogInformation("Start finishing a dish operation...");
                     await CompleteSingleDish(chefLookingAtRecipeViewModel.DishId, chefLookingAtRecipeViewModel.OrderNumber);
-                    _logger.LogInformation("Finishing a dish was successful.");
+                    _logger?.LogInformation("Finishing a dish was successful.");
 
                 }
                 else if (parameter is ChefLookingAtOrderItemViewModel chefLookingAtOrderItemViewModel)
                 {
-                    _logger.LogInformation("Start finishing a dish operation...");
+                    _logger?.LogInformation("Start finishing a dish operation...");
                     await CompleteSingleDish(chefLookingAtOrderItemViewModel.DishId, chefLookingAtOrderItemViewModel.OrderNumber);
                     chefLookingAtOrderItemViewModel.IsCompleted = false;
-                    _logger.LogInformation("Finishing a dish was successful.");
+                    _logger?.LogInformation("Finishing a dish was successful.");
                 }
 
-                _messageStore.SetMessage("Dish has been finished.", MessageType.Information);
+                _messageStore?.SetMessage("Dish has been finished.", MessageType.Information);
             }
             catch (ArgumentNullException ane)
             {
-                _logger.LogError(ane.GetExceptionData());
-                _messageStore.SetMessage(ane.Message, MessageType.Error);
+                _logger?.LogError(ane.GetExceptionData());
+                _messageStore?.SetMessage(ane.Message, MessageType.Error);
             }
             catch (Exception e)
             {
-                _logger.LogError(e.GetExceptionData());
-                _messageStore.SetMessage(e.Message, MessageType.Error);
+                _logger?.LogError(e.GetExceptionData());
+                _messageStore?.SetMessage(e.Message, MessageType.Error);
             }
         }
 
@@ -71,7 +71,7 @@ namespace WPF_Restaurant.Commands
         {
             await _restaurant.OrdersProvider.CompleteDish(dishId, orderNumber);
             _loadOrdersCommand.Execute(_mainChefViewModel);
-            _messageStore.SetMessage("Dish completed successfully!", MessageType.Information);
+            _messageStore?.SetMessage("Dish completed successfully!", MessageType.Information);
         }
     }
 }

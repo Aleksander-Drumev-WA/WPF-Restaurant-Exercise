@@ -29,25 +29,25 @@ namespace WPF_Restaurant.Commands
             _chosenDishes = chosenDishes;
             _restaurant = restaurant;
             _messageStore = messageStore;
-            _logger = factory.CreateLogger<CreateOrderCommand>();
+            _logger = factory?.CreateLogger<CreateOrderCommand>();
 		}
 
         public override async Task ExecuteAsync(object? parameter)
         {
             try
             {
-                _logger.LogInformation("Creating order...");
+                _logger?.LogInformation("Creating order...");
                 var dishes = _chosenDishes.Select(x => new CartItem(x.Dish, x.Quantity));
 
                 await _restaurant.OrderCreator.CreateOrder(dishes);
 
-                _messageStore.SetMessage("Successfully created an order.", MessageType.Information);
-                _logger.LogInformation("Successfully created an order.");
+                _messageStore?.SetMessage("Successfully created an order.", MessageType.Information);
+                _logger?.LogInformation("Successfully created an order.");
             }
             catch (Exception e)
             {
-                _messageStore.SetMessage(e.Message, MessageType.Error);
-                _logger.LogError(e.GetExceptionData());
+                _messageStore?.SetMessage(e.Message, MessageType.Error);
+                _logger?.LogError(e.GetExceptionData());
             }
         }
 

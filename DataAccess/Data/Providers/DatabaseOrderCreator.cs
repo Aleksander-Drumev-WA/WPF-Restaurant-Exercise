@@ -20,7 +20,7 @@ namespace WPF_Restaurant.DataAccess.Data.Providers
             _dbContextFactory = dbContextFactory;
         }
 
-        public async Task CreateOrder(IEnumerable<CartItem> chosenDishes)
+        public async Task<int> CreateOrder(IEnumerable<CartItem> chosenDishes)
         {
             using (var dbContext = _dbContextFactory.CreateDbContext())
             {
@@ -49,6 +49,8 @@ namespace WPF_Restaurant.DataAccess.Data.Providers
 
                 dbContext.OrderItems.AddRange(orderItems);
                 await dbContext.SaveChangesAsync();
+
+                return order.Id;
             }
         }
     }

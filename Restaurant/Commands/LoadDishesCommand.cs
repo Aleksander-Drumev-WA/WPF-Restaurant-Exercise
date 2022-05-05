@@ -28,27 +28,26 @@ namespace WPF_Restaurant.Commands
             _dishesInMenu = dishesInMenu;
             _restaurant = restaurant;
             _messageStore = messageStore;
-            _logger = factory.CreateLogger<LoadDishesCommand>();
+            _logger = factory?.CreateLogger<LoadDishesCommand>();
         }
 
         public override async Task ExecuteAsync(object? parameter)
         {
             try
             {
-                _logger.LogInformation("Start loading dishes...");
+                _logger?.LogInformation("Start loading dishes...");
                 var dishes = await _restaurant.DishProvider.GetAllDishes();
-                await Task.Delay(2000);
 
                 foreach(var dish in dishes.Select(d => new DishViewModel(d))) {
                     _dishesInMenu.Add(dish);
                 }
-                _logger.LogInformation("Dishes have been loaded successfully.");
+                _logger?.LogInformation("Dishes have been loaded successfully.");
 
             }
             catch (Exception e)
             {
                 _messageStore.SetMessage(e.Message, MessageType.Error);
-                _logger.LogError(e.GetExceptionData());
+                _logger?.LogError(e.GetExceptionData());
             }
         }
     }

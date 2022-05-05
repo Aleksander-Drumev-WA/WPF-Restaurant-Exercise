@@ -20,6 +20,7 @@ namespace WPF_Restaurant.ViewModels
         private BaseViewModel _baseViewModel;
         private bool _notReadyCheck;
         private string _nameFilter;
+
         public ObservableCollection<OrderViewModel> Orders => _orders;
 
         public ICommand NavigateCommand { get; }

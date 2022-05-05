@@ -28,7 +28,7 @@ namespace WPF_Restaurant.Commands
 			_orders = orders;
 			_restaurant = restaurant;
 			_messageStore = messageStore;
-			_logger = factory.CreateLogger<LoadOrdersCommand>();
+			_logger = factory?.CreateLogger<LoadOrdersCommand>();
 		}
 
 
@@ -36,8 +36,8 @@ namespace WPF_Restaurant.Commands
 		{
 			try
 			{
-				_logger.LogInformation("Start loading orders...");
-				_orders.Clear();
+				_logger?.LogInformation("Start loading orders...");
+				_orders?.Clear();
 				IEnumerable<Order> orders;
 
 				if (parameter is MainChefViewModel filters)
@@ -53,7 +53,7 @@ namespace WPF_Restaurant.Commands
 					var orderViewModel = new OrderViewModel(order);
 					_orders.Add(orderViewModel);
 				}
-				_logger.LogInformation("Orders have been loaded successfully.");
+				_logger?.LogInformation("Orders have been loaded successfully.");
 			}
 			catch (Exception e)
 			{

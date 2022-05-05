@@ -36,7 +36,7 @@ namespace WPF_Restaurant.ViewModels.Chef
                 order.Dishes.Select(oi => new ChefLookingAtOrderItemViewModel(oi.Name, oi.Recipe, !(oi.IsCompleted), order.Id, oi.Id))
             );
 
-            LoadOrdersCommand = new LoadOrdersCommand(mainChefViewModel.Orders, restaurant, messageStore, factory);
+            LoadOrdersCommand = new LoadOrdersCommand(mainChefViewModel?.Orders, restaurant, messageStore, factory);
             CompleteDishCommand = new CompleteDishCommand(restaurant, LoadOrdersCommand, messageStore, factory, mainChefViewModel);
         }
     }

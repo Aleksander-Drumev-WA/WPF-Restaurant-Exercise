@@ -27,34 +27,28 @@ namespace WPF_Restaurant.Commands
 			_chosenDishes = chosenDishes;
 			_messageStore = messageStore;
 
-			_logger = factory.CreateLogger<ChooseDishCommand>();
+			_logger = factory?.CreateLogger<ChooseDishCommand>();
 		}
 
 		public override void Execute(object? parameter)
 		{
 			try
 			{
-				_logger.LogInformation("Begin choosing a dish...");
+				_logger?.LogInformation("Begin choosing a dish...");
 				if (parameter is Dish dish)
 				{
 					_chosenDishes.Add(new DishViewModel(dish));
-					_logger.LogInformation("Choosing dish completed successfully.");
+					_logger?.LogInformation("Choosing dish completed successfully.");
 				}
 				else
 				{
 					throw new ArgumentException("Wrong parameter passed to ChooseDishCommand");
 				}
 			}
-			// Logging later
-			catch (ArgumentNullException ex)
-			{
-				_messageStore.SetMessage(ex.Message, MessageType.Error);
-				_logger.LogError(ex.GetExceptionData());
-			}
 			catch (Exception e)
 			{
-				_messageStore.SetMessage(e.Message, MessageType.Error);
-				_logger.LogError(e.GetExceptionData());
+				_messageStore?.SetMessage(e.Message, MessageType.Error);
+				_logger?.LogError(e.GetExceptionData());
 
 			}
 		}

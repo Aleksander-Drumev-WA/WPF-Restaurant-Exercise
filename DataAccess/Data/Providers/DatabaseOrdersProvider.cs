@@ -40,7 +40,7 @@ namespace WPF_Restaurant.DataAccess.Data.Providers
             }
         }
 
-        public async Task CompleteDish(int dishId, int orderNumber)
+        public async Task<bool> CompleteDish(int dishId, int orderNumber)
         {
             using (var dbContext = _dbContextFactory.CreateDbContext())
             {
@@ -51,7 +51,13 @@ namespace WPF_Restaurant.DataAccess.Data.Providers
 
                     dbContext.OrderItems.Update(dishToChangeCompletedState);
                     await dbContext.SaveChangesAsync();
+
+                    return dishToChangeCompletedState.IsCompleted;
                 }
+				else
+				{
+                    return false;
+				}
             }
         }
     }

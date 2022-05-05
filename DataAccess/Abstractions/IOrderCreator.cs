@@ -4,6 +4,6 @@ namespace DataAccess.Abstractions
 {
 	public interface IOrderCreator
 	{
-		Task CreateOrder(IEnumerable<CartItem> chosenDishes);
+		Task<int> CreateOrder(IEnumerable<CartItem> chosenDishes);
 	}
 }

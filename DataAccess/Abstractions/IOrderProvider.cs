@@ -6,6 +6,6 @@ namespace DataAccess.Abstractions
 	{
 		Task<IEnumerable<Order>> GetAllOrders(bool notReady = false, string? nameFilter = null);
 
-		Task CompleteDish(int dishId, int orderNumber);
+		Task<bool> CompleteDish(int dishId, int orderNumber);
 	}
 }
