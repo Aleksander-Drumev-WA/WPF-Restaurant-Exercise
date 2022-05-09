@@ -10,6 +10,9 @@ using WPF_Restaurant.DataAccess.Data;
 using WPF_Restaurant.Models;
 using WPF_Restaurant.ViewModels;
 using WPF_Restaurant.ViewModels.Chef;
+using Microsoft.Extensions.Logging;
+using Tests.Stubs;
+using WPF_Restaurant.Stores;
 
 namespace Tests.Chef
 {
@@ -20,6 +23,8 @@ namespace Tests.Chef
 		private Mock<IDishProvider> dishProvider;
 		private Mock<IOrderCreator> orderCreator;
 		private Mock<IOrderProvider> orderProvider;
+		private Mock<ILoggerFactory> _loggerFactoryMock;
+		private Mock<IMessageStore> _messageStoreMock;
 
 		[SetUp]
 		public void SetUp()
@@ -37,13 +42,18 @@ namespace Tests.Chef
 			orderCreator = new Mock<IOrderCreator>();
 			dishProvider = new Mock<IDishProvider>();
 			
+			_loggerFactoryMock = new Mock<ILoggerFactory>();
+			_loggerFactoryMock.Setup(x => x.CreateLogger(It.IsAny<string>()))
+				.Returns(new StubLogger());
+
+			_messageStoreMock = new Mock<IMessageStore>();
 		}
 
 		[Test]
 		public void OrderNumber_value_set_successfully()
 		{
 			// Arrange
-			var sut = new ChefLookingAtOrderViewModel(_order, null, null, null, null, false);
+			var sut = new ChefLookingAtOrderViewModel(_order, null, null, _messageStoreMock.Object, _loggerFactoryMock.Object);
 
 			// Act
 
@@ -56,7 +66,7 @@ namespace Tests.Chef
 		public void RenderItem_equals_to_passed_dish()
 		{
 			// Arrange
-			var sut = new ChefLookingAtOrderViewModel(_order, null, null, null, null, false);
+			var sut = new ChefLookingAtOrderViewModel(_order, null, null, _messageStoreMock.Object, _loggerFactoryMock.Object);
 			var firstDish = _dishes.First();
 			var firstRenderItem = sut.RenderItems.First();
 
@@ -80,8 +90,8 @@ namespace Tests.Chef
 				_order
 			});
 			var restaurant = new Restaurant("Resty", dishProvider.Object, orderCreator.Object, orderProvider.Object);
-			var mainChefViewModel = new MainChefViewModel(null, restaurant, null, null, null);
-			var sut = new ChefLookingAtOrderViewModel(_order, restaurant, mainChefViewModel, null, null, false);
+			var mainChefViewModel = new MainChefViewModel(null, restaurant, null, null, _loggerFactoryMock.Object);
+			var sut = new ChefLookingAtOrderViewModel(_order, orderProvider.Object, mainChefViewModel, _messageStoreMock.Object, _loggerFactoryMock.Object);
 			var chosenDish = new ChefLookingAtOrderItemViewModel("Pizza", "whatever", false, 1, 1);
 
 			// Act

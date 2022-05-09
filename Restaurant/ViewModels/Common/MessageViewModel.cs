@@ -30,7 +30,7 @@ namespace WPF_Restaurant.ViewModels.Common
 
             _messageStore.MessageChanged += MessageStore_MessageChanged;
             _messageStore.TypeChanged += MessageStore_TypeChanged;
-            ClearMessageCommand = new ClearMessageCommand(messageStore);
+            ClearMessageCommand = new RelayCommand(param => _messageStore.ClearMessage());
         }
 
         private void MessageStore_TypeChanged()

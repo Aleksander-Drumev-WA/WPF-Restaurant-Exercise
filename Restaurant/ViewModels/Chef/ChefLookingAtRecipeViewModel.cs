@@ -28,12 +28,12 @@ namespace WPF_Restaurant.ViewModels.Chef
             OrderItemViewModel chosenDish,
             Restaurant restaurant,
             MainChefViewModel mainChefViewModel,
-            MessageStore messageStore,
+            IMessageStore messageStore,
             ILoggerFactory factory)
 		{
             _chosenDish = chosenDish;
-            LoadOrdersCommand = new LoadOrdersCommand(mainChefViewModel?.Orders, restaurant, messageStore, factory);
-            CompleteDishCommand = new CompleteDishCommand(restaurant, LoadOrdersCommand, messageStore, factory, mainChefViewModel);
+            LoadOrdersCommand = new LoadOrdersCommand(mainChefViewModel?.Orders, restaurant.OrdersProvider, messageStore, factory.CreateLogger<LoadOrdersCommand>());
+            CompleteDishCommand = new CompleteDishCommand(restaurant.OrdersProvider, LoadOrdersCommand, messageStore, factory.CreateLogger<CompleteDishCommand>(), mainChefViewModel);
         }
 	}
 }

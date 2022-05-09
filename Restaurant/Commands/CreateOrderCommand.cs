@@ -14,40 +14,41 @@ using static WPF_Restaurant.Stores.MessageStore;
 using WPF_Restaurant.DataAccess.Data;
 using Models.Models;
 using WPF_Restaurant.ViewModels.Customer;
+using DataAccess.Abstractions;
 
 namespace WPF_Restaurant.Commands
 {
     public class CreateOrderCommand : AsyncBaseCommand
     {
         private ObservableCollection<DishViewModel> _chosenDishes;
-        private readonly Restaurant _restaurant;
-        private readonly MessageStore _messageStore;
-        private readonly ILogger<CreateOrderCommand> _logger;
+        private readonly IOrderCreator _orderCreator;
+        private readonly IMessageStore _messageStore;
+        private readonly ILogger _logger;
 
-		public CreateOrderCommand(ObservableCollection<DishViewModel> chosenDishes, Restaurant restaurant, MessageStore messageStore, ILoggerFactory factory)
+		public CreateOrderCommand(ObservableCollection<DishViewModel> chosenDishes, IOrderCreator orderCreator, IMessageStore messageStore, ILogger logger)
         {
             _chosenDishes = chosenDishes;
-            _restaurant = restaurant;
+            _orderCreator = orderCreator;
             _messageStore = messageStore;
-            _logger = factory?.CreateLogger<CreateOrderCommand>();
+            _logger = logger;
 		}
 
         public override async Task ExecuteAsync(object? parameter)
         {
             try
             {
-                _logger?.LogInformation("Creating order...");
+                _logger.LogInformation("Creating order...");
                 var dishes = _chosenDishes.Select(x => new CartItem(x.Dish, x.Quantity));
 
-                await _restaurant.OrderCreator.CreateOrder(dishes);
+                await _orderCreator.CreateOrder(dishes);
 
-                _messageStore?.SetMessage("Successfully created an order.", MessageType.Information);
-                _logger?.LogInformation("Successfully created an order.");
+                _messageStore.SetMessage("Successfully created an order.", MessageType.Information);
+                _logger.LogInformation("Successfully created an order.");
             }
             catch (Exception e)
             {
-                _messageStore?.SetMessage(e.Message, MessageType.Error);
-                _logger?.LogError(e.GetExceptionData());
+                _messageStore.SetMessage(e.Message, MessageType.Error);
+                _logger.LogError(e.GetExceptionData());
             }
         }
 

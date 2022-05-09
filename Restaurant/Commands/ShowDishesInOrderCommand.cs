@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using DataAccess.Abstractions;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,18 +19,18 @@ namespace WPF_Restaurant.Commands
     public class ShowDishesInOrderCommand : BaseCommand
     {
         private MainChefViewModel _mainChefViewModel;
-        private readonly Restaurant _restaurant;
-        private readonly MessageStore _messageStore;
+        private readonly IOrderProvider _orderProvider;
+        private readonly IMessageStore _messageStore;
 		private readonly ILoggerFactory _factory;
 		private readonly ILogger<ShowDishesInOrderCommand> _logger;
 
-		public ShowDishesInOrderCommand(MainChefViewModel mainChefViewModel, Restaurant restaurant, MessageStore messageStore, ILoggerFactory factory)
+		public ShowDishesInOrderCommand(MainChefViewModel mainChefViewModel, IOrderProvider orderProvider, IMessageStore messageStore, ILoggerFactory factory)
         {
             _mainChefViewModel = mainChefViewModel;
-            _restaurant = restaurant;
+            _orderProvider = orderProvider;
             _messageStore = messageStore;
 			_factory = factory;
-			_logger = factory?.CreateLogger<ShowDishesInOrderCommand>();
+			_logger = factory.CreateLogger<ShowDishesInOrderCommand>();
 		}
 
         public override void Execute(object? parameter)
@@ -38,36 +39,35 @@ namespace WPF_Restaurant.Commands
             {
                 if (parameter is int incomingOrderNumber)
                 {
-                    _logger?.LogInformation("Start showing dishes in an order...");
+                    _logger.LogInformation("Start showing dishes in an order...");
                     var orderWithDishes = _mainChefViewModel.Orders.FirstOrDefault(o => o.OrderNumber == incomingOrderNumber);
                     if (orderWithDishes != null)
                     {
                         var viewModel = new ChefLookingAtOrderViewModel(
                             orderWithDishes.Order,
-                            _restaurant,
+                            _orderProvider,
                             _mainChefViewModel,
-                            _messageStore, 
-                            _factory,
-                            _mainChefViewModel.NotReadyFilterChecked);
+                            _messageStore,
+                            _factory);
 
                         _mainChefViewModel.CurrentViewModel = viewModel;
-                        _logger?.LogInformation("Dishes in order have been shown successfully.");
+                        _logger.LogInformation("Dishes in order have been shown successfully.");
                     }
                 }
 				else
 				{
-                    _logger?.LogWarning("Invalid parameter passed in ShowDishesInOrderCommand");
+                    _logger.LogWarning("Invalid parameter passed in ShowDishesInOrderCommand");
 				}
             }
             catch (ArgumentNullException ane)
             {
                 _messageStore.SetMessage(ane.Message, MessageType.Error);
-                _logger?.LogError(ane.GetExceptionData());
+                _logger.LogError(ane.GetExceptionData());
             }
             catch (Exception e)
             {
                 _messageStore.SetMessage(e.Message, MessageType.Error);
-                _logger?.LogError(e.GetExceptionData());
+                _logger.LogError(e.GetExceptionData());
             }
         }
     }

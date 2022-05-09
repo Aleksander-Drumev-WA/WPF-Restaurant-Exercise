@@ -12,6 +12,8 @@ using WPF_Restaurant.Models;
 using WPF_Restaurant.Stores;
 using WPF_Restaurant.ViewModels;
 using WPF_Restaurant.ViewModels.Chef;
+using Tests.Stubs;
+using Microsoft.Extensions.Logging;
 
 namespace Tests.Main
 {
@@ -22,6 +24,8 @@ namespace Tests.Main
 		private Mock<IDishProvider> _dishProvider;
 		private Mock<IOrderCreator> _orderCreator;
 		private Mock<IOrderProvider> _orderProvider;
+		private Mock<ILoggerFactory> _loggerFactoryMock;
+
 
 		[SetUp]
 		public void SetUp()
@@ -39,6 +43,10 @@ namespace Tests.Main
 			_orderCreator = new Mock<IOrderCreator>();
 			_dishProvider = new Mock<IDishProvider>();
 			_restaurant = new Restaurant("Resty", _dishProvider.Object, _orderCreator.Object, _orderProvider.Object);
+
+			_loggerFactoryMock = new Mock<ILoggerFactory>();
+			_loggerFactoryMock.Setup(x => x.CreateLogger(It.IsAny<string>()))
+				.Returns(new StubLogger());
 		}
 
 		[Test]
@@ -50,7 +58,7 @@ namespace Tests.Main
 				_order
 			});
 			var restaurant = new Restaurant("Resty", _dishProvider.Object, _orderCreator.Object, _orderProvider.Object);
-			var sut = new MainChefViewModel(null, restaurant, null, null, null);
+			var sut = new MainChefViewModel(null, restaurant, null, null, _loggerFactoryMock.Object);
 
 			// Act
 
@@ -69,8 +77,11 @@ namespace Tests.Main
 				_order
 			});
 			var navStore = new NavigationStore();
-			var navigateCommand = new NavigateCommand<MenuAndBasketViewModel>(navStore, MenuFactory);
-			var sut = new MainChefViewModel(navigateCommand, _restaurant, null, null, null);
+			var navigateCommand = new NavigateCommand<MenuAndBasketViewModel>(
+				navStore,
+				() => new MenuAndBasketViewModel(_restaurant, null, null, null, _loggerFactoryMock.Object));
+
+			var sut = new MainChefViewModel(navigateCommand, _restaurant, null, null, _loggerFactoryMock.Object);
 
 			// Act
 			sut.NavigateCommand.Execute(null);
@@ -87,7 +98,7 @@ namespace Tests.Main
 			{
 				_order
 			});
-			var sut = new MainChefViewModel(null, _restaurant, null, null, null);
+			var sut = new MainChefViewModel(null, _restaurant, null, null, _loggerFactoryMock.Object);
 			var orderItemViewModel = new OrderItemViewModel(_order.Dishes.First(), 1, 3, new List<bool> { false });
 
 			// Act
@@ -106,7 +117,7 @@ namespace Tests.Main
 				_order
 			});
 			var orderItemViewModel = new OrderItemViewModel(new Dish(3, "Some name", "path 2", "strong recipe", "salt"), 1, 5, new List<bool> { false });
-			var sut = new MainChefViewModel(null, _restaurant, null, null, null);
+			var sut = new MainChefViewModel(null, _restaurant, null, null, _loggerFactoryMock.Object);
 
 			// Act
 			sut.NavigateToRecipeViewCommand.Execute(orderItemViewModel);
@@ -123,7 +134,7 @@ namespace Tests.Main
 			{
 				_order
 			});
-			var sut = new MainChefViewModel(null, _restaurant, null, null, null);
+			var sut = new MainChefViewModel(null, _restaurant, null, null, _loggerFactoryMock.Object);
 
 			// Act
 			sut.NavigateToRecipeViewCommand.Execute(null);
@@ -140,7 +151,7 @@ namespace Tests.Main
 			{
 				_order
 			});
-			var sut = new MainChefViewModel(null, _restaurant, null, null, null);
+			var sut = new MainChefViewModel(null, _restaurant, null, null, _loggerFactoryMock.Object);
 
 			// Act
 			sut.ShowDishesInOrderCommand.Execute(sut.Orders.First().OrderNumber);
@@ -157,7 +168,7 @@ namespace Tests.Main
 			{
 				_order
 			});
-			var sut = new MainChefViewModel(null, _restaurant, null, null, null);
+			var sut = new MainChefViewModel(null, _restaurant, null, null, _loggerFactoryMock.Object);
 
 			// Act
 			sut.ShowDishesInOrderCommand.Execute("100");
@@ -181,7 +192,7 @@ namespace Tests.Main
 				_order
 			});
 			var restaurant = new Restaurant("Resty", _dishProvider.Object, _orderCreator.Object, _orderProvider.Object);
-			var sut = new MainChefViewModel(null, restaurant, null, null, null);
+			var sut = new MainChefViewModel(null, restaurant, null, null, _loggerFactoryMock.Object);
 
 			// Act
 			sut.NotReadyFilterChecked = true;
@@ -210,7 +221,7 @@ namespace Tests.Main
 				_order
 			});
 			var restaurant = new Restaurant("Resty", _dishProvider.Object, _orderCreator.Object, _orderProvider.Object);
-			var sut = new MainChefViewModel(null, restaurant, null, null, null);
+			var sut = new MainChefViewModel(null, restaurant, null, null, _loggerFactoryMock.Object);
 
 			// Act
 			sut.NameFilter = "piz";
@@ -239,7 +250,7 @@ namespace Tests.Main
 				_order
 			});
 			var restaurant = new Restaurant("Resty", _dishProvider.Object, _orderCreator.Object, _orderProvider.Object);
-			var sut = new MainChefViewModel(null, restaurant, null, null, null);
+			var sut = new MainChefViewModel(null, restaurant, null, null, _loggerFactoryMock.Object);
 
 			// Act
 			sut.NameFilter = "piz";
@@ -253,11 +264,6 @@ namespace Tests.Main
 			sut.Orders.First().OrderItems
 				.Should()
 				.BeEquivalentTo(_order.Dishes, options => options.ExcludingMissingMembers());
-		}
-
-		private MenuAndBasketViewModel MenuFactory()
-		{
-			return new MenuAndBasketViewModel(_restaurant, null, null, null, null);
 		}
 	}
 }

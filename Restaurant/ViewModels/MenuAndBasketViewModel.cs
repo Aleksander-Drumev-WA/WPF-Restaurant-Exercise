@@ -39,22 +39,23 @@ namespace WPF_Restaurant.ViewModels
 
 		public ICommand NavigateCommand { get; }
 
+		// TODO: ClearMessage into - Relay
 		public MenuAndBasketViewModel(
 			Restaurant restaurant,
 			ICommand navigateCommand,
-			MessageStore messageStore,
+			IMessageStore messageStore,
 			MessageViewModel messageViewModel,
 			ILoggerFactory factory)
 		{
 			_dishesInMenu = new ObservableCollection<DishViewModel>();
 			_chosenDishes = new ObservableCollection<DishViewModel>();
-			ChooseDishCommand = new ChooseDishCommand(_chosenDishes, messageStore, factory);
-			RemoveDishCommand = new RemoveDishCommand(_chosenDishes, messageStore, factory);
-			LoadDishesCommand = new LoadDishesCommand(_dishesInMenu, restaurant, messageStore, factory);
+			ChooseDishCommand = new ChooseDishCommand(_chosenDishes, messageStore, factory.CreateLogger<ChooseDishCommand>());
+			RemoveDishCommand = new RemoveDishCommand(_chosenDishes, messageStore, factory.CreateLogger<RemoveDishCommand>());
+			LoadDishesCommand = new LoadDishesCommand(_dishesInMenu, restaurant.DishProvider, messageStore, factory.CreateLogger<LoadDishesCommand>());
 			IncreaseQuantityCommand = new RelayCommand((param) => ExecuteChangeQuantityCommand(1, param));
 			DecreaseQuantityCommand = new RelayCommand((param) => ExecuteChangeQuantityCommand(-1, param), (param) => CanChangeQuantity(param));
 			LoadDishesCommand.Execute(null);
-			OrderCommand = new CreateOrderCommand(_chosenDishes, restaurant, messageStore, factory);
+			OrderCommand = new CreateOrderCommand(_chosenDishes, restaurant.OrderCreator, messageStore, factory.CreateLogger<CreateOrderCommand>());
 			NavigateCommand = navigateCommand;
 			MessageViewModel = messageViewModel;
 		}

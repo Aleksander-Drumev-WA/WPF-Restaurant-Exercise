@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using DataAccess.Abstractions;
+using Microsoft.Extensions.Logging;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -25,19 +26,18 @@ namespace WPF_Restaurant.ViewModels.Chef
 
 		public ChefLookingAtOrderViewModel(
                Order order,
-               Restaurant restaurant,
+               IOrderProvider orderProvider,
                MainChefViewModel mainChefViewModel,
-               MessageStore messageStore,
-               ILoggerFactory factory,
-               bool notReadyFilter)
+               IMessageStore messageStore,
+               ILoggerFactory factory)
         {
             _orderNumber = order.Id;
             RenderItems = new ObservableCollection<ChefLookingAtOrderItemViewModel>(
                 order.Dishes.Select(oi => new ChefLookingAtOrderItemViewModel(oi.Name, oi.Recipe, !(oi.IsCompleted), order.Id, oi.Id))
             );
 
-            LoadOrdersCommand = new LoadOrdersCommand(mainChefViewModel?.Orders, restaurant, messageStore, factory);
-            CompleteDishCommand = new CompleteDishCommand(restaurant, LoadOrdersCommand, messageStore, factory, mainChefViewModel);
+            LoadOrdersCommand = new LoadOrdersCommand(mainChefViewModel?.Orders, orderProvider, messageStore, factory.CreateLogger<LoadOrdersCommand>());
+            CompleteDishCommand = new CompleteDishCommand(orderProvider, LoadOrdersCommand, messageStore, factory.CreateLogger<CompleteDishCommand>(), mainChefViewModel);
         }
     }
 }

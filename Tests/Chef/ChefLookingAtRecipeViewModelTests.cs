@@ -10,6 +10,9 @@ using WPF_Restaurant.DataAccess.Data;
 using WPF_Restaurant.Models;
 using WPF_Restaurant.ViewModels;
 using WPF_Restaurant.ViewModels.Chef;
+using Microsoft.Extensions.Logging;
+using WPF_Restaurant.Stores;
+using Tests.Stubs;
 
 namespace Tests.Chef
 {
@@ -20,6 +23,8 @@ namespace Tests.Chef
 		private Mock<IDishProvider> _dishProvider;
 		private Mock<IOrderCreator> _orderCreator;
 		private Mock<IOrderProvider> _orderProvider;
+		private Mock<ILoggerFactory> _loggerFactoryMock;
+		private Mock<IMessageStore> _messageStoreMock;
 
 		[SetUp]
 		public void SetUp()
@@ -38,6 +43,12 @@ namespace Tests.Chef
 			_dishProvider = new Mock<IDishProvider>();
 
 			_orderItemViewModel = new OrderItemViewModel(dishes.First(), 4, 3, dishes.Select(d => d.IsCompleted));
+
+			_loggerFactoryMock = new Mock<ILoggerFactory>();
+			_loggerFactoryMock.Setup(x => x.CreateLogger(It.IsAny<string>()))
+				.Returns(new StubLogger());
+
+			_messageStoreMock = new Mock<IMessageStore>();
 		}
 
 
@@ -45,7 +56,8 @@ namespace Tests.Chef
 		public void VM_properties_assigned_properly()
 		{
 			// Arrange
-			var sut = new ChefLookingAtRecipeViewModel(_orderItemViewModel, null, null, null, null);
+			var restaurant = new Restaurant("Resty", _dishProvider.Object, _orderCreator.Object, _orderProvider.Object);
+			var sut = new ChefLookingAtRecipeViewModel(_orderItemViewModel, restaurant, null, _messageStoreMock.Object, _loggerFactoryMock.Object);
 
 			// Act
 
@@ -67,8 +79,8 @@ namespace Tests.Chef
 			});
 			_orderProvider.Setup(x => x.CompleteDish(1, 3)).ReturnsAsync(_order.Dishes.First().IsCompleted = true);
 			var restaurant = new Restaurant("Resty", _dishProvider.Object, _orderCreator.Object, _orderProvider.Object);
-			var mainViewModel = new MainChefViewModel(null, restaurant, null, null, null);
-			var sut = new ChefLookingAtRecipeViewModel(_orderItemViewModel, restaurant, mainViewModel, null, null);
+			var mainViewModel = new MainChefViewModel(null, restaurant, null, null, _loggerFactoryMock.Object);
+			var sut = new ChefLookingAtRecipeViewModel(_orderItemViewModel, restaurant, mainViewModel, _messageStoreMock.Object, _loggerFactoryMock.Object);
 
 			// Act
 			sut.CompleteDishCommand.Execute(sut);

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using DataAccess.Abstractions;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,16 +20,16 @@ namespace WPF_Restaurant.Commands
 	public class LoadOrdersCommand : AsyncBaseCommand
 	{
 		private ObservableCollection<OrderViewModel> _orders;
-		private Restaurant _restaurant;
-		private readonly MessageStore _messageStore;
-		private readonly ILogger<LoadOrdersCommand> _logger;
+		private IOrderProvider _orderProvider;
+		private readonly IMessageStore _messageStore;
+		private readonly ILogger _logger;
 
-		public LoadOrdersCommand(ObservableCollection<OrderViewModel> orders, Restaurant restaurant, MessageStore messageStore, ILoggerFactory factory)
+		public LoadOrdersCommand(ObservableCollection<OrderViewModel> orders, IOrderProvider orderProvider, IMessageStore messageStore, ILogger logger)
 		{
 			_orders = orders;
-			_restaurant = restaurant;
+			_orderProvider = orderProvider;
 			_messageStore = messageStore;
-			_logger = factory?.CreateLogger<LoadOrdersCommand>();
+			_logger = logger;
 		}
 
 
@@ -36,13 +37,13 @@ namespace WPF_Restaurant.Commands
 		{
 			try
 			{
-				_logger?.LogInformation("Start loading orders...");
+				_logger.LogInformation("Start loading orders...");
 				_orders?.Clear();
 				IEnumerable<Order> orders;
 
 				if (parameter is MainChefViewModel filters)
 				{
-					orders = await _restaurant.OrdersProvider.GetAllOrders(filters.NotReadyFilterChecked, filters.NameFilter);
+					orders = await _orderProvider.GetAllOrders(filters.NotReadyFilterChecked, filters.NameFilter);
 				}
 				else
 				{
@@ -53,7 +54,7 @@ namespace WPF_Restaurant.Commands
 					var orderViewModel = new OrderViewModel(order);
 					_orders.Add(orderViewModel);
 				}
-				_logger?.LogInformation("Orders have been loaded successfully.");
+				_logger.LogInformation("Orders have been loaded successfully.");
 			}
 			catch (Exception e)
 			{

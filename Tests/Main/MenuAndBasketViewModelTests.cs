@@ -1,5 +1,6 @@
 ﻿using DataAccess.Abstractions;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using Models.Models;
 using Moq;
 using NUnit.Framework;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tests.Stubs;
 using WPF_Restaurant.Commands;
 using WPF_Restaurant.DataAccess.Data;
 using WPF_Restaurant.Models;
@@ -23,6 +25,8 @@ namespace Tests.Main
 		private Mock<IDishProvider> _dishProvider;
 		private Mock<IOrderCreator> _orderCreator;
 		private Mock<IOrderProvider> _orderProvider;
+		private Mock<ILoggerFactory> _loggerFactoryMock;
+		private Mock<IMessageStore> _messageStoreMock;
 
 		[SetUp]
 		public void SetUp()
@@ -42,13 +46,19 @@ namespace Tests.Main
 			_dishProvider.Setup(x => x.GetAllDishes()).ReturnsAsync(_dishes);
 
 			_restaurant = new Restaurant("Resty", _dishProvider.Object, _orderCreator.Object, _orderProvider.Object);
+
+			_loggerFactoryMock = new Mock<ILoggerFactory>();
+			_loggerFactoryMock.Setup(x => x.CreateLogger(It.IsAny<string>()))
+				.Returns(new StubLogger());
+
+			_messageStoreMock = new Mock<IMessageStore>();
 		}
 
 		[Test]
 		public void Load_dishes_in_menu_successfully()
 		{
 			// Arrange
-			var sut = new MenuAndBasketViewModel(_restaurant, null, null, null, null);
+			var sut = new MenuAndBasketViewModel(_restaurant, null, null, null, _loggerFactoryMock.Object);
 
 			// Act
 
@@ -62,7 +72,7 @@ namespace Tests.Main
 		public void Choose_dish_from_menu_successfully()
 		{
 			// Arrange
-			var sut = new MenuAndBasketViewModel(_restaurant, null, null, null, null);
+			var sut = new MenuAndBasketViewModel(_restaurant, null, _messageStoreMock.Object, null, _loggerFactoryMock.Object);
 			var resultList = new List<Dish>
 			{
 				_dishes.First(),
@@ -83,7 +93,7 @@ namespace Tests.Main
 		public void Increase_quantity_of_chosen_dishes_successfully()
 		{
 			// Arrange
-			var sut = new MenuAndBasketViewModel(_restaurant, null, null, null, null);
+			var sut = new MenuAndBasketViewModel(_restaurant, null, _messageStoreMock.Object, null, _loggerFactoryMock.Object);
 
 			// Act
 			sut.ChooseDishCommand.Execute(_dishes.First());
@@ -104,7 +114,7 @@ namespace Tests.Main
 		public void Decrease_quantity_of_chosen_dishes_successfully()
 		{
 			// Arrange
-			var sut = new MenuAndBasketViewModel(_restaurant, null, null, null, null);
+			var sut = new MenuAndBasketViewModel(_restaurant, null, _messageStoreMock.Object, null, _loggerFactoryMock.Object);
 
 			// Act
 			sut.ChooseDishCommand.Execute(_dishes.First());
@@ -128,7 +138,7 @@ namespace Tests.Main
 		public void Decrease_quantity_does_not_work_if_quantity_is_default_value()
 		{
 			// Arrange
-			var sut = new MenuAndBasketViewModel(_restaurant, null, null, null, null);
+			var sut = new MenuAndBasketViewModel(_restaurant, null, _messageStoreMock.Object, null, _loggerFactoryMock.Object);
 
 			// Act
 			sut.ChooseDishCommand.Execute(_dishes.First());
@@ -149,7 +159,7 @@ namespace Tests.Main
 		public void Remove_dish_from_chosen_dishes()
 		{
 			// Arrange
-			var sut = new MenuAndBasketViewModel(_restaurant, null, null, null, null);
+			var sut = new MenuAndBasketViewModel(_restaurant, null, _messageStoreMock.Object, null, _loggerFactoryMock.Object);
 			var resultList = new List<Dish>
 			{
 				_dishes.Last()
@@ -173,8 +183,11 @@ namespace Tests.Main
 		{
 			//Arrange
 			var navStore = new NavigationStore();
-			var navigateCommand = new NavigateCommand<MainChefViewModel>(navStore, ChefViewModelFactory);
-			var sut = new MenuAndBasketViewModel(_restaurant, navigateCommand, null, null, null);
+			var navigateCommand = new NavigateCommand<MainChefViewModel>(
+				navStore,
+				() => new MainChefViewModel(null, _restaurant, null, null, _loggerFactoryMock.Object));
+
+			var sut = new MenuAndBasketViewModel(_restaurant, navigateCommand, null, null, _loggerFactoryMock.Object);
 
 			// Act
 			sut.NavigateCommand.Execute(null);
@@ -187,7 +200,7 @@ namespace Tests.Main
 		public void Creating_order_from_chosen_dishes_successfully()
 		{
 			// Arrange
-			var sut = new MenuAndBasketViewModel(_restaurant, null, null, null, null);
+			var sut = new MenuAndBasketViewModel(_restaurant, null, _messageStoreMock.Object, null, _loggerFactoryMock.Object);
 
 			_orderCreator.Setup(x => x.CreateOrder(sut.ChosenDishes.Select(d => new CartItem(d.Dish, d.Quantity)))).ReturnsAsync(1);
 
@@ -203,11 +216,6 @@ namespace Tests.Main
 			resultOrder.Dishes.Should().NotBeNull().And.NotBeEmpty().And.HaveCount(2).And.BeEquivalentTo(sut.ChosenDishes, options => options.ExcludingMissingMembers());
 
 
-		}
-
-		private MainChefViewModel ChefViewModelFactory()
-		{
-			return new MainChefViewModel(null, _restaurant, null, null, null);
 		}
 	}
 }

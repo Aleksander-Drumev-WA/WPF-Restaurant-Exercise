@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using WPF_Restaurant.Commands;
 using WPF_Restaurant.DataAccess.Data;
+using WPF_Restaurant.Extensions;
 using WPF_Restaurant.Stores;
 using WPF_Restaurant.ViewModels.Chef;
 using WPF_Restaurant.ViewModels.Common;
+using static WPF_Restaurant.Stores.MessageStore;
 
 namespace WPF_Restaurant.ViewModels
 {
@@ -20,6 +22,12 @@ namespace WPF_Restaurant.ViewModels
         private BaseViewModel _baseViewModel;
         private bool _notReadyCheck;
         private string _nameFilter;
+
+        private Restaurant _restaurant;
+
+        private ILoggerFactory _factory;
+        private ILogger _logger;
+        private IMessageStore _messageStore;
 
         public ObservableCollection<OrderViewModel> Orders => _orders;
 
@@ -72,11 +80,58 @@ namespace WPF_Restaurant.ViewModels
         {
             _orders = new ObservableCollection<OrderViewModel>();
             NavigateCommand = navigateCommand;
-            LoadOrdersCommand = new LoadOrdersCommand(_orders, restaurant, messageStore, factory);
+            LoadOrdersCommand = new LoadOrdersCommand(_orders, restaurant.OrdersProvider, messageStore, factory.CreateLogger<LoadOrdersCommand>());
             LoadOrdersCommand.Execute(this);
-            NavigateToRecipeViewCommand = new ShowRecipeCommand(this, restaurant, messageStore, factory);
-            ShowDishesInOrderCommand = new ShowDishesInOrderCommand(this, restaurant, messageStore, factory);
+            NavigateToRecipeViewCommand = new RelayCommand(param => ShowRecipeView(param));
+            ShowDishesInOrderCommand = new ShowDishesInOrderCommand(this, restaurant.OrdersProvider, messageStore, factory);
             MessageViewModel = messageViewModel;
+
+            _restaurant = restaurant;
+            _factory = factory;
+            _logger = factory.CreateLogger<MainChefViewModel>();
+            _messageStore = messageStore;
+        }
+
+        private void ShowRecipeView(object? parameter)
+        {
+            try
+            {
+                if (parameter is OrderItemViewModel incomingViewModel)
+                {
+                    _logger?.LogInformation("Start showing recipe...");
+
+                    var chosenDish = this.Orders
+                        .SingleOrDefault(o => o.OrderNumber == incomingViewModel.OrderNumber)?.OrderItems
+                        .FirstOrDefault(oi => oi.Id == incomingViewModel.Id);
+
+                    if (chosenDish != null)
+                    {
+                        var viewModel = new ChefLookingAtRecipeViewModel(
+                                        chosenDish,
+                                        _restaurant,
+                                        this,
+                                        _messageStore,
+                                        _factory);
+
+                        this.CurrentViewModel = viewModel;
+                        _logger?.LogInformation("Recipe has been shown successfully.");
+                    }
+                }
+                else
+                {
+                    _logger?.LogWarning("Invalid parameter type in ShowRecipeCommand");
+                }
+            }
+            catch (ArgumentNullException ane)
+            {
+                _messageStore.SetMessage(ane.Message, MessageType.Error);
+                _logger.LogError(ane.GetExceptionData());
+            }
+            catch (Exception e)
+            {
+                _messageStore.SetMessage(e.Message, MessageType.Error);
+                _logger.LogError(e.GetExceptionData());
+            }
         }
     }
 }
