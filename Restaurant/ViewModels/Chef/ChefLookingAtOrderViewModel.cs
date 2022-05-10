@@ -20,6 +20,8 @@ namespace WPF_Restaurant.ViewModels.Chef
 
         public ObservableCollection<ChefLookingAtOrderItemViewModel> RenderItems { get; }
 
+        // Why is it "public"? I can find "Binding" for this command.
+        // It looks like "We wrap "action" in command just for transfer an action".
         public ICommand LoadOrdersCommand { get; }
 
         public ICommand CompleteDishCommand { get; }
@@ -37,7 +39,18 @@ namespace WPF_Restaurant.ViewModels.Chef
             );
 
             LoadOrdersCommand = new LoadOrdersCommand(mainChefViewModel?.Orders, orderProvider, messageStore, factory.CreateLogger<LoadOrdersCommand>());
+            // I'm trying to understand: why we create command here, we can pass it as a parameter.
+            // This command "lives" only when MainChefViewModel "lives" and this ViewModel "lives" only when MainChefViewModel "lives".
+            // so we can create this command in MainChefViewModel and transfer the instance of command to "child" view models. 
+            // "Child" view models live only in MainChefViewModel. It's simplify dependencies of ChefLookingAtOrderViewModel and ChefLookingAtRecipeViewModel.
+            // The constructor of ChefLookingAtOrderViewModel will be like:
+            // public ChefLookingAtOrderViewModel(Order order, ICommand completeDishCommand) { ... }
+            // The constructor of ChefLookingAtRecipeViewModel will be like:
+            // public ChefLookingAtRecipeViewModel(OrderItemViewModel chosenDish, ICommand completeDishCommand) { ... }
+            // Do you agree?
+            // less dependencies - less bugs
             CompleteDishCommand = new CompleteDishCommand(orderProvider, LoadOrdersCommand, messageStore, factory.CreateLogger<CompleteDishCommand>(), mainChefViewModel);
+            // If you move creating of CompleteDishCommand to MainChefViewModel, you will see - CompleteDishCommand is RelayCommand! I like RelayCommand :-)
         }
     }
 }

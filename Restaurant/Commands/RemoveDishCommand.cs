@@ -15,6 +15,11 @@ using static WPF_Restaurant.Stores.MessageStore;
 
 namespace WPF_Restaurant.Commands
 {
+	// It's too simple command, I think, we can replace it with RelayCommand.
+	// My arguments:
+	// 1. The "action" is too simple.
+	// 2. Using RelayCommand we can avoid testing separated class RemoveDishCommand.
+	// Any objections?
 	public class RemoveDishCommand : BaseCommand
 	{
 		private ObservableCollection<DishViewModel> _chosenDishes;
@@ -33,8 +38,19 @@ namespace WPF_Restaurant.Commands
 			try
 			{
 				_logger.LogInformation("Start removing dish...");
+				// I'm trying to understand: why we get a instance of Dish.
+				// If we change
+				// Command = "{Binding DataContext.RemoveDishCommand, ElementName=ChosenList}"
+				// CommandParameter = "{Binding Dish}" >
+				// to
+				// Command="{Binding DataContext.RemoveDishCommand, ElementName=ChosenList}"
+				// CommandParameter = "{Binding}" >
+				// we can... solve it yourself :-)
 				if (parameter is Dish dish)
 				{
+					// Search by name... Ok, sometimes...
+					// but searching by int is more efficient.
+					// Can we use searching by int here?
 					var dishToRemove = _chosenDishes.First(cd => cd.Name == dish.Name);
 					_chosenDishes.Remove(dishToRemove);
 					_messageStore.SetMessage("Dish has been removed.", MessageType.Information);
@@ -45,6 +61,8 @@ namespace WPF_Restaurant.Commands
 					throw new ArgumentException("Wrong parameter passed to RemoveDishCommand");
 				}
 			}
+			// I've never seen using ArgumentNullException in catch.
+			// why do we need this block?
 			catch (ArgumentNullException ane)
 			{
 				_logger.LogError(ane.GetExceptionData());
