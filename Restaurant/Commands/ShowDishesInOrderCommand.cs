@@ -53,8 +53,9 @@ namespace WPF_Restaurant.Commands
                         _mainChefViewModel.CurrentViewModel = viewModel;
                         _logger.LogInformation("Dishes in order have been shown successfully.");
                     }
+                    // if orderWithDishes == null?
                 }
-				else
+                else
 				{
                     _logger.LogWarning("Invalid parameter passed in ShowDishesInOrderCommand");
 				}

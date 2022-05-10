@@ -25,7 +25,13 @@ namespace WPF_Restaurant.Commands
         private readonly IMessageStore _messageStore;
         private readonly ILogger _logger;
 
-		public CreateOrderCommand(ObservableCollection<DishViewModel> chosenDishes, IOrderCreator orderCreator, IMessageStore messageStore, ILogger logger)
+        // Here, we don't use features of ObservableCollection<T>.
+        // We can use IEnumerable<T> instead of ObservableCollection<T>. 
+        // Always use maximum abstraction - it's common rules.
+        // If you just iterate over collection - use IEnumerable<T>.
+        // If you manage collection (add, remove) - use ICollection<T>.
+        // This avoids "strong" dependencies.
+        public CreateOrderCommand(ObservableCollection<DishViewModel> chosenDishes, IOrderCreator orderCreator, IMessageStore messageStore, ILogger logger)
         {
             _chosenDishes = chosenDishes;
             _orderCreator = orderCreator;
@@ -52,6 +58,7 @@ namespace WPF_Restaurant.Commands
             }
         }
 
+        // "Empty" overriding
         public override bool CanExecute(object? parameter)
         {
             return base.CanExecute(parameter);

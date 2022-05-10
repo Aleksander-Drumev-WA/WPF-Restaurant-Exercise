@@ -100,6 +100,9 @@ namespace WPF_Restaurant.ViewModels
                 {
                     _logger?.LogInformation("Start showing recipe...");
 
+                    // incomingViewModel is OrderItemViewModel
+                    // and we search chosenDish (type OrderItemViewModel)
+                    // Do we need this search?
                     var chosenDish = this.Orders
                         .SingleOrDefault(o => o.OrderNumber == incomingViewModel.OrderNumber)?.OrderItems
                         .FirstOrDefault(oi => oi.Id == incomingViewModel.Id);
