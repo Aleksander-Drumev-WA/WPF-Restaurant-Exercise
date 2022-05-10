@@ -109,24 +109,6 @@ namespace Tests.Main
 		}
 
 		[Test]
-		public void Cannot_show_recipe_because_dish_is_not_in_list()
-		{
-			// Arrange
-			_orderProvider.Setup(x => x.GetAllOrders(false, null)).ReturnsAsync(new List<Order>
-			{
-				_order
-			});
-			var orderItemViewModel = new OrderItemViewModel(new Dish(3, "Some name", "path 2", "strong recipe", "salt"), 1, 5, new List<bool> { false });
-			var sut = new MainChefViewModel(null, _restaurant, null, null, _loggerFactoryMock.Object);
-
-			// Act
-			sut.NavigateToRecipeViewCommand.Execute(orderItemViewModel);
-
-			// Assert
-			sut.CurrentViewModel.Should().BeNull();
-		}
-
-		[Test]
 		public void Cannot_show_recipe_because_no_dish_is_provided()
 		{
 			// Arrange

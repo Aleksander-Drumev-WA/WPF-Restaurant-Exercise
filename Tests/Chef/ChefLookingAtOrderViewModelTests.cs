@@ -53,7 +53,7 @@ namespace Tests.Chef
 		public void OrderNumber_value_set_successfully()
 		{
 			// Arrange
-			var sut = new ChefLookingAtOrderViewModel(_order, null, null, _messageStoreMock.Object, _loggerFactoryMock.Object);
+			var sut = new ChefLookingAtOrderViewModel(_order, null);
 
 			// Act
 
@@ -66,7 +66,7 @@ namespace Tests.Chef
 		public void RenderItem_equals_to_passed_dish()
 		{
 			// Arrange
-			var sut = new ChefLookingAtOrderViewModel(_order, null, null, _messageStoreMock.Object, _loggerFactoryMock.Object);
+			var sut = new ChefLookingAtOrderViewModel(_order, null);
 			var firstDish = _dishes.First();
 			var firstRenderItem = sut.RenderItems.First();
 
@@ -91,7 +91,7 @@ namespace Tests.Chef
 			});
 			var restaurant = new Restaurant("Resty", dishProvider.Object, orderCreator.Object, orderProvider.Object);
 			var mainChefViewModel = new MainChefViewModel(null, restaurant, null, null, _loggerFactoryMock.Object);
-			var sut = new ChefLookingAtOrderViewModel(_order, orderProvider.Object, mainChefViewModel, _messageStoreMock.Object, _loggerFactoryMock.Object);
+			var sut = new ChefLookingAtOrderViewModel(_order, mainChefViewModel.CompleteDishCommand);
 			var chosenDish = new ChefLookingAtOrderItemViewModel("Pizza", "whatever", false, 1, 1);
 
 			// Act

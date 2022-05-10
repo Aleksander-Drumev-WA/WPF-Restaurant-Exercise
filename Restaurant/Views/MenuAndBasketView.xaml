@@ -203,7 +203,7 @@
                                                     Padding="10 1"
                                                     Margin="3"
                                                     Command="{Binding DataContext.RemoveDishCommand, ElementName=ChosenList}"
-                                                    CommandParameter="{Binding Dish}">
+                                                    CommandParameter="{Binding}">
                                                 <Button.Resources>
                                                     <Style TargetType="Border">
                                                         <Setter Property="CornerRadius" Value="20"/>

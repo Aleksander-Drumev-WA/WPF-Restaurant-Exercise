@@ -45,25 +45,20 @@ namespace WPF_Restaurant.Commands
                     {
                         var viewModel = new ChefLookingAtOrderViewModel(
                             orderWithDishes.Order,
-                            _orderProvider,
-                            _mainChefViewModel,
-                            _messageStore,
-                            _factory);
+                            _mainChefViewModel.CompleteDishCommand);
 
                         _mainChefViewModel.CurrentViewModel = viewModel;
                         _logger.LogInformation("Dishes in order have been shown successfully.");
                     }
-                    // if orderWithDishes == null?
+                    else if (orderWithDishes == null)
+					{
+                        _logger.LogWarning("Cannot show dishes in a non-existent order.");
+                    }
                 }
                 else
 				{
                     _logger.LogWarning("Invalid parameter passed in ShowDishesInOrderCommand");
 				}
-            }
-            catch (ArgumentNullException ane)
-            {
-                _messageStore.SetMessage(ane.Message, MessageType.Error);
-                _logger.LogError(ane.GetExceptionData());
             }
             catch (Exception e)
             {

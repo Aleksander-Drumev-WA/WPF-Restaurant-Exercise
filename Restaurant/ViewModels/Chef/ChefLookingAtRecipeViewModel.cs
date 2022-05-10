@@ -22,18 +22,11 @@ namespace WPF_Restaurant.ViewModels.Chef
 
         public ICommand CompleteDishCommand { get; }
 
-        public ICommand LoadOrdersCommand { get; }
 
-		public ChefLookingAtRecipeViewModel(
-            OrderItemViewModel chosenDish,
-            Restaurant restaurant,
-            MainChefViewModel mainChefViewModel,
-            IMessageStore messageStore,
-            ILoggerFactory factory)
+		public ChefLookingAtRecipeViewModel(OrderItemViewModel chosenDish, ICommand completeDishCommand)
 		{
             _chosenDish = chosenDish;
-            LoadOrdersCommand = new LoadOrdersCommand(mainChefViewModel?.Orders, restaurant.OrdersProvider, messageStore, factory.CreateLogger<LoadOrdersCommand>());
-            CompleteDishCommand = new CompleteDishCommand(restaurant.OrdersProvider, LoadOrdersCommand, messageStore, factory.CreateLogger<CompleteDishCommand>(), mainChefViewModel);
+            CompleteDishCommand = completeDishCommand;
         }
 	}
 }

@@ -156,29 +156,6 @@ namespace Tests.Main
 		}
 
 		[Test]
-		public void Remove_dish_from_chosen_dishes()
-		{
-			// Arrange
-			var sut = new MenuAndBasketViewModel(_restaurant, null, _messageStoreMock.Object, null, _loggerFactoryMock.Object);
-			var resultList = new List<Dish>
-			{
-				_dishes.Last()
-			};
-
-			// Act
-			sut.ChooseDishCommand.Execute(_dishes.First());
-			sut.ChooseDishCommand.Execute(_dishes.Last());
-
-			sut.RemoveDishCommand.Execute(_dishes.First());
-
-			// Assert
-			sut.ChosenDishes.Should().NotBeEmpty();
-			sut.ChosenDishes.Should().NotBeNull();
-			sut.ChosenDishes.Count().Should().Be(1);
-			sut.ChosenDishes.Should().BeEquivalentTo(resultList, options => options.ExcludingMissingMembers());
-		}
-
-		[Test]
 		public void Navigate_to_other_VM()
 		{
 			//Arrange

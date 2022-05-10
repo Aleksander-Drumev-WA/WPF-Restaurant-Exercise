@@ -17,7 +17,9 @@ namespace WPF_Restaurant.ViewModels.Customer
 
         public Dish Dish => _dish;
 
-        public string Name => _dish.Name;
+		public int Id => _dish.Id;
+
+		public string Name => _dish.Name;
 
         public string ImagePath => _dish.ImagePath;
 

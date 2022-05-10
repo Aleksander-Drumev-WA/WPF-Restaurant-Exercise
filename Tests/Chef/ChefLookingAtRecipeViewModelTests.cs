@@ -57,7 +57,7 @@ namespace Tests.Chef
 		{
 			// Arrange
 			var restaurant = new Restaurant("Resty", _dishProvider.Object, _orderCreator.Object, _orderProvider.Object);
-			var sut = new ChefLookingAtRecipeViewModel(_orderItemViewModel, restaurant, null, _messageStoreMock.Object, _loggerFactoryMock.Object);
+			var sut = new ChefLookingAtRecipeViewModel(_orderItemViewModel, null);
 
 			// Act
 
@@ -80,7 +80,7 @@ namespace Tests.Chef
 			_orderProvider.Setup(x => x.CompleteDish(1, 3)).ReturnsAsync(_order.Dishes.First().IsCompleted = true);
 			var restaurant = new Restaurant("Resty", _dishProvider.Object, _orderCreator.Object, _orderProvider.Object);
 			var mainViewModel = new MainChefViewModel(null, restaurant, null, null, _loggerFactoryMock.Object);
-			var sut = new ChefLookingAtRecipeViewModel(_orderItemViewModel, restaurant, mainViewModel, _messageStoreMock.Object, _loggerFactoryMock.Object);
+			var sut = new ChefLookingAtRecipeViewModel(_orderItemViewModel, mainViewModel.CompleteDishCommand);
 
 			// Act
 			sut.CompleteDishCommand.Execute(sut);
