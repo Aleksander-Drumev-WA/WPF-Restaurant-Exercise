@@ -18,25 +18,25 @@ namespace Tests
 			new OrderItem {
 				Id = 1,
 				OrderId = OrderNumber,
-				Dish = new Dish { Id = 1, Name = "Dish 1" },
+				Dish = new TestDish { Id = 1, Name = "Dish 1" },
 				IsCompleted = true,
 			},
 			new OrderItem {
 				Id = 2,
 				OrderId = OrderNumber,
-				Dish = new Dish { Id = 1, Name = "Dish 1" }, // NOTE: New instance with Id = 1!!!
+				Dish = new TestDish { Id = 1, Name = "Dish 1" }, // NOTE: New instance with Id = 1!!!
 				IsCompleted = false,
 			},
 			new OrderItem {
 				Id = 3,
 				OrderId = OrderNumber,
-				Dish = new Dish { Id = 2, Name = "Dish 2" },
+				Dish = new TestDish { Id = 2, Name = "Dish 2" },
 				IsCompleted = false,
 			},
 			new OrderItem {
 				Id = 4,
 				OrderId = OrderNumber,
-				Dish = new Dish { Id = 3, Name = "Dish 3" },
+				Dish = new TestDish { Id = 3, Name = "Dish 3" },
 				IsCompleted = true,
 			},
 		};
@@ -61,7 +61,7 @@ namespace Tests
 		}
 	}
 
-	public class Dish {
+	public class TestDish {
 		public int Id { get; set; }
 		public string Name { get; set; }
 		/*....*/
@@ -74,7 +74,7 @@ namespace Tests
             }
 			else
             {
-				Dish dish = (Dish)obj;
+				TestDish dish = (TestDish)obj;
 				return (dish.Id == Id) && (dish.Name == Name);
             }
 		}
@@ -88,13 +88,13 @@ namespace Tests
 	public class OrderItem {
 		public int Id { get; set; }
 		public int OrderId { get; set; }
-		public Dish Dish { get; set; }
+		public TestDish Dish { get; set; }
 		public bool IsCompleted { get; set; }
 	}
 
 	public class OrderItemViewModel2
 	{
-		private readonly Dish _dish;
+		private readonly TestDish _dish;
 		private readonly IEnumerable<bool> _isCompletedCollection;
 		private readonly int _quantity;
 		private readonly int _orderNumber;
@@ -109,13 +109,13 @@ namespace Tests
 
 		public IEnumerable<bool> IsCompletedCollection => _isCompletedCollection;
 
-		public OrderItemViewModel2(Dish dish, int quantity)
+		public OrderItemViewModel2(TestDish dish, int quantity)
 		{
 			_dish = dish;
 			_quantity = quantity;
 		}
 
-		public OrderItemViewModel2(Dish dish, int quantity, int orderNumber, IEnumerable<bool> isCompletedCollection) : this(dish, quantity)
+		public OrderItemViewModel2(TestDish dish, int quantity, int orderNumber, IEnumerable<bool> isCompletedCollection) : this(dish, quantity)
 		{
 			_orderNumber = orderNumber;
 			_isCompletedCollection = isCompletedCollection;

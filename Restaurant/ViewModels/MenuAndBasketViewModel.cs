@@ -1,15 +1,17 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 
 using WPF_Restaurant.Commands;
 using WPF_Restaurant.DataAccess.Data;
+using WPF_Restaurant.Extensions;
 using WPF_Restaurant.Models;
 using WPF_Restaurant.Stores;
 using WPF_Restaurant.ViewModels.Common;
 using WPF_Restaurant.ViewModels.Customer;
-
+using static WPF_Restaurant.Stores.MessageStore;
 
 namespace WPF_Restaurant.ViewModels
 {
@@ -18,6 +20,9 @@ namespace WPF_Restaurant.ViewModels
 		private readonly ObservableCollection<DishViewModel> _dishesInMenu;
 
 		private readonly ObservableCollection<DishViewModel> _chosenDishes;
+
+		private ILogger _logger;
+		private IMessageStore _messageStore;
 
 		public ObservableCollection<DishViewModel> DishesInMenu => _dishesInMenu;
 
@@ -42,21 +47,23 @@ namespace WPF_Restaurant.ViewModels
 		public MenuAndBasketViewModel(
 			Restaurant restaurant,
 			ICommand navigateCommand,
-			MessageStore messageStore,
+			IMessageStore messageStore,
 			MessageViewModel messageViewModel,
 			ILoggerFactory factory)
 		{
 			_dishesInMenu = new ObservableCollection<DishViewModel>();
 			_chosenDishes = new ObservableCollection<DishViewModel>();
-			ChooseDishCommand = new ChooseDishCommand(_chosenDishes, messageStore, factory);
-			RemoveDishCommand = new RemoveDishCommand(_chosenDishes, messageStore, factory);
-			LoadDishesCommand = new LoadDishesCommand(_dishesInMenu, restaurant, messageStore, factory);
+			ChooseDishCommand = new ChooseDishCommand(_chosenDishes, messageStore, factory.CreateLogger<ChooseDishCommand>());
+			RemoveDishCommand = new RelayCommand(param => ExecuteRemoveDishCommand(param));
+			LoadDishesCommand = new LoadDishesCommand(_dishesInMenu, restaurant.DishProvider, messageStore, factory.CreateLogger<LoadDishesCommand>());
 			IncreaseQuantityCommand = new RelayCommand((param) => ExecuteChangeQuantityCommand(1, param));
 			DecreaseQuantityCommand = new RelayCommand((param) => ExecuteChangeQuantityCommand(-1, param), (param) => CanChangeQuantity(param));
 			LoadDishesCommand.Execute(null);
-			OrderCommand = new CreateOrderCommand(_chosenDishes, restaurant, messageStore, factory);
+			OrderCommand = new CreateOrderCommand(_chosenDishes, restaurant.OrderCreator, messageStore, factory.CreateLogger<CreateOrderCommand>());
 			NavigateCommand = navigateCommand;
 			MessageViewModel = messageViewModel;
+			_logger = factory.CreateLogger<MenuAndBasketViewModel>();
+			_messageStore = messageStore;
 		}
 		private void ExecuteChangeQuantityCommand(int amount, object param)
 		{
@@ -76,6 +83,30 @@ namespace WPF_Restaurant.ViewModels
 			else
 			{
 				return false;
+			}
+		}
+
+		private void ExecuteRemoveDishCommand(object param)
+		{
+			try
+			{
+				_logger.LogInformation("Start removing dish...");
+				if (param is DishViewModel dishViewModel)
+				{
+					var dishToRemove = _chosenDishes.First(cd => cd.Id == dishViewModel.Id);
+					_chosenDishes.Remove(dishToRemove);
+					_messageStore.SetMessage("Dish has been removed.", MessageType.Information);
+					_logger.LogInformation("Dish has been removed successfully.");
+				}
+				else
+				{
+					throw new ArgumentException("Wrong parameter passed to RemoveDishCommand");
+				}
+			}
+			catch (Exception e)
+			{
+				_logger.LogError(e.GetExceptionData());
+				_messageStore.SetMessage(e.Message, MessageType.Error);
 			}
 		}
 	}
