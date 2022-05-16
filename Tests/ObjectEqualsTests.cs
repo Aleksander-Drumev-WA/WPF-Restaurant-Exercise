@@ -1,20 +1,14 @@
-﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Tests
+﻿namespace Tests;
+public class ObjectEqualsTests
 {
-	public class ObjectEqualsTests
+	private const int OrderNumber = 567;
+
+	[SetUp]
+	public void Setup()
 	{
-		private const int OrderNumber = 567;
+	}
 
-		[SetUp]
-		public void Setup()
-		{
-		}
-
-		private IEnumerable<OrderItem> orderItems = new List<OrderItem>() {
+	private IEnumerable<OrderItem> orderItems = new List<OrderItem>() {
 			new OrderItem {
 				Id = 1,
 				OrderId = OrderNumber,
@@ -41,84 +35,86 @@ namespace Tests
 			},
 		};
 
-		[Test]
-		public void Test() {
-			var result = orderItems.GroupBy(x => x.Dish)
-				.Select(d => new OrderItemViewModel2(d.Key, d.Count(), OrderNumber, d.Where(x => x.IsCompleted == false).Select(x => x.IsCompleted)))
-				.ToArray();
-
-			Assert.That(result.SingleOrDefault(x => x.Id == 1), Is.Not.Null);
-			Assert.That(result.SingleOrDefault(x => x.Id == 1).Quantity, Is.EqualTo(2));
-			Assert.That(result.SingleOrDefault(x => x.Id == 1).IsCompletedCollection.Count(), Is.EqualTo(1));
-
-			Assert.That(result.SingleOrDefault(x => x.Id == 2), Is.Not.Null);
-			Assert.That(result.SingleOrDefault(x => x.Id == 2).Quantity, Is.EqualTo(1));
-			Assert.That(result.SingleOrDefault(x => x.Id == 2).IsCompletedCollection.Count(), Is.EqualTo(1));
-
-			Assert.That(result.SingleOrDefault(x => x.Id == 3), Is.Not.Null);
-			Assert.That(result.SingleOrDefault(x => x.Id == 3).Quantity, Is.EqualTo(1));
-			Assert.That(result.SingleOrDefault(x => x.Id == 3).IsCompletedCollection, Is.Empty);
-		}
-	}
-
-	public class TestDish {
-		public int Id { get; set; }
-		public string Name { get; set; }
-		/*....*/
-
-		public override bool Equals(object? obj)
-		{
-			if (obj == null || !this.GetType().Equals(obj.GetType()))
-            {
-				return false;
-            }
-			else
-            {
-				TestDish dish = (TestDish)obj;
-				return (dish.Id == Id) && (dish.Name == Name);
-            }
-		}
-
-		public override int GetHashCode()
-		{
-			return HashCode.Combine(Id, Name);
-		}
-	}
-
-	public class OrderItem {
-		public int Id { get; set; }
-		public int OrderId { get; set; }
-		public TestDish Dish { get; set; }
-		public bool IsCompleted { get; set; }
-	}
-
-	public class OrderItemViewModel2
+	[Test]
+	public void Test()
 	{
-		private readonly TestDish _dish;
-		private readonly IEnumerable<bool> _isCompletedCollection;
-		private readonly int _quantity;
-		private readonly int _orderNumber;
+		var result = orderItems.GroupBy(x => x.Dish)
+			.Select(d => new OrderItemViewModel2(d.Key, d.Count(), OrderNumber, d.Where(x => x.IsCompleted == false).Select(x => x.IsCompleted)))
+			.ToArray();
 
-		public int Id => _dish.Id;
+		Assert.That(result.SingleOrDefault(x => x.Id == 1), Is.Not.Null);
+		Assert.That(result.SingleOrDefault(x => x.Id == 1).Quantity, Is.EqualTo(2));
+		Assert.That(result.SingleOrDefault(x => x.Id == 1).IsCompletedCollection.Count(), Is.EqualTo(1));
 
-		public string Name => _dish.Name;
+		Assert.That(result.SingleOrDefault(x => x.Id == 2), Is.Not.Null);
+		Assert.That(result.SingleOrDefault(x => x.Id == 2).Quantity, Is.EqualTo(1));
+		Assert.That(result.SingleOrDefault(x => x.Id == 2).IsCompletedCollection.Count(), Is.EqualTo(1));
 
-		public int Quantity => _quantity;
+		Assert.That(result.SingleOrDefault(x => x.Id == 3), Is.Not.Null);
+		Assert.That(result.SingleOrDefault(x => x.Id == 3).Quantity, Is.EqualTo(1));
+		Assert.That(result.SingleOrDefault(x => x.Id == 3).IsCompletedCollection, Is.Empty);
+	}
+}
 
-		public int OrderNumber => _orderNumber;
+public class TestDish
+{
+	public int Id { get; set; }
+	public string Name { get; set; }
+	/*....*/
 
-		public IEnumerable<bool> IsCompletedCollection => _isCompletedCollection;
-
-		public OrderItemViewModel2(TestDish dish, int quantity)
+	public override bool Equals(object? obj)
+	{
+		if (obj == null || !this.GetType().Equals(obj.GetType()))
 		{
-			_dish = dish;
-			_quantity = quantity;
+			return false;
 		}
-
-		public OrderItemViewModel2(TestDish dish, int quantity, int orderNumber, IEnumerable<bool> isCompletedCollection) : this(dish, quantity)
+		else
 		{
-			_orderNumber = orderNumber;
-			_isCompletedCollection = isCompletedCollection;
+			TestDish dish = (TestDish)obj;
+			return (dish.Id == Id) && (dish.Name == Name);
 		}
+	}
+
+	public override int GetHashCode()
+	{
+		return HashCode.Combine(Id, Name);
+	}
+}
+
+public class OrderItem
+{
+	public int Id { get; set; }
+	public int OrderId { get; set; }
+	public TestDish Dish { get; set; }
+	public bool IsCompleted { get; set; }
+}
+
+public class OrderItemViewModel2
+{
+	private readonly TestDish _dish;
+	private readonly IEnumerable<bool> _isCompletedCollection;
+	private readonly int _quantity;
+	private readonly int _orderNumber;
+
+	public int Id => _dish.Id;
+
+	public string Name => _dish.Name;
+
+	public int Quantity => _quantity;
+
+	public int OrderNumber => _orderNumber;
+
+	public IEnumerable<bool> IsCompletedCollection => _isCompletedCollection;
+
+	public OrderItemViewModel2(TestDish dish, int quantity)
+	{
+		_dish = dish;
+		_quantity = quantity;
+	}
+
+	public OrderItemViewModel2(TestDish dish, int quantity, int orderNumber, IEnumerable<bool> isCompletedCollection) : this(dish, quantity)
+	{
+		_orderNumber = orderNumber;
+		_isCompletedCollection = isCompletedCollection;
 	}
 }

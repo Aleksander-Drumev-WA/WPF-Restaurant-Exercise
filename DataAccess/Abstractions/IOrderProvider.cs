@@ -1,11 +1,7 @@
-﻿using WPF_Restaurant.Models;
-
-namespace DataAccess.Abstractions
+﻿namespace DataAccess.Abstractions;
+public interface IOrderProvider
 {
-	public interface IOrderProvider
-	{
-		Task<IEnumerable<Order>> GetAllOrders(bool notReady = false, string? nameFilter = null);
+	Task<IEnumerable<Order>> GetAllOrders(bool notReady = false, string? nameFilter = null);
 
-		Task<bool> CompleteDish(int dishId, int orderNumber);
-	}
+	Task<bool> CompleteDish(int dishId, int orderNumber);
 }

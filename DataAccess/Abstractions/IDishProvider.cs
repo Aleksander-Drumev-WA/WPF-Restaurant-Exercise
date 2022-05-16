@@ -1,9 +1,5 @@
-﻿using WPF_Restaurant.Models;
-
-namespace DataAccess.Abstractions
+﻿namespace DataAccess.Abstractions;
+public interface IDishProvider
 {
-	public interface IDishProvider
-	{
-		Task<IEnumerable<Dish>> GetAllDishes();
-	}
+	Task<IEnumerable<Dish>> GetAllDishes();
 }

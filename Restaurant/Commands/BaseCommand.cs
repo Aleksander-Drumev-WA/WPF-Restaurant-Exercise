@@ -1,26 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿namespace WPF_Restaurant.Commands;
 
-namespace WPF_Restaurant.Commands
+public abstract class BaseCommand : ICommand
 {
-    public abstract class BaseCommand : ICommand
-    {
-        public event EventHandler? CanExecuteChanged;
+	public event EventHandler? CanExecuteChanged;
 
-        public virtual bool CanExecute(object? parameter)
-        {
-            return true;
-        }
+	public virtual bool CanExecute(object? parameter)
+	{
+		return true;
+	}
 
-        public abstract void Execute(object? parameter);
+	public abstract void Execute(object? parameter);
 
-        protected void OnCanExecuteChanged()
-        {
-            CanExecuteChanged?.Invoke(this, new EventArgs());
-        }
-    }
+	protected void OnCanExecuteChanged()
+	{
+		CanExecuteChanged?.Invoke(this, new EventArgs());
+	}
 }

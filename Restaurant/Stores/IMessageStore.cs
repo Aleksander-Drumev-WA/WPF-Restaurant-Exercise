@@ -1,9 +1,8 @@
-﻿namespace WPF_Restaurant.Stores
-{
-	public interface IMessageStore
-	{
-		void ClearMessage();
+﻿namespace WPF_Restaurant.Stores;
 
-		void SetMessage(string message, MessageStore.MessageType type);
-	}
+public interface IMessageStore
+{
+	void ClearMessage();
+
+	void SetMessage(string message, MessageStore.MessageType type);
 }
