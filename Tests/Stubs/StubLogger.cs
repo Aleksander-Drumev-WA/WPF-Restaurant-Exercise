@@ -1,22 +1,17 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
-
-namespace Tests.Stubs
+﻿namespace Tests.Stubs;
+internal class StubLogger : ILogger
 {
-	internal class StubLogger : ILogger
+	public IDisposable BeginScope<TState>(TState state)
 	{
-		public IDisposable BeginScope<TState>(TState state)
-		{
-			return null;
-		}
+		return null;
+	}
 
-		public bool IsEnabled(LogLevel logLevel)
-		{
-			return false;
-		}
+	public bool IsEnabled(LogLevel logLevel)
+	{
+		return false;
+	}
 
-		public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
-		{
-		}
+	public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
+	{
 	}
 }

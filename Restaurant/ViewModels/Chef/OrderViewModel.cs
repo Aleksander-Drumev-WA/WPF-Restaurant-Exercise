@@ -1,31 +1,25 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using WPF_Restaurant.Resources.Comparers;
 
-using WPF_Restaurant.Models;
-using WPF_Restaurant.Resources.Comparers;
-using WPF_Restaurant.ViewModels.Common;
+namespace WPF_Restaurant.ViewModels.Chef;
 
-namespace WPF_Restaurant.ViewModels.Chef
+public class OrderViewModel : BaseViewModel
 {
-    public class OrderViewModel : BaseViewModel
-    {
-        private readonly Order _order;
+	private readonly Order _order;
 
-		public Order Order => _order;
+	public Order Order => _order;
 
-		public int OrderNumber => _order.Id;
+	public int OrderNumber => _order.Id;
 
-        public IEnumerable<OrderItemViewModel> OrderItems => _order.Dishes
-                                                             .GroupBy(d => d, new DishEqualityComparer())
-                                                             .Select(d => 
-                                                             new OrderItemViewModel(d.Key,
-                                                                                    d.Count(),
-                                                                                    OrderNumber,
-                                                                                    d.Where(x => x.IsCompleted == false).Select(x => x.IsCompleted)));
+	public IEnumerable<OrderItemViewModel> OrderItems => _order.Dishes
+														 .GroupBy(d => d, new DishEqualityComparer())
+														 .Select(d =>
+														 new OrderItemViewModel(d.Key,
+																				d.Count(),
+																				OrderNumber,
+																				d.Where(x => x.IsCompleted == false).Select(x => x.IsCompleted)));
 
-        public OrderViewModel(Order order)
-        {
-            _order = order;
-        }
-    }
+	public OrderViewModel(Order order)
+	{
+		_order = order;
+	}
 }

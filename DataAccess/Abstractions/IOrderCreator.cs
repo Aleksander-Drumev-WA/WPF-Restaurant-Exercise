@@ -1,9 +1,7 @@
 ﻿using Models.Models;
 
-namespace DataAccess.Abstractions
+namespace DataAccess.Abstractions;
+public interface IOrderCreator
 {
-	public interface IOrderCreator
-	{
-		Task<int> CreateOrder(IEnumerable<CartItem> chosenDishes);
-	}
+	Task<int> CreateOrder(IEnumerable<CartItem> chosenDishes);
 }

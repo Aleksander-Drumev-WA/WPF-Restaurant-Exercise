@@ -1,32 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WPF_Restaurant.ViewModels;
-using WPF_Restaurant.ViewModels.Common;
+﻿namespace WPF_Restaurant.Stores;
 
-namespace WPF_Restaurant.Stores
+public class NavigationStore : BaseViewModel
 {
-    public class NavigationStore : BaseViewModel
-    {
-        private BaseViewModel _currentViewModel;
+	private BaseViewModel _currentViewModel;
 
-        public BaseViewModel CurrentViewModel 
-        {
-            get => _currentViewModel;
-            set
-            {
-                _currentViewModel = value;
-                OnCurrentViewModelChanged();
-            }
-        }
+	public BaseViewModel CurrentViewModel
+	{
+		get => _currentViewModel;
+		set
+		{
+			_currentViewModel = value;
+			OnCurrentViewModelChanged();
+		}
+	}
 
-        private void OnCurrentViewModelChanged()
-        {
-            CurrentViewModelChanged?.Invoke();
-        }
+	private void OnCurrentViewModelChanged()
+	{
+		CurrentViewModelChanged?.Invoke();
+	}
 
-        public event Action CurrentViewModelChanged;
-    }
+	public event Action CurrentViewModelChanged;
 }

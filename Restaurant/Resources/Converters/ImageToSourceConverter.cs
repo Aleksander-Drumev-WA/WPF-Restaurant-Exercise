@@ -1,32 +1,30 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.IO;
 using System.Windows.Data;
 
-namespace WPF_Restaurant.Resources.Converters
+namespace WPF_Restaurant.Resources.Converters;
+
+public class ImageToSourceConverter : IValueConverter
 {
-	public class ImageToSourceConverter : IValueConverter
+	private static readonly string defaultPath = Environment.CurrentDirectory + "\\Resources\\Images\\not-found-image.jpg";
+
+	public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 	{
-		private static readonly string defaultPath = Environment.CurrentDirectory + "\\Resources\\Images\\not-found-image.jpg";
-
-		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		string? result = null;
+		if (value is string path)
 		{
-			string? result = null;
-			if (value is string path)
+			var exists = File.Exists(path);
+			if (exists)
 			{
-				var exists = File.Exists(path);
-				if (exists)
-				{
-					result = path;
-				}
+				result = path;
 			}
-
-			return result ?? defaultPath;
 		}
 
-		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			return Binding.DoNothing;
-		}
+		return result ?? defaultPath;
+	}
+
+	public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+	{
+		return Binding.DoNothing;
 	}
 }

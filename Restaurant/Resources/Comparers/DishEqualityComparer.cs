@@ -1,41 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WPF_Restaurant.Models;
+﻿using System.Diagnostics.CodeAnalysis;
 
-namespace WPF_Restaurant.Resources.Comparers
+namespace WPF_Restaurant.Resources.Comparers;
+
+public class DishEqualityComparer : IEqualityComparer<Dish>
 {
-    public class DishEqualityComparer : IEqualityComparer<Dish>
-    {
-        public bool Equals(Dish? x, Dish? y)
-        {
-            if (x == null && y == null)
-            {
-                return true;
-            }
-            else if (x == null || y == null)
-            {
-                return false;
-            }
-            else if (x.Id == y.Id &&
-                     x.Name == y.Name &&
-                     x.Recipe == y.Recipe &&
-                     x.Ingredients == y.Ingredients)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+	public bool Equals(Dish? x, Dish? y)
+	{
+		if (x == null && y == null)
+		{
+			return true;
+		}
+		else if (x == null || y == null)
+		{
+			return false;
+		}
+		else if (x.Id == y.Id &&
+				 x.Name == y.Name &&
+				 x.Recipe == y.Recipe &&
+				 x.Ingredients == y.Ingredients)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 
-        public int GetHashCode([DisallowNull] Dish obj)
-        {
-            return HashCode.Combine(obj.Id, obj.Name, obj.Recipe, obj.Ingredients);
-        }
-    }
+	public int GetHashCode([DisallowNull] Dish obj)
+	{
+		return HashCode.Combine(obj.Id, obj.Name, obj.Recipe, obj.Ingredients);
+	}
 }
